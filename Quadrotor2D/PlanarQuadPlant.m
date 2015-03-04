@@ -26,7 +26,25 @@ classdef PlanarQuadPlant < SecondOrderSystem
       qdd = [ -sin(q(3))/obj.m*(u(1)+u(2));
         -obj.g + cos(q(3))/obj.m*(u(1)+u(2));
         obj.L/obj.I*(-u(1)+u(2))];
+      
+      
+      % This call to WindSecondOrder2D throws an error for doing Taylor
+      % expansion.
+      %qddwind = WindSecondOrder2D(q);
+      %qdd = qdd + qddwind;
+      
+      % Manual add of constant wind.
+      % Currently won't work since x0 is no longer a fixed point.
+      %qdd = qdd + [-1;0;0];
+      
     end
+    
+    function wind = WindSecondOrder2D(q)
+      
+      wind = [-1; 0 ; 0];
+      
+    end
+    
     
     function x = getInitialState(obj)
       x = randn(6,1);
