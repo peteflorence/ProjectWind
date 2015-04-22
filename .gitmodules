@@ -1,0 +1,3 @@
+[submodule "simple-image-annotation"]
+	path = simple-image-annotation
+	url = https://github.com/peteflorence/simple-image-annotation.git
