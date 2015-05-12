@@ -28,8 +28,8 @@ end
 % Plot straight fit from "undistorted image"
 
 figure
-plot(data(:,7),data(:,8),'-ko','MarkerSize', 12);
-title('"Pixel distance Undistorted image"')
+plot(X(:,7),data(:,8),'-ko','MarkerSize', 12);
+title('Undistorted image')
 xlabel('frame number') % x-axis label
 ylabel('pixel distance') % y-axis label
 
@@ -38,7 +38,6 @@ ylabel('pixel distance') % y-axis label
 
 figure
 plot(data(:,7),data(:,9),'-ko','MarkerSize', 12);
-title('Estimated meters traveled using second order fit')
+title('Undistorted image')
 xlabel('frame number') % x-axis label
 ylabel('meters distance') % y-axis label
-
