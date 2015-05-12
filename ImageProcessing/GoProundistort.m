@@ -9,6 +9,7 @@ nextframeexist = 2;
 
 for folder = 4:26
   
+  i = 0
   nextframeexist = 2;
   
   while nextframeexist ~= 0
