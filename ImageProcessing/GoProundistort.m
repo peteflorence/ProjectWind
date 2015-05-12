@@ -1,13 +1,13 @@
 %start = 1;
 %last = 1317;
 
-load('cameraParams_1080_120_W.mat');
+load('cameraParams2.mat');
 
 %for i = start:last
 i = 0;
 nextframeexist = 2;
 
-for folder = 4:26
+for folder = 5:5
   
   i = 0
   nextframeexist = 2;
@@ -22,7 +22,7 @@ for folder = 4:26
     imnamein = strcat(inpath,'videoframe',num2str(i),'.bmp');
     im = imread(imnamein);
     
-    im_undistorted = undistortImage(im, cameraParameters);
+    im_undistorted = undistortImage(im, cameraParams2);
     
     outpath = strcat('/Users/pflomacpro/ProjectWind/ImageProcessing/0423vortex/',num2str(folder),'/out_imagefolder/');
     imnameout = strcat(outpath,'UDvideoframe',num2str(i),'.bmp');
