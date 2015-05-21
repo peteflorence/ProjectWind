@@ -1,0 +1,38 @@
+%start = 1;
+%last = 1317;
+
+load('cameraParams2.mat');
+
+%for i = start:last
+i = 0;
+nextframeexist = 2;
+
+for i = 1:2
+
+  %vid = VideoReader('name_of_video');
+  %im = read(vid,ind_frame);
+  
+  inpath = strcat('/Users/pflomacpro/ProjectWind/FigureMaking/Ben1/');
+  imnamein = strcat(inpath,num2str(i),'.png');
+  im = imread(imnamein);
+  
+  
+  
+  outpath = strcat('/Users/pflomacpro/ProjectWind/FigureMaking/Ben1/');
+  imnameout = strcat(inpath,num2str(i),'s.png');
+  imwrite(im_undistorted,imnameout,'BMP');
+  
+  
+  %imshow(im)
+  %figure
+  %imshow(im_undistorted)
+  
+  
+  nextframe = strcat(inpath,'videoframe',num2str(i+1),'.bmp');
+  nextframeexist = exist(nextframe, 'file');
+  
+end
+
+
+
+

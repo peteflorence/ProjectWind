@@ -1,4 +1,4 @@
-load data.csv
+load data.mat
 
 figure
 hold on
@@ -41,4 +41,39 @@ plot(data(:,7),data(:,9),'-ko','MarkerSize', 12);
 title('Estimated meters traveled using second order fit')
 xlabel('frame number') % x-axis label
 ylabel('meters distance') % y-axis label
+
+
+% Add time column
+data(:,10) = zeros(length(data(:,8)),1);
+for i = 1:length(data(:,8))
+  
+  x = data(i,7);
+  data(i,10) = x / 119.88 %119.88 frames per second
+  
+end
+
+
+% Estimate velocity
+data(:,11) = zeros(length(data(:,8)),1);
+for i = 2:length(data(:,8))
+  
+  meters = data(i,9) - data(i-1,9);
+  time = data(i,10) - data(i-1,10);
+  data(i,11) = meters / time %119.88 frames per second
+  
+end
+
+% Plot velocity as function of time
+
+figure
+plot(data(:,10),data(:,11),'-ko','MarkerSize', 12);
+title('Velocity estimate (finite difference)')
+xlabel('time (seconds)') % x-axis label
+ylabel('velocity (meters / second)') % y-axis label
+
+
+
+save data.mat
+
+
 
