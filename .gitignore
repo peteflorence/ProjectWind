@@ -6,3 +6,7 @@ FigureMaking/Ben-Figures
 *.bmp
 *.jpg
 *.png
+
+*.pdf
+*.eps
+*.svg
