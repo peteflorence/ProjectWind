@@ -1,63 +1,45 @@
-function [utraj,xtraj,prog,r] = runPennDircolWObs
+function [utraj,xtraj,prog,r] = runPennDircolWind
 
-%plant = 'russ';
-plant = 'penn';
+r_temp = Quadrotor();
+%r_temp = addOcean(r_temp, [.8,.45,1.25], [.20;2.5], pi/4);
+v = constructVisualizer(r_temp);
+r = QuadWindPlant(); % Quadrotor constructor
 
-if plant == 'russ'
-  r = Quadrotor();
-  v = constructVisualizer(r);
-  disp('using russ rotor!')
-elseif plant == 'penn'
-  r_temp = Quadrotor();
-  %r_temp = addOcean(r_temp, [.8,.45,1.25], [.20;2.5], pi/4);
-  v = constructVisualizer(r_temp);
-  r = QuadWindPlant(); % Quadrotor constructor
-
-  disp('using quad plant in wind based on penn plant!!')
-end
-
+disp('using quad plant in wind based on penn plant!')
 
 N = 21;
 minimum_duration = .1;
 maximum_duration = 3;
 prog = DircolTrajectoryOptimization(r,N,[minimum_duration maximum_duration]);
-
 x0 = Point(getStateFrame(r));  % initial conditions: all-zeros
 
-if plant == 'russ'
-  x0.base_z = 1; % lift the quad off the ground
-elseif plant == 'penn'
-  x0.z = 1; % lift the quad off the ground
-end
+x0.z = 1; % lift the quad off the ground
+
+
+prog = addPlanVisualizer(r,prog);
 
 v.draw(0,double(x0));
-prog = addPlanVisualizer(r,prog);
-u0 = double(nominalThrust(r));
 prog = prog.addStateConstraint(ConstantConstraint(double(x0)),1); % DirectTrajectoryOptimization method
+
 [ground,world,Ncell] = createGroundBoundary(r,N);
 prog = prog.addStateConstraint(BoundingBoxConstraint(double(ground),double(world)),Ncell);
 
-
+u0 = double(nominalThrust(r));
 prog = prog.addInputConstraint(ConstantConstraint(u0),1); % DirectTrajectoryOptimization method
 
 xf = x0;                       % final conditions: translated in x
 upperxf = x0;
 lowerxf = x0;
 
-if plant == 'russ'
-  xf.base_x = 2;                 % translate x by 2
-elseif plant == 'penn'
-  upperxf.x = 5;                 % translate x
-  upperxf.z = 1;                 % translate z
-  upperxf.y = 0;                 % translate x
-  upperxf.mytime = maximum_duration;
-  
-  lowerxf.x = 5;                 % translate x
-  lowerxf.z = 1;                 % translate z
-  lowerxf.y = 0;                 % translate x
-  lowerxf.mytime = minimum_duration;
-  
-end
+upperxf.x = 5;                 % translate x
+upperxf.z = 1;                 % translate z
+upperxf.y = 0;                 % translate x
+upperxf.mytime = maximum_duration;
+
+lowerxf.x = 5;                 % translate x
+lowerxf.z = 1;                 % translate z
+lowerxf.y = 0;                 % translate x
+lowerxf.mytime = minimum_duration;
 
 
 
@@ -82,15 +64,7 @@ while (info~=1)
 end
 
 
-
-
-
-
-
-
-
-
-% CREATE TVLQR
+% CREATE TVLQR CONTROLLER
 
 tic;
 x0 = xtraj.eval(0);
@@ -102,8 +76,7 @@ Qf = 10*eye(13);
 disp('Computing stabilizing controller with TVLQR...');
 ltvsys = tvlqr(r,xtraj,utraj,Q,R,Qf);
 
-%r2 = QuadWindPlant();
-%r2 = r2.setOutputFrame(r.getStateFrame());
+% Optional: CREATE SIMULATION PLANT
 
 r2 = QuadWindPlant_wGaussianNoise();
 r2 = r2.setOutputFrame(r.getOutputFrame);
@@ -128,11 +101,9 @@ disp('done!');
 % Simulate the result
 tic;
 disp('Simulating the system...');
-%xtraj_sim = simulate(sys,[0 tf],x0);
 xtraj_sim = simulate(sys,[0 tf],x0);
 toc;
 disp('done!');
-
 
 % Draw the TVLQR result
 xtraj_sim = xtraj_sim(1:12);
@@ -150,25 +121,7 @@ v.playback(xtraj_sim, struct('slider', true));
 
 
 
-% BEN'S CASCADE CODE
-
-%utraj = setOutputFrame(utraj,getInputFrame(r_temp));
-%sys = cascade(utraj,r);
-%systraj = sys.simulate([0 utraj.tspan(2)],xtraj.eval(0));
-%v.playback(systraj,struct('slider',true));
-
-
-
-
-
-
 % PLOT WIND
-%[winddontcare,dquadinwinddontcare] = quadwind(r,[0,0,0],0,1);
-
-%xquad = quadpos(1);
-%yquad = quadpos(2);
-%zquad = quadpos(3);
-
 windfield = 'zero';
 %windfield = 'constant';
 %windfield = 'linear';
@@ -183,8 +136,6 @@ windfield = 'zero';
 r.ellipsoidcenter = [3 0 1];
 ellipsoidmajor = 0.24;
 ellipsoidminor = 0.20;
-
-
 
 
 lcmgl = drake.util.BotLCMGLClient(lcm.lcm.LCM.getSingleton(), 'Windy');
@@ -282,11 +233,6 @@ end
 
 lcmgl.glEnd();
 lcmgl.switchBuffers();
-
-%lcmgl.glColor3f(0, 0, 1);
-%lcmgl.plot3(x(1,1:2)+1,x(2,1:2),x(3,1:2));
-
-
 
 end
 

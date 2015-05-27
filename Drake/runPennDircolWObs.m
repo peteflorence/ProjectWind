@@ -9,33 +9,10 @@ if plant == 'russ'
   disp('using russ rotor!')
 elseif plant == 'penn'
   r_temp = Quadrotor();
-  
-  %terrain = RigidBodyFlatTerrain();
-  %terrain = terrain.setGeometryColor([0, 170, 255]'/256);
-  %r_temp = r_temp.setTerrain(terrain);
-  %oquad = Quadrotor();
-  %oquad = addRobotFromURDF(oquad, 'office.urdf');
-  %v = constructVisualizer(oquad);
-  r_temp = addOcean(r_temp, [.8,.45,1.25], [.20;2.5], pi/4);
-  %r_temp = addTree(r_temp, [.5,.35,1.65], [-.25;5], -pi/6);
-  %r_temp = addTree(r_temp, [.55,.65,1.5], [.25;7.5], pi/4);
-  %r_temp = addTree(r_temp, [.55,.85,1.6], [-1.35;8.5], pi/3.7);
-  %r_temp = addTree(r_temp, [.85,.95,1.65], [-1.85;5.2], -pi/3.7);
-  %r_temp = addTree(r_temp, [.75,.9,1.75], [2;4.4], -pi/5);
-  % Random trees to make forest bigger and more dense
-  %r_temp = addTrees(r_temp, 25);
-  
+  %r_temp = addOcean(r_temp, [.8,.45,1.25], [.20;2.5], pi/4);
   v = constructVisualizer(r_temp);
-  
   r = QuadWindPlant(); % Quadrotor constructor
-  
-  % coordinate transform from r.getOutputFrame to v.getInputFrame
-  %ct = CoordinateTransform(
-  
-  % uncomment this to get plotting back
-  %r.setOutputFrame(r_temp.getStateFrame());
-  
-  %v = v.setInputFrame(r.getOutputFrame());
+
   disp('using quad plant in wind based on penn plant!!')
 end
 
@@ -48,61 +25,17 @@ prog = DircolTrajectoryOptimization(r,N,[minimum_duration maximum_duration]);
 x0 = Point(getStateFrame(r));  % initial conditions: all-zeros
 
 if plant == 'russ'
-  x0.base_z = .5; % lift the quad off the ground
+  x0.base_z = 1; % lift the quad off the ground
 elseif plant == 'penn'
-  x0.z = .5; % lift the quad off the ground
+  x0.z = 1; % lift the quad off the ground
 end
 
 v.draw(0,double(x0));
-
 prog = addPlanVisualizer(r,prog);
-
 u0 = double(nominalThrust(r));
-
 prog = prog.addStateConstraint(ConstantConstraint(double(x0)),1); % DirectTrajectoryOptimization method
-
-bd = inf;
-
-seasurface = Point(getStateFrame(r));
-seasurface.x = -bd;
-seasurface.y = -bd;
-seasurface.z = 0.2;
-seasurface.roll = -bd;
-seasurface.pitch = -bd;
-seasurface.yaw = -bd;
-seasurface.xdot = -bd;
-seasurface.ydot = -bd;
-seasurface.zdot = -bd;
-seasurface.rolldot = -bd;
-seasurface.pitchdot = -bd;
-seasurface.yawdot = -bd;
-seasurface.mytime = -bd;
-
-world = Point(getStateFrame(r));
-world.x = bd;
-world.y = bd;
-world.z = bd;
-world.roll = bd;
-world.pitch = bd;
-world.yaw = bd;
-world.xdot = bd;
-world.ydot = bd;
-world.zdot = bd;
-world.rolldot = bd;
-world.pitchdot = bd;
-world.yawdot = bd;
-world.mytime = bd;
-
-Ncell = {};
-for i = 1:N
-  Ncell = [Ncell i];
-end
-prog = prog.addStateConstraint(BoundingBoxConstraint(double(seasurface),double(world)),Ncell);
-
-%field = ObstacleField();
-%field = field.GenerateRandomObstacles();
-%prog = field.AddConstraints(prog);
-
+[ground,world,Ncell] = createGroundBoundary(r,N);
+prog = prog.addStateConstraint(BoundingBoxConstraint(double(ground),double(world)),Ncell);
 prog = prog.addInputConstraint(ConstantConstraint(u0),1); % DirectTrajectoryOptimization method
 
 xf = x0;                       % final conditions: translated in x
@@ -112,12 +45,12 @@ lowerxf = x0;
 if plant == 'russ'
   xf.base_x = 2;                 % translate x by 2
 elseif plant == 'penn'
-  upperxf.x = 3;                 % translate x
+  upperxf.x = 5;                 % translate x
   upperxf.z = 1;                 % translate z
   upperxf.y = 0;                 % translate x
   upperxf.mytime = maximum_duration;
   
-  lowerxf.x = 3;                 % translate x
+  lowerxf.x = 5;                 % translate x
   lowerxf.z = 1;                 % translate z
   lowerxf.y = 0;                 % translate x
   lowerxf.mytime = minimum_duration;
@@ -234,7 +167,7 @@ v.playback(xtraj_sim, struct('slider', true));
 %yquad = quadpos(2);
 %zquad = quadpos(3);
 
-%windfield = 'zero';
+windfield = 'zero';
 %windfield = 'constant';
 %windfield = 'linear';
 %windfield = 'quadratic';
@@ -244,8 +177,8 @@ v.playback(xtraj_sim, struct('slider', true));
 %windfield = 'thermals';
 %windfield = 'tvsin';
 %windfield = 'tlinear';
-windfield = 'flyingellipsoid';
-ellipsoidcenter = [3 0 1];
+%windfield = 'flyingellipsoid';
+r.ellipsoidcenter = [3 0 1];
 ellipsoidmajor = 0.24;
 ellipsoidminor = 0.20;
 
@@ -281,9 +214,9 @@ elseif strcmp(windfield, 'thermals')
     end
   end
 elseif strcmp(windfield, 'flyingellipsoid')
-  xcenter = ellipsoidcenter(1);
-  ycenter = ellipsoidcenter(2);
-  zcenter = ellipsoidcenter(3);  
+  xcenter = r.ellipsoidcenter(1);
+  ycenter = r.ellipsoidcenter(2);
+  zcenter = r.ellipsoidcenter(3);  
   for yi = (ycenter-ellipsoidmajor):0.05:(ycenter+ellipsoidmajor)
     for xi = (xcenter-ellipsoidminor):0.05:(xcenter+ellipsoidminor)
       for zi = (zcenter-ellipsoidmajor):0.05:(zcenter+ellipsoidmajor)
@@ -372,4 +305,45 @@ dh = [1,zeros(1,size(x,1))]; % original
 %dh = [1,zeros(1,size(x,1)-1),1]; % is this right?
 
 end
+
+function [ground,world,Ncell] = createGroundBoundary(r,N)
+
+bd = inf;
+ground = Point(getStateFrame(r));
+ground.x = -bd;
+ground.y = -bd;
+ground.z = 0.2;
+ground.roll = -bd;
+ground.pitch = -bd;
+ground.yaw = -bd;
+ground.xdot = -bd;
+ground.ydot = -bd;
+ground.zdot = -bd;
+ground.rolldot = -bd;
+ground.pitchdot = -bd;
+ground.yawdot = -bd;
+ground.mytime = -bd;
+world = Point(getStateFrame(r));
+world.x = bd;
+world.y = bd;
+world.z = bd;
+world.roll = bd;
+world.pitch = bd;
+world.yaw = bd;
+world.xdot = bd;
+world.ydot = bd;
+world.zdot = bd;
+world.rolldot = bd;
+world.pitchdot = bd;
+world.yawdot = bd;
+world.mytime = bd;
+
+Ncell = {};
+for i = 1:N
+  Ncell = [Ncell i];
+end
+
+end
+
+
 
