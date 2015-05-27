@@ -1,6 +1,4 @@
-tstep = 0.02;
-ellipsoidcenter = [3 0 1];
-for t = 0:tstep:2
+for t = 0:0.1:10
   
   windfield = 'flyingellipsoid';
   
@@ -12,7 +10,7 @@ for t = 0:tstep:2
   
   
   
-  ellipsoidcenter = ellipsoidcenter - [V*tstep 0 0]
+  ellipsoidcenter = [3-t/5 0 1];
   ellipsoidmajor = 0.24;
   ellipsoidminor = 0.20;
   
