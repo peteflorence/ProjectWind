@@ -1,8 +1,5 @@
 function [utraj,xtraj,prog,r] = runPennDircolWObs
 
-! cd /Users/pflomacpro/crazyflie-tools
-!/Users/pflomacpro/drake-distro5/drake-distro/build/bin/ddConsoleApp -m crazyflieviewer &
-
 % simple planning demo which takes the quadrotor from hover at x=0m to a new hover at
 % x=2m with minimal thrust.
 
