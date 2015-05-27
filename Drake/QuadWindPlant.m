@@ -13,6 +13,7 @@ classdef QuadWindPlant < DrakeSystem
 
       obj = setStateFrame(obj,CoordinateFrame('QuadState',13,'x',{'x','y','z','roll','pitch','yaw','xdot','ydot','zdot','rolldot','pitchdot','yawdot','mytime'}));
       obj = obj.setOutputFrame(obj.getStateFrame);
+      
     end
     
     function m = getMass(obj)
@@ -52,8 +53,7 @@ classdef QuadWindPlant < DrakeSystem
       if (nargout>1)
         [df]= dynamicsGradients(obj,t,x,u,nargout-1);
       end
-      
-      
+
       % Parameters
       m = obj.m;
       I = obj.I;
@@ -61,8 +61,7 @@ classdef QuadWindPlant < DrakeSystem
       g = 9.81;
       L = 0.1750;
       
-      % states
-         
+      % states  
       phi = x(4);
       theta = x(5);
       psi = x(6);
@@ -128,37 +127,20 @@ classdef QuadWindPlant < DrakeSystem
         Phi*Rdot*pqr;
       
       % xdot = [x(7:12);xyz_ddot;rpy_ddot];
-      
-      
-      
+  
       qdd = [xyz_ddot;rpy_ddot];
       qd = x(7:12);
       xdot = [qd;qdd;1]; % the 1 at the end is for mytime
-      
-      
-      
+  
     end
     
     function [wind,dquadinwind] = quadwind(obj,quadpos,mytime,plotme)
-      % quadpos is [xquad;yquad;zquad]
-      
 
-      
       xquad = quadpos(1);
       yquad = quadpos(2);
       zquad = quadpos(3);
-           
-      %windfield = 'zero';
-      %windfield = 'flyingellipsoid';
-      windfield = 'constant';
-      %windfield = 'linear';
-      %windfield = 'quadratic';
-      %windfield = 'sqrt';
-      %windfield = 'exp';
-      %windfield = 'difftailhead';
-      %windfield = 'thermals';
-      %windfield = 'tvsin';
-      %windfield = 'tlinear';
+
+      windfield = obj.windfield;
       
       xwind = 0;
       ywind = 0;
@@ -195,7 +177,7 @@ classdef QuadWindPlant < DrakeSystem
         ywind = 0;
         zwind = 0;
         if (xquad - xcenter)^2/ellipsoidminor^2 + (yquad-ycenter)^2/ellipsoidmajor^2 + (zquad - zcenter)^2/ellipsoidmajor^2 < 1
-          xwind = -100.0;
+          xwind = -100;
         else
           xwind = 0;
         end
@@ -208,7 +190,7 @@ classdef QuadWindPlant < DrakeSystem
       if strcmp(windfield, 'zero')
         ywind = 0;
       elseif strcmp(windfield, 'constant')
-        ywind = 10;
+        ywind = 2;
       elseif strcmp(windfield, 'linear')
         ywind = zquad;
       elseif strcmp(windfield, 'quadratic')
@@ -268,9 +250,30 @@ classdef QuadWindPlant < DrakeSystem
       
       
       lcmgl = drake.util.BotLCMGLClient(lcm.lcm.LCM.getSingleton(), 'Windy');
+      lcmgl.glColor3f(0,1,0);
       
-      if plotme == 1
-        lcmgl.glColor3f(0,1,0);
+      if plotme == 1 && strcmp(windfield, 'flyingellipsoid')
+        xcenter = obj.ellipsoidcenter(1);
+        ycenter = obj.ellipsoidcenter(2);
+        zcenter = obj.ellipsoidcenter(3);
+        for yi = (ycenter-ellipsoidmajor):0.05:(ycenter+ellipsoidmajor)
+          for xi = (xcenter-ellipsoidminor):0.05:(xcenter+ellipsoidminor)
+            for zi = (zcenter-ellipsoidmajor):0.05:(zcenter+ellipsoidmajor)
+              ywind = 0;
+              zwind = 0;
+              if (xi - xcenter)^2/ellipsoidminor^2 + (yi-ycenter)^2/ellipsoidmajor^2 + (zi - zcenter)^2/ellipsoidmajor^2 < 1
+                xwind = -0.6;
+              else
+                xwind = 0;
+              end
+              pos = [xi, yi, zi];
+              force = [xwind, ywind, zwind];
+              lcmgl.drawVector3d(pos,force/20);
+            end
+            
+          end
+        end
+      elseif plotme == 1
         for xi = 1:10
           %for yi = 1:10
           for zi = 1:10
@@ -281,12 +284,12 @@ classdef QuadWindPlant < DrakeSystem
           end
           
         end
-        
-        %lcmgl.glColor3f(0, 0, 1);
-        %lcmgl.plot3(x(1,1:2)+1,x(2,1:2),x(3,1:2));
-        lcmgl.switchBuffers;
+       
+
 
       end
+      lcmgl.glEnd();
+      lcmgl.switchBuffers;
       
       
     end
@@ -375,6 +378,9 @@ classdef QuadWindPlant < DrakeSystem
     
     % defining gravity here (too simple?)
     gravity = [0; 0; -9.8100]
+    
+    
+    windfield = 'zero'; % zero windfield by default
     
     ellipsoidcenter = [0 0 0];
     tstep = 0.01;

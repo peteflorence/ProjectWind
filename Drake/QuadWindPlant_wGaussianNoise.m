@@ -170,13 +170,13 @@ classdef QuadWindPlant_wGaussianNoise < DrakeSystem
       zquad = quadpos(3);
       
       %windfield = 'zero';
-      windfield = 'constant';
+      %windfield = 'constant';
       %windfield = 'linear';
       %windfield = 'quadratic';
       %windfield = 'sqrt';
       %windfield = 'exp';
       %windfield = 'difftailhead';
-      %windfield = 'tvsin';
+      windfield = 'tvsin';
       %windfield = 'tlinear';
       
       xwind = 0;
