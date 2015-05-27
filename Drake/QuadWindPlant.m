@@ -138,6 +138,11 @@ classdef QuadWindPlant < DrakeSystem
       qd = x(7:12);
       xdot = [qd;qdd;1]; % the 1 at the end is for mytime
       
+      
+      
+      
+      
+      
     end
     
     function [wind,dquadinwind] = quadwind(obj,quadpos,mytime,plotme)
