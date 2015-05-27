@@ -119,13 +119,13 @@ lowerxf = x0;
 if plant == 'russ'
   xf.base_x = 2;                 % translate x by 2
 elseif plant == 'penn'
-  upperxf.x = 6;                 % translate x
-  upperxf.z = 4;                 % translate z
+  upperxf.x = 3;                 % translate x
+  upperxf.z = 1;                 % translate z
   upperxf.y = 0;                 % translate x
   upperxf.mytime = maximum_duration;
   
-  lowerxf.x = 6;                 % translate x
-  lowerxf.z = 4;                 % translate z
+  lowerxf.x = 3;                 % translate x
+  lowerxf.z = 1;                 % translate z
   lowerxf.y = 0;                 % translate x
   lowerxf.mytime = minimum_duration;
   

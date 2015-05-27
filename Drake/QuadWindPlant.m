@@ -140,9 +140,6 @@ classdef QuadWindPlant < DrakeSystem
       
       
       
-      
-      
-      
     end
     
     function [wind,dquadinwind] = quadwind(obj,quadpos,mytime,plotme)
@@ -154,8 +151,8 @@ classdef QuadWindPlant < DrakeSystem
       yquad = quadpos(2);
       zquad = quadpos(3);
            
-      %windfield = 'zero';
-      windfield = 'constant';
+      windfield = 'zero';
+      %windfield = 'constant';
       %windfield = 'linear';
       %windfield = 'quadratic';
       %windfield = 'sqrt';
