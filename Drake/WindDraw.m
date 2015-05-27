@@ -9,19 +9,12 @@ for t = 0:tstep:2
   c = 0.1; % guess
   V = V_0 / (1 + V_0 * c * t);
   
-  
-  
-  
-  ellipsoidcenter = ellipsoidcenter - [V*tstep 0 0]
+  ellipsoidcenter = ellipsoidcenter - [V*tstep 0 0];
   ellipsoidmajor = 0.24;
   ellipsoidminor = 0.20;
   
   lcmgl = drake.util.BotLCMGLClient(lcm.lcm.LCM.getSingleton(), 'Windy');
   lcmgl.glColor3f(0,1,0);
-  
-  
-
-  
   
   if strcmp(windfield, 'flyingellipsoid')
     xcenter = ellipsoidcenter(1);

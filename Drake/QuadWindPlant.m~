@@ -98,7 +98,7 @@ classdef QuadWindPlant < DrakeSystem
       zquad = x(3);
       quadpos = [xquad;yquad;zquad];
         
-      [windout,dquadinwind] = obj.quadwind(quadpos,x(13),1); % pass mytime to quadwind. % last arument is plot option
+      [windout,dquadinwind] = obj.quadwind(quadpos,x(13),1); % pass mytime to quadwind. % last arument is plo
       
       if (nargout>1)
         df = df + dquadinwind;
