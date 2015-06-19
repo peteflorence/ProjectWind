@@ -51,7 +51,7 @@ classdef QuadWindPlant < DrakeSystem
       % time
       
       if (nargout>1)
-        [df]= dynamicsGradients(obj,t,x,u,nargout-1);
+        [df]= dynamicsGradients_FlyingSphere(obj,t,x,u,nargout-1);
       end
 
       % Parameters
@@ -194,7 +194,7 @@ classdef QuadWindPlant < DrakeSystem
         boundary = 0.01;
         extsphere = sphereradius + boundary;
         
-        nomwind = -1.0;
+        nomwind = -4.0;
         
         xwind = 0;
         ywind = 0;
@@ -264,31 +264,31 @@ classdef QuadWindPlant < DrakeSystem
       
       dquadinwind = sparse(13,18);
       
-      if strcmp(windfield, 'zero')
-        ;
-      elseif strcmp(windfield, 'flyingellipsoid')
-        ;
-      elseif strcmp(windfield, 'constant')
-        ;
-      elseif strcmp(windfield, 'thermals')
-        ;
-      elseif strcmp(windfield, 'linear')
-        dquadinwind(8,4) = 1/obj.m;
-      elseif strcmp(windfield, 'quadratic')
-        dquadinwind(8,4) = 2*zquad/obj.m;
-      elseif strcmp(windfield, 'sqrt')
-        ywind = 1/2*(abs(zquad))^(-1/2);
-      elseif strcmp(windfield, 'exp')
-        dquadinwind(8,4) = 1/a*1/((zquad-b)/C)/obj.m;
-      elseif strcmp(windfield, 'difftailhead')
-        dquadinwind(7,3) = 10*cos(yquad)/obj.m;
-      elseif strcmp(windfield, 'tvsin')
-        dquadinwind(8,1) = -10*cos(10*mytime)/obj.m;
-      elseif strcmp(windfield, 'tlinear')
-        dquadinwind(8,1) = -1/obj.m;
-        %else
-        %  disp('Please specify which kind of wind field!')
-      end
+%       if strcmp(windfield, 'zero')
+%         ;
+%       elseif strcmp(windfield, 'flyingellipsoid')
+%         ;
+%       elseif strcmp(windfield, 'constant')
+%         ;
+%       elseif strcmp(windfield, 'thermals')
+%         ;
+%       elseif strcmp(windfield, 'linear')
+%         dquadinwind(8,4) = 1/obj.m;
+%       elseif strcmp(windfield, 'quadratic')
+%         dquadinwind(8,4) = 2*zquad/obj.m;
+%       elseif strcmp(windfield, 'sqrt')
+%         ywind = 1/2*(abs(zquad))^(-1/2);
+%       elseif strcmp(windfield, 'exp')
+%         dquadinwind(8,4) = 1/a*1/((zquad-b)/C)/obj.m;
+%       elseif strcmp(windfield, 'difftailhead')
+%         dquadinwind(7,3) = 10*cos(yquad)/obj.m;
+%       elseif strcmp(windfield, 'tvsin')
+%         dquadinwind(8,1) = -10*cos(10*mytime)/obj.m;
+%       elseif strcmp(windfield, 'tlinear')
+%         dquadinwind(8,1) = -1/obj.m;
+%         %else
+%         %  disp('Please specify which kind of wind field!')
+%       end
       
       
       % I think all this code can go... I've figured out drawing elsewhere
