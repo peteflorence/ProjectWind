@@ -79,7 +79,7 @@ ltvsys = tvlqr(r,xtraj,utraj,Q,R,Qf);
 
 % Optional: CREATE SIMULATION PLANT
 
-r2 = QuadWindPlant_wGaussianNoise();
+r2 = QuadWindPlant();
 r2 = r2.setOutputFrame(r.getOutputFrame);
 r2 = r2.setInputFrame(r.getInputFrame);
 
@@ -89,7 +89,7 @@ r2 = r2.setInputFrame(r.getInputFrame);
 %sys = feedback(r,ltvsys);
 
 % For Gaussian noise (simulating on different plant):
-sys = feedback(r,ltvsys);
+sys = feedback(r2,ltvsys);
 
 toc;
 disp('done!');
