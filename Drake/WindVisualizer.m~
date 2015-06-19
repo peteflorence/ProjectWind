@@ -1,0 +1,32 @@
+classdef WindVisualizer < Visualizer
+% Implements the draw function for the Acrobot 
+
+  methods
+    function obj = WindVisualizer(plant)
+      % Construct visualizer
+      %   AcrobotVisualizer(AcrobotPlant) will take the necessary
+      %   parameters from the plant class
+      
+      %typecheck(plant,'AcrobotPlant');
+      obj = obj@Visualizer(plant.getOutputFrame);
+      %obj.l1 = plant.l1;
+      %obj.l2 = plant.l2;
+    end
+    
+    function draw(obj,t,x)
+      
+      obj@draw(t,x)
+      
+      display('are 
+      %tvWindDraw(
+     
+     
+  
+    end
+  end
+
+  properties
+
+  end
+  
+end
