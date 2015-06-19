@@ -12,7 +12,7 @@ r.ellipsoidcenter = [3 0 1];
 disp('using quad plant in wind based on penn plant!')
 
 N = 21;
-minimum_duration = .1;
+minimum_duration = 2;
 maximum_duration = 3;
 prog = DircolTrajectoryOptimization(r,N,[minimum_duration maximum_duration]);
 x0 = Point(getStateFrame(r));  % initial conditions: all-zeros
@@ -35,15 +35,28 @@ xf = x0;                       % final conditions: translated in x
 upperxf = x0;
 lowerxf = x0;
 
-upperxf.x = 5;                 % translate x
-upperxf.z = 1;                 % translate z
+% Don't move
+upperxf.x = x0.x;                 % translate x
+upperxf.z = x0.z;                 % translate z
 upperxf.y = 0;                 % translate x
 upperxf.mytime = maximum_duration;
 
-lowerxf.x = 5;                 % translate x
-lowerxf.z = 1;                 % translate z
+lowerxf.x = x0.x;                 % translate x
+lowerxf.z = x0.z;                 % translate z
 lowerxf.y = 0;                 % translate x
 lowerxf.mytime = minimum_duration;
+
+
+% Actually move
+% upperxf.x = 5;                 % translate x
+% upperxf.z = 1;                 % translate z
+% upperxf.y = 0;                 % translate x
+% upperxf.mytime = maximum_duration;
+% 
+% lowerxf.x = 5;                 % translate x
+% lowerxf.z = 1;                 % translate z
+% lowerxf.y = 0;                 % translate x
+% lowerxf.mytime = minimum_duration;
 
 
 
