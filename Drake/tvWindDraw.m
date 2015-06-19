@@ -1,4 +1,4 @@
-function tvWindDraw(t);
+function tvWindDraw(t)
   
 display(t)
 

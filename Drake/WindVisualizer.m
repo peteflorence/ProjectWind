@@ -21,7 +21,7 @@ classdef WindVisualizer < BotVisualizer
       tvWindDraw(t);
       display(t)
       display('are we here?')
-      %tvWindDraw(
+      %tvWindDraw
      
      
   
