@@ -1,4 +1,7 @@
-function draw = tvWindDraw(time)
+i = 0;
+for i = 0:0.01:3
+  
+display(i)
 
 ellipsoidcenter = [3 0 1];
 
@@ -7,10 +10,10 @@ windfield = 'flyingellipsoid';
 
 V_0 = 3.5; % m/s guess
 c = 0.1; % guess
-%V = V_0 / (1 + V_0 * c * t);
-V = V_0;
+V = V_0 / (1 + V_0 * c * i);
+%V = V_0;
 
-ellipsoidcenter = ellipsoidcenter - [V*time 0 0];
+ellipsoidcenter = ellipsoidcenter - [V*i 0 0];
 ellipsoidmajor = 0.24;
 ellipsoidminor = 0.20;
 
@@ -43,5 +46,8 @@ end
 
 lcmgl.glEnd();
 lcmgl.switchBuffers();
+pause(0.01)
 end
+
+
 

@@ -89,7 +89,7 @@ r2 = r2.setInputFrame(r.getInputFrame);
 %sys = feedback(r,ltvsys);
 
 % For Gaussian noise (simulating on different plant):
-sys = feedback(r2,ltvsys);
+sys = feedback(r,ltvsys);
 
 toc;
 disp('done!');
