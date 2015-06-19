@@ -2,6 +2,7 @@ BOT_VIEWER_PRETTIER: 0
 Using X Visual 0x156
 loading new robot with 2 links
 successfully loaded model
-drake_viewer: Fatal IO error 35 (Resource temporarily unavailable) on X server /private/tmp/com.apple.launchd.G0hgdz6hhf/org.macosforge.xquartz:0.
-XIO:  fatal IO error 35 (Resource temporarily unavailable) on X server "/private/tmp/com.apple.launchd.G0hgdz6hhf/org.macosforge.xquartz:0"
-      after 19 requests (19 known processed) with 0 events remaining.
+loading new robot with 2 links
+successfully loaded model
+loading new robot with 2 links
+successfully loaded model
