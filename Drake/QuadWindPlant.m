@@ -157,10 +157,7 @@ classdef QuadWindPlant < DrakeSystem
         end
       end
       
-      if strcmp(windfield, 'flyingellipsoid')
-                       
-        
-                
+      if strcmp(windfield, 'flyingellipsoid')         
         V_0 = 3.5; % m/s guess
         c = 0.1; % guess
         V = V_0 / (1 + V_0 * c * mytime);
@@ -173,7 +170,6 @@ classdef QuadWindPlant < DrakeSystem
         ellipsoidmajor = 0.24;
         ellipsoidminor = 0.20;
         
-        
         ywind = 0;
         zwind = 0;
         if (xquad - xcenter)^2/ellipsoidminor^2 + (yquad-ycenter)^2/ellipsoidmajor^2 + (zquad - zcenter)^2/ellipsoidmajor^2 < 1
@@ -183,10 +179,56 @@ classdef QuadWindPlant < DrakeSystem
         end
       end
       
-      
-      
-      
-      
+      if strcmp(windfield, 'flyingsphere')         
+        V_0 = 3.5; % m/s guess
+        c = 0.1; % guess
+        V = V_0 / (1 + V_0 * c * mytime);
+        
+        obj.ellipsoidcenter = obj.ellipsoidcenter - [V*obj.tstep 0 0];
+        xcenter = obj.ellipsoidcenter(1);
+        ycenter = obj.ellipsoidcenter(2);
+        zcenter = obj.ellipsoidcenter(3);
+        
+        sphereradius = 0.30;
+        boundary = 0.01;
+        extsphere = sphereradius + boundary;
+        
+        nomwind = -10.0;
+        
+        xwind = 0;
+        ywind = 0;
+        zwind = 0;
+        if (xquad - xcenter)^2/sphereradius^2 + (yquad-ycenter)^2/sphereradius^2 + (zquad - zcenter)^2/sphereradius^2 < 1
+          xwind = nomwind;
+        elseif (xquad - xcenter)^2/extsphere^2 + (yquad-ycenter)^2/extsphere^2 + (zquad - zcenter)^2/extsphere^2 < 1
+          display('found a boundary point')
+          
+          % hypertan wants to go from -1 to 1
+          % this f(x) goes from 0 to 3, as x goes from -1 to 1
+          
+          % find distance to edge of sphere
+          fromcenter = sqrt( (xquad - xcenter)^2 + (yquad-ycenter)^2 + (zquad - zcenter)^2 );
+          distance = fromcenter - sphereradius;
+          
+          
+          % normalize that distance
+          normdistance = distance / boundary;
+          % make it go from -1 to 1
+          hypertandistance = normdistance * 2 - 1;
+          
+          % in this setup, -1 is right next to the sphere, and 1 is out in
+          % nowhere
+          
+          reversed = -1;
+          xwind = nomwind * (tanh(reversed * hypertandistance * 10)+1)/2;
+          
+        else
+          xwind = 0;
+        end
+        
+        
+      end
+  
       if strcmp(windfield, 'zero')
         ywind = 0;
       elseif strcmp(windfield, 'constant')
@@ -248,48 +290,49 @@ classdef QuadWindPlant < DrakeSystem
       end
       
       
+      % I think all this code can go... I've figured out drawing elsewhere
       
-      lcmgl = drake.util.BotLCMGLClient(lcm.lcm.LCM.getSingleton(), 'Windy');
-      lcmgl.glColor3f(0,1,0);
-      
-      if plotme == 1 && strcmp(windfield, 'flyingellipsoid')
-        xcenter = obj.ellipsoidcenter(1);
-        ycenter = obj.ellipsoidcenter(2);
-        zcenter = obj.ellipsoidcenter(3);
-        for yi = (ycenter-ellipsoidmajor):0.05:(ycenter+ellipsoidmajor)
-          for xi = (xcenter-ellipsoidminor):0.05:(xcenter+ellipsoidminor)
-            for zi = (zcenter-ellipsoidmajor):0.05:(zcenter+ellipsoidmajor)
-              ywind = 0;
-              zwind = 0;
-              if (xi - xcenter)^2/ellipsoidminor^2 + (yi-ycenter)^2/ellipsoidmajor^2 + (zi - zcenter)^2/ellipsoidmajor^2 < 1
-                xwind = -0.6;
-              else
-                xwind = 0;
-              end
-              pos = [xi, yi, zi];
-              force = [xwind, ywind, zwind];
-              lcmgl.drawVector3d(pos,force/20);
-            end
-            
-          end
-        end
-      elseif plotme == 1
-        for xi = 1:10
-          %for yi = 1:10
-          for zi = 1:10
-            pos = [xi, 0, zi];
-            force = [xwind, ywind, zwind];
-            %lcmgl.drawVector3d([0,0,0],[1,1,1]);
-            lcmgl.drawVector3d(pos,force);
-          end
-          
-        end
-       
-
-
-      end
-      lcmgl.glEnd();
-      lcmgl.switchBuffers;
+%       lcmgl = drake.util.BotLCMGLClient(lcm.lcm.LCM.getSingleton(), 'Windy');
+%       lcmgl.glColor3f(0,1,0);
+%       
+%       if plotme == 1 && strcmp(windfield, 'flyingellipsoid')
+%         xcenter = obj.ellipsoidcenter(1);
+%         ycenter = obj.ellipsoidcenter(2);
+%         zcenter = obj.ellipsoidcenter(3);
+%         for yi = (ycenter-ellipsoidmajor):0.05:(ycenter+ellipsoidmajor)
+%           for xi = (xcenter-ellipsoidminor):0.05:(xcenter+ellipsoidminor)
+%             for zi = (zcenter-ellipsoidmajor):0.05:(zcenter+ellipsoidmajor)
+%               ywind = 0;
+%               zwind = 0;
+%               if (xi - xcenter)^2/ellipsoidminor^2 + (yi-ycenter)^2/ellipsoidmajor^2 + (zi - zcenter)^2/ellipsoidmajor^2 < 1
+%                 xwind = -0.6;
+%               else
+%                 xwind = 0;
+%               end
+%               pos = [xi, yi, zi];
+%               force = [xwind, ywind, zwind];
+%               lcmgl.drawVector3d(pos,force/20);
+%             end
+%             
+%           end
+%         end
+%       elseif plotme == 1
+%         for xi = 1:10
+%           %for yi = 1:10
+%           for zi = 1:10
+%             pos = [xi, 0, zi];
+%             force = [xwind, ywind, zwind];
+%             %lcmgl.drawVector3d([0,0,0],[1,1,1]);
+%             lcmgl.drawVector3d(pos,force);
+%           end
+%           
+%         end
+%        
+% 
+% 
+%       end
+%       lcmgl.glEnd();
+%       lcmgl.switchBuffers;
       
       
     end
