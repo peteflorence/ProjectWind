@@ -48,16 +48,13 @@ lowerxf.mytime = minimum_duration;
 
 
 prog = prog.addStateConstraint(BoundingBoxConstraint(double(lowerxf),double(upperxf)),N);
-% Constant Constraint is simpler for a time-invarying problem
-% prog = prog.addStateConstraint(ConstantConstraint(double(xf)),N); % DirectTrajectoryOptimization method
-prog = prog.addInputConstraint(ConstantConstraint(u0),N); % DirectTrajectoryOptimization method
+prog = prog.addInputConstraint(ConstantConstraint(u0),N);
+prog = prog.addRunningCost(@cost);
+prog = prog.addFinalCost(@finalCost);
 
-prog = prog.addRunningCost(@cost); % note: DirCol not Direct!  DircolTrajectoryOptimization method
-prog = prog.addFinalCost(@finalCost); % DirectTrajectoryOptimization method
-
-tf0 = 2;                      % initial guess at duration
+tf0 = 2;                                                          % initial guess at duration
 traj_init.x = PPTrajectory(foh([0,tf0],[double(x0),double(xf)])); % traj.init.x is a PPTrajectory < Trajectory < DrakeSystem
-traj_init.u = ConstantTrajectory(u0); % traj_init.u is a ConstantTrajectory < Trajectory < DrakeSystem
+traj_init.u = ConstantTrajectory(u0);                             % traj_init.u is a ConstantTrajectory < Trajectory < DrakeSystem
 
 info=0;
 while (info~=1)
@@ -92,7 +89,7 @@ r2 = r2.setInputFrame(r.getInputFrame);
 %sys = feedback(r,ltvsys);
 
 % For Gaussian noise (simulating on different plant):
-sys = feedback(r2,ltvsys);
+sys = feedback(r,ltvsys);
 
 toc;
 disp('done!');
