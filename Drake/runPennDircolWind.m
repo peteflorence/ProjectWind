@@ -4,7 +4,7 @@ r_temp = Quadrotor();
 %r_temp = addOcean(r_temp, [.8,.45,1.25], [.20;2.5], pi/4);
 v = WindVisualizer(r_temp);
 r = QuadWindPlant(); % Quadrotor constructor
-r.windfield = 'constant';
+r.windfield = 'flyingsphere';
 r.ellipsoidcenter = [3 0 1];
 
 
@@ -123,7 +123,7 @@ v.playback(xtraj_sim, struct('slider', true));
 
 
 % PLOT WIND
-tiWindDraw(r.windfield);
+%tiWindDraw(r.windfield);
 
 
 end
