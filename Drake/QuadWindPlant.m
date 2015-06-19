@@ -184,7 +184,8 @@ classdef QuadWindPlant < DrakeSystem
         c = 0.1; % guess
         V = V_0 / (1 + V_0 * c * mytime);
         
-        obj.ellipsoidcenter = obj.ellipsoidcenter - [V*obj.tstep 0 0];
+        obj.ellipsoidcenter = [3 0 1];
+        obj.ellipsoidcenter = obj.ellipsoidcenter - [V*mytime 0 0];
         xcenter = obj.ellipsoidcenter(1);
         ycenter = obj.ellipsoidcenter(2);
         zcenter = obj.ellipsoidcenter(3);
@@ -193,7 +194,7 @@ classdef QuadWindPlant < DrakeSystem
         boundary = 0.01;
         extsphere = sphereradius + boundary;
         
-        nomwind = -10.0;
+        nomwind = -1.0;
         
         xwind = 0;
         ywind = 0;
