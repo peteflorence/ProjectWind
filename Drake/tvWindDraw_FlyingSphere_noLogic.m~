@@ -38,11 +38,23 @@ if strcmp(windfield, 'flyingsphere')
         
         % translate
         
-        
+        xi = xi - xcenter;
+        yi = yi - xcenter;
+        zi = zi - xcenter;
         
         
         % cart2sph
+        [azimuth,elevation,r] = cart2sph(xi,yi,zi);
         
+        scale = nomwind;
+        reversed = -1;
+        shift1 = r;
+        y1 = scale * (tanh(reversed * (x-shift1) * 10 ) +1) / 2;
+        
+        shift2 = 1;
+        y2 = - scale * (tanh(reversed * (x-shift2) * 10 ) +1) / 2;
+        
+        y = y1 + y2;
         
         
         if (xi - xcenter)^2/sphereradius^2 + (yi-ycenter)^2/sphereradius^2 + (zi - zcenter)^2/sphereradius^2 < 1
