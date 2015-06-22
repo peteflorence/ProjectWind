@@ -6,6 +6,7 @@ loading new robot with 2 links
 successfully loaded model
 loading new robot with 2 links
 successfully loaded model
+<<<<<<< HEAD
 OpenGL Error on draw #48 (LCM GL)
 invalid operation
 loading new robot with 2 links
@@ -1184,3 +1185,5 @@ OpenGL Error on draw #632 (LCM GL)
 invalid operation
 OpenGL Error on draw #633 (LCM GL)
 invalid operation
+=======
+>>>>>>> 9858ed6e7e218429b71240867be57faa0ede8071
