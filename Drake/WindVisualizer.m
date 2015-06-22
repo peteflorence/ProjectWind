@@ -18,7 +18,7 @@ classdef WindVisualizer < BotVisualizer
       draw@BotVisualizer(obj,t,x)
       
       
-      tvWindDraw_FlyingSphere(t);
+      tvWindDraw_FlyingSphere_noLogic(t);
       display(t)
       display('are we here?')
       %tvWindDraw(
