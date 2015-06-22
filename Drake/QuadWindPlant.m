@@ -34,7 +34,7 @@ classdef QuadWindPlant < DrakeSystem
       g = r.gravity;
     end
     
-    function [xdot,df] = dynamics(obj,t,x,u)
+    function xdot = dynamics(obj,t,x,u)
       % States
       % x
       % y
@@ -50,9 +50,9 @@ classdef QuadWindPlant < DrakeSystem
       % psidot
       % time
       
-      if (nargout>1)
-        [df]= dynamicsGradients_FlyingSphere(obj,t,x,u,nargout-1);
-      end
+      %if (nargout>1)
+      %  [df]= dynamicsGradients_Wind(obj,t,x,u,nargout-1);
+      %end
 
       % Parameters
       m = obj.m;
@@ -97,11 +97,27 @@ classdef QuadWindPlant < DrakeSystem
       zquad = x(3);
       quadpos = [xquad;yquad;zquad];
         
-      [windout,dquadinwind] = obj.quadwind(quadpos,x(13),1); % pass mytime to quadwind. % last arument is plot option
       
-      if (nargout>1)
-        df = df + dquadinwind;
-      end
+      
+      
+      
+      
+      
+      
+      
+      
+      windout = obj.quadwind(quadpos,x(13),1); % pass mytime to quadwind. % last arument is plot option
+      
+      
+      
+      
+      
+      
+      
+      
+      %if (nargout>1)
+      %  df = df + dquadinwind;
+      %end
       
       xyz_ddot = (1/m)*([0;0;-m*g] + R*[0;0;F1+F2+F3+F4] + windout); % call to wind field in dynamics
       
@@ -134,13 +150,13 @@ classdef QuadWindPlant < DrakeSystem
   
     end
     
-    function [wind,dquadinwind] = quadwind(obj,quadpos,mytime,plotme)
+    function wind = quadwind(obj,quadpos,mytime,plotme)
 
       xquad = quadpos(1);
       yquad = quadpos(2);
       zquad = quadpos(3);
 
-      windfield = obj.windfield;
+      windfield = 'flyingsphere';
       
       xwind = 0;
       ywind = 0;
@@ -194,7 +210,7 @@ classdef QuadWindPlant < DrakeSystem
         boundary = 0.01;
         extsphere = sphereradius + boundary;
         
-        nomwind = -4.0;
+        nomwind = -1.0;
         
         xwind = 0;
         ywind = 0;
