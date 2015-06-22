@@ -1,12 +1,7 @@
-function [df] = dynamicsGradients_FlyingSphere(a1, a2, a3, a4, order)
+function [df] = dynamicsGradients_Wind(a1, a2, a3, a4, order)
 % This is an auto-generated file.
 %
 % See <a href="matlab: help generateGradients">generateGradients</a>. 
-
-
-
-
-
 
 % Check inputs:
 typecheck(a1,'QuadWindPlant');
