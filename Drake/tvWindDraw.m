@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 function tvWindDraw_FlyingEllipsoid(t)
+=======
+function tvWindDraw(t)
+>>>>>>> 9858ed6e7e218429b71240867be57faa0ede8071
   
 display(t)
 
