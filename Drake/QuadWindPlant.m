@@ -51,7 +51,7 @@ classdef QuadWindPlant < DrakeSystem
       % time
       
       if (nargout>1)
-        [df]= dynamicsGradients(obj,t,x,u,nargout-1);
+        [df]= dynamicsGradientsEllipsicalHypertan(obj,t,x,u,nargout-1);
       end
       
       % Parameters
@@ -156,7 +156,7 @@ classdef QuadWindPlant < DrakeSystem
       yquad = quadpos(2);
       zquad = quadpos(3);
       
-      windfield = obj.windfield;
+      windfield = 'flyingsphere';
       
       xwind = 0;
       ywind = 0;
