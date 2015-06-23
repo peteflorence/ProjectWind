@@ -17,7 +17,7 @@ maximum_duration = 3;
 prog = DircolTrajectoryOptimization(r,N,[minimum_duration maximum_duration]);
 x0 = Point(getStateFrame(r));  % initial conditions: all-zeros
 
-x0.z = 1; % lift the quad off the ground
+x0.z = 1.2; % lift the quad off the ground
 
 
 prog = addPlanVisualizer(r,prog);
