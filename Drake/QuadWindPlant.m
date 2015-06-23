@@ -259,7 +259,7 @@ classdef QuadWindPlant < DrakeSystem
         
         sphereRadius = 0.30;
         
-        nomwind = -1.0;
+        nomwind = -2.0;
         
         xwind = 0;
         ywind = 0;
