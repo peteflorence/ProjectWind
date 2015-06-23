@@ -19,12 +19,7 @@ classdef WindVisualizer < BotVisualizer
       
       
       tvWindDraw_FlyingSphere_noLogic(t);
-      display(t)
-      display('are we here?')
-      %tvWindDraw
-     
-     
-  
+      
     end
   end
 

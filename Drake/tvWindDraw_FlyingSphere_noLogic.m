@@ -27,31 +27,32 @@ if strcmp(windfield, 'flyingsphere')
   xcenter = ellipsoidcenter(1);
   ycenter = ellipsoidcenter(2);
   zcenter = ellipsoidcenter(3);
+  
+  display(ellipsoidcenter)
+  
   for yi = (ycenter-extsphere):step:(ycenter+extsphere)
+    yidif = yi - xcenter;          % translate
     for xi = (xcenter-extsphere):step:(xcenter+extsphere)
+      xidif = xi - xcenter;        % translate
       for zi = (zcenter-extsphere):step:(zcenter+extsphere)
+        zidif = zi - xcenter;      % translate
+        
         
         xwind = 0;
         ywind = 0;
         zwind = 0;
         
-        
-        % translate
-        
-        xi = xi - xcenter;
-        yi = yi - xcenter;
-        zi = zi - xcenter;
-        
-        
+
         % cart2sph
-        [azimuth,elevation,r] = cart2sph(xi,yi,zi);
+        [azimuth,elevation,r] = cart2sph(xidif,yidif,zidif);
+        
+        
         
         scale = nomwind;
         reversed = -1;
-        shift1 = extsphere;
-        y1 = scale * (tanh(reversed * (r-shift1) * 10 ) +1) / 2;
+        shift1 = sphereradius*2;
+        xwind = scale * (tanh(reversed * (r-shift1) * 10 ) +1) / 2;
         
-        xwind = y1;
         
         pos = [xi, yi, zi];
         force = [xwind, ywind, zwind];
