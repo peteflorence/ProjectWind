@@ -34,7 +34,7 @@ classdef QuadWindPlant < DrakeSystem
       g = r.gravity;
     end
     
-    function [xdot,df] = dynamics(obj,t,x,u)
+    function xdot = dynamics(obj,t,x,u)
       % States
       % x
       % y
@@ -50,9 +50,9 @@ classdef QuadWindPlant < DrakeSystem
       % psidot
       % time
       
-      if (nargout>1)
-        [df]= dynamicsGradientsEllipsicalHypertan(obj,t,x,u,nargout-1);
-      end
+      %if (nargout>1)
+      %  [df]= dynamicsGradientsEllipsicalHypertan(obj,t,x,u,nargout-1);
+      %end
       
       % Parameters
       m = obj.m;
@@ -259,7 +259,7 @@ classdef QuadWindPlant < DrakeSystem
         
         sphereRadius = 0.30;
         
-        nomwind = -2.0;
+        nomwind = -5.0;
         
         xwind = 0;
         ywind = 0;
