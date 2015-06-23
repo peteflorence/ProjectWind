@@ -27,63 +27,33 @@ if strcmp(windfield, 'flyingsphere')
   xcenter = ellipsoidcenter(1);
   ycenter = ellipsoidcenter(2);
   zcenter = ellipsoidcenter(3);
+  
+  display(e
+  
   for yi = (ycenter-extsphere):step:(ycenter+extsphere)
+    yidif = yi - xcenter;          % translate
     for xi = (xcenter-extsphere):step:(xcenter+extsphere)
+      xidif = xi - xcenter;        % translate
       for zi = (zcenter-extsphere):step:(zcenter+extsphere)
+        zidif = zi - xcenter;      % translate
+        
         
         xwind = 0;
         ywind = 0;
         zwind = 0;
         
-        
-        % translate
-        
-        xi = xi - xcenter;
-        yi = yi - xcenter;
-        zi = zi - xcenter;
-        
-        
+
         % cart2sph
-        [azimuth,elevation,r] = cart2sph(xi,yi,zi);
+        [azimuth,elevation,r] = cart2sph(xidif,yidif,zidif);
+        
+        
         
         scale = nomwind;
         reversed = -1;
-        shift1 = r;
-        y1 = scale * (tanh(reversed * (x-shift1) * 10 ) +1) / 2;
-        
-        shift2 = 1;
-        y2 = - scale * (tanh(reversed * (x-shift2) * 10 ) +1) / 2;
-        
-        y = y1 + y2;
+        shift1 = sphereradius*2;
+        xwind = scale * (tanh(reversed * (r-shift1) * 10 ) +1) / 2;
         
         
-        if (xi - xcenter)^2/sphereradius^2 + (yi-ycenter)^2/sphereradius^2 + (zi - zcenter)^2/sphereradius^2 < 1
-          xwind = nomwind;
-        elseif (xi - xcenter)^2/extsphere^2 + (yi-ycenter)^2/extsphere^2 + (zi - zcenter)^2/extsphere^2 < 1
-          display('found a boundary point')
-          
-          % hypertan wants to go from -1 to 1
-          % this f(x) goes from 0 to 3, as x goes from -1 to 1
-          
-          % find distance to edge of sphere
-          fromcenter = sqrt( (xi - xcenter)^2 + (yi-ycenter)^2 + (zi - zcenter)^2 );
-          distance = fromcenter - sphereradius;
-          
-          
-          % normalize that distance
-          normdistance = distance / boundary;
-          % make it go from -1 to 1
-          hypertandistance = normdistance * 2 - 1;
-          
-          % in this setup, -1 is right next to the sphere, and 1 is out in
-          % nowhere
-          
-          reversed = -1;
-          xwind = nomwind * (tanh(reversed * hypertandistance * 10)+1)/2;
-          
-        else
-          xwind = 0;
-        end
         pos = [xi, yi, zi];
         force = [xwind, ywind, zwind];
         lcmgl.drawVector3d(pos,force/20);
