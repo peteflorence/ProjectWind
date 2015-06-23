@@ -13,9 +13,9 @@ V = V_0 / (1 + V_0 * c * t);
 
 ellipsoidcenter = ellipsoidcenter - [V*t 0 0];
 
-sphereradius = 0.30;
-boundary = 0.01;
-extsphere = sphereradius + boundary;
+sphereRadius = 0.3;
+boundary = 0.1;
+extSphere = sphereRadius + boundary;
 
 lcmgl = drake.util.BotLCMGLClient(lcm.lcm.LCM.getSingleton(), 'Windy');
 lcmgl.glColor3f(0,1,0);
@@ -30,12 +30,12 @@ if strcmp(windfield, 'flyingsphere')
   
   display(ellipsoidcenter)
   
-  for yi = (ycenter-extsphere):step:(ycenter+extsphere)
-    yidif = yi - xcenter;          % translate
-    for xi = (xcenter-extsphere):step:(xcenter+extsphere)
+  for yi = (ycenter-extSphere):step:(ycenter+extSphere)
+    yidif = yi - ycenter;          % translate
+    for xi = (xcenter-extSphere):step:(xcenter+extSphere)
       xidif = xi - xcenter;        % translate
-      for zi = (zcenter-extsphere):step:(zcenter+extsphere)
-        zidif = zi - xcenter;      % translate
+      for zi = (zcenter-extSphere):step:(zcenter+extSphere)
+        zidif = zi - zcenter;      % translate
         
         
         xwind = 0;
@@ -44,19 +44,24 @@ if strcmp(windfield, 'flyingsphere')
         
 
         % cart2sph
-        [azimuth,elevation,r] = cart2sph(xidif,yidif,zidif);
+        %[azimuth,elevation,r] = cart2sph(xidif,yidif,zidif);
         
-        
-        
+
         scale = nomwind;
+        
         reversed = -1;
-        shift1 = sphereradius*2;
-        xwind = scale * (tanh(reversed * (r-shift1) * 10 ) +1) / 2;
         
+        a = sqrt(xidif^2 + yidif^2 + zidif^2);
         
-        pos = [xi, yi, zi];
-        force = [xwind, ywind, zwind];
-        lcmgl.drawVector3d(pos,force/20);
+        slope = 10;
+        
+        xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2;
+        
+        if abs(xwind) > 0.1
+          pos = [xi, yi, zi];
+          force = [xwind, ywind, zwind];
+          lcmgl.drawVector3d(pos,force/20);
+        end
       end
       
     end
