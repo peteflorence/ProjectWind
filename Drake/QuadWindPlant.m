@@ -34,7 +34,7 @@ classdef QuadWindPlant < DrakeSystem
       g = r.gravity;
     end
     
-    function xdot = dynamics(obj,t,x,u)
+    function [xdot,df] = dynamics(obj,t,x,u)
       % States
       % x
       % y
@@ -50,9 +50,9 @@ classdef QuadWindPlant < DrakeSystem
       % psidot
       % time
       
-      %if (nargout>1)
-      %  [df]= dynamicsGradientsEllipsicalHypertan(obj,t,x,u,nargout-1);
-      %end
+      if (nargout>1)
+        [df]= dynamicsGradientsEllipsicalHypertan_5_closer(obj,t,x,u,nargout-1);
+      end
       
       % Parameters
       m = obj.m;
@@ -251,7 +251,7 @@ classdef QuadWindPlant < DrakeSystem
         c = 0.1; % guess
         V = V_0 / (1 + V_0 * c * mytime);
         
-        obj.ellipsoidcenter = [3 0 1];
+        obj.ellipsoidcenter = [2 0 1];
         obj.ellipsoidcenter = obj.ellipsoidcenter - [V*mytime 0 0];
         xcenter = obj.ellipsoidcenter(1);
         ycenter = obj.ellipsoidcenter(2);
@@ -445,7 +445,10 @@ classdef QuadWindPlant < DrakeSystem
       
       typecheck(traj_opt,'DirectTrajectoryOptimization');
       
+
       traj_opt = traj_opt.addDisplayFunction(@(x)visualizePlan(x,lcmgl),traj_opt.x_inds(1:3,:));
+      traj_opt = traj_opt.addDisplayFunction(@(x)assert(fscanf(fopen('abort.txt', 'r'), '%d') == 0, 'Abort from file.'));
+      
       
       function visualizePlan(x,lcmgl)
         lcmgl.glColor3f(1, 0, 0);
@@ -454,21 +457,18 @@ classdef QuadWindPlant < DrakeSystem
         lcmgl.glColor3f(1, .5, 0);
         lcmgl.plot3(x(1,:),x(2,:),x(3,:));
         lcmgl.switchBuffers;
-        
-        
-        
-        
-        
+
         
       end
       
       
       
-      
-      
     end
-    
+
   end
+  
+  
+  
   
   properties
     m = .5;

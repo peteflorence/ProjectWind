@@ -5,7 +5,7 @@ r_temp = Quadrotor();
 v = WindVisualizer(r_temp);
 r = QuadWindPlant(); % Quadrotor constructor
 r.windfield = 'flyingsphere';
-r.ellipsoidcenter = [3 0 1];
+r.ellipsoidcenter = [2 0 1];
 
 
 
@@ -17,9 +17,9 @@ maximum_duration = 3;
 prog = DircolTrajectoryOptimization(r,N,[minimum_duration maximum_duration]);
 x0 = Point(getStateFrame(r));  % initial conditions: all-zeros
 
-x0.z = 1.2; % lift the quad off the ground
+x0.z = 1.0; % lift the quad off the ground
 
-
+!echo "0" > abort.txt
 prog = addPlanVisualizer(r,prog);
 
 v.draw(0,double(x0));
@@ -35,7 +35,7 @@ xf = x0;                       % final conditions: translated in x
 upperxf = x0;
 lowerxf = x0;
 
-% Don't move
+% % Don't move
 upperxf.x = x0.x;                 % translate x
 upperxf.z = x0.z;                 % translate z
 upperxf.y = 0;                 % translate x
@@ -47,7 +47,7 @@ lowerxf.y = 0;                 % translate x
 lowerxf.mytime = minimum_duration;
 
 
-% Actually move
+% % Actually move
 % upperxf.x = 5;                 % translate x
 % upperxf.z = 1;                 % translate z
 % upperxf.y = 0;                 % translate x

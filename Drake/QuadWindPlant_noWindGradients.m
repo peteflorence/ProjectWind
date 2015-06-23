@@ -1,4 +1,4 @@
-classdef QuadWindPlant < DrakeSystem
+classdef QuadWindPlant_noWindGradients < DrakeSystem
   
   % Modified from D. Mellinger, N. Michael, and V. Kumar,
   % "Trajectory generation and control for precise aggressive maneuvers with quadrotors",
@@ -7,7 +7,7 @@ classdef QuadWindPlant < DrakeSystem
   % Adapted by Pete Florence, 2015 to handle simple vortex rings
   
   methods
-    function obj = QuadWindPlant()
+    function obj = QuadWindPlant_noWindGradients()
       
       obj = obj@DrakeSystem(13,0,4,13,false,1);
       
@@ -51,7 +51,7 @@ classdef QuadWindPlant < DrakeSystem
       % time
       
       if (nargout>1)
-        [df]= dynamicsGradients(obj,t,x,u,nargout-1);
+        [df]= Copy_of_dynamicsGradients(obj,t,x,u,nargout-1);
       end
       
       % Parameters
@@ -257,17 +257,27 @@ classdef QuadWindPlant < DrakeSystem
         ycenter = obj.ellipsoidcenter(2);
         zcenter = obj.ellipsoidcenter(3);
         
-        sphereradius = 0.30;
+        sphereRadius = 0.30;
         
-        nomwind = -1.0;
+        nomwind = -5.0;
         
         xwind = 0;
         ywind = 0;
         zwind = 0;
         
+        xidif = xquad - xcenter;
         yidif = yquad - ycenter;
-        yidif = yquad - ycenter;
-        yidif = yquad - ycenter; 
+        zidif = zquad - zcenter; 
+        
+        scale = nomwind;
+        
+        reversed = -1;
+        
+        a = sqrt(xidif^2 + yidif^2 + zidif^2);
+        
+        slope = 10;
+        
+        xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2;
         
       end
       

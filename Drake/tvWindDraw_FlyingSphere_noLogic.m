@@ -2,7 +2,7 @@ function tvWindDraw_FlyingSphere_noLogic(t)
   
 display(t)
 
-ellipsoidcenter = [3 0 1];
+ellipsoidcenter = [2 0 1];
 
 windfield = 'flyingsphere';
 

@@ -11,7 +11,7 @@ elseif plant == 'penn'
   r_temp = Quadrotor();
   %r_temp = addOcean(r_temp, [.8,.45,1.25], [.20;2.5], pi/4);
   v = constructVisualizer(r_temp);
-  r = QuadWindPlant(); % Quadrotor constructor
+  r = QuadWindPlant_noWindGradients(); % Quadrotor constructor
 
   disp('using quad plant in wind based on penn plant!!')
 end
