@@ -59,6 +59,10 @@ y = scale * (tanh(reversed * ( a - Radius) * slope ) +1) / 2;
 plot(x,y), grid on
 
 
+% here's some new code!!
+% yipee!!
+
+
 
 end
 
