@@ -100,15 +100,9 @@ Qf = 10*eye(13);
 disp('Computing stabilizing controller with TVLQR...');
 ltvsys = tvlqr(r,xtraj,utraj,Q,R,Qf);
 
-%r2 = QuadWindPlant();
-%r2 = r2.setOutputFrame(r.getStateFrame());
 
-r2 = QuadWindPlant_wGaussianNoise();
-r2 = r2.setOutputFrame(r.getOutputFrame);
-r2 = r2.setInputFrame(r.getInputFrame);
 
 % CREATE FEEDBACK CONTROLLER
-
 % For no Gaussian noise (simulating on same plant):
 sys = feedback(r,ltvsys);
 
@@ -127,15 +121,15 @@ disp('done!');
 tic;
 disp('Simulating the system...');
 %xtraj_sim = simulate(sys,[0 tf],x0);
-xtraj_sim = simulate(sys,[0 tf],x0);
-toc;
-disp('done!');
+%xtraj_sim = simulate(sys,[0 tf],x0);
+%toc;
+%disp('done!');
 
 
 % Draw the TVLQR result
-xtraj_sim = xtraj_sim(1:12);
-xtraj_sim = xtraj_sim.setOutputFrame(r_temp.getStateFrame());
-v.playback(xtraj_sim, struct('slider', true));
+%xtraj_sim = xtraj_sim(1:12);
+%xtraj_sim = xtraj_sim.setOutputFrame(r_temp.getStateFrame());
+%v.playback(xtraj_sim, struct('slider', true));
 
 
 % % Draw the original result

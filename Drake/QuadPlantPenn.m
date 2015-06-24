@@ -18,6 +18,11 @@ classdef QuadPlantPenn < SecondOrderSystem
             I = obj.I;
         end
         
+        function u0 = nominalThrust(obj)
+          % each propellor commands -mg/4
+          u0 = Point(getInputFrame(obj),getMass(obj)*norm(obj.gravity)*ones(4,1)/4);
+        end
+        
         function qdd = sodynamics(obj,t,q,qd,u)
             % States
             % x
@@ -145,8 +150,11 @@ classdef QuadPlantPenn < SecondOrderSystem
         
     end
     properties
-        m = .5;
-        I = diag([0.0023,0.0023,0.004]);
+      m = .5;
+      I = diag([0.0023,0.0023,0.004]);
+      
+      % defining gravity here (too simple?)
+      gravity = [0; 0; -9.8100]
     end
     
 end

@@ -12,14 +12,14 @@ r.ellipsoidcenter = [2 0 1];
 disp('using quad plant in wind based on penn plant!')
 
 N = 21;
-minimum_duration = 2;
-maximum_duration = 3;
+minimum_duration = 3;
+maximum_duration = 6;
 prog = DircolTrajectoryOptimization(r,N,[minimum_duration maximum_duration]);
 x0 = Point(getStateFrame(r));  % initial conditions: all-zeros
 
-x0.z = 1.0; % lift the quad off the ground
-
-!echo "0" > abort.txt
+x0.z = 1.01; % lift the quad off the ground
+x0.x = -1.0;
+%!echo "0" > abort.txt
 prog = addPlanVisualizer(r,prog);
 
 v.draw(0,double(x0));
@@ -35,28 +35,28 @@ xf = x0;                       % final conditions: translated in x
 upperxf = x0;
 lowerxf = x0;
 
-% % Don't move
-upperxf.x = x0.x;                 % translate x
-upperxf.z = x0.z;                 % translate z
-upperxf.y = 0;                 % translate x
-upperxf.mytime = maximum_duration;
-
-lowerxf.x = x0.x;                 % translate x
-lowerxf.z = x0.z;                 % translate z
-lowerxf.y = 0;                 % translate x
-lowerxf.mytime = minimum_duration;
-
-
-% % Actually move
-% upperxf.x = 5;                 % translate x
-% upperxf.z = 1;                 % translate z
+% % % Don't move
+% upperxf.x = x0.x;                 % translate x
+% upperxf.z = x0.z;                 % translate z
 % upperxf.y = 0;                 % translate x
 % upperxf.mytime = maximum_duration;
 % 
-% lowerxf.x = 5;                 % translate x
-% lowerxf.z = 1;                 % translate z
+% lowerxf.x = x0.x;                 % translate x
+% lowerxf.z = x0.z;                 % translate z
 % lowerxf.y = 0;                 % translate x
 % lowerxf.mytime = minimum_duration;
+
+
+% Actually move
+upperxf.x = 3;                 % translate x
+upperxf.z = 1;                 % translate z
+upperxf.y = 0;                 % translate x
+upperxf.mytime = maximum_duration;
+
+lowerxf.x = 3;                 % translate x
+lowerxf.z = 1;                 % translate z
+lowerxf.y = 0;                 % translate x
+lowerxf.mytime = minimum_duration;
 
 
 
@@ -86,9 +86,11 @@ tf = utraj.tspan(2);
 % Q = 10*eye(13);
 Q = 10 * [eye(3) zeros(3,10) ; zeros(10,3) zeros(10)];
 R = eye(4);
+
 Qf = 10*eye(13);
 disp('Computing stabilizing controller with TVLQR...');
 ltvsys = tvlqr(r,xtraj,utraj,Q,R,Qf);
+
 
 % Optional: CREATE SIMULATION PLANT
 
@@ -145,9 +147,7 @@ function [g,dg] = cost(dt,x,u)
 
 R = eye(4);
 g = u'*R*u;
-%g = sum((R*u).*u,1);
 dg = [zeros(1,1+size(x,1)),2*u'*R];
-%dg = zeros(1, 1 + size(x,1) + size(u,1));
 
 end
 
@@ -155,7 +155,6 @@ function [h,dh] = finalCost(t,x)
 
 h = t;
 dh = [1,zeros(1,size(x,1))]; % original
-%dh = [1,zeros(1,size(x,1)-1),1]; % is this right?
 
 end
 
