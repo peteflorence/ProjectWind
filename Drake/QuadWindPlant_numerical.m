@@ -1,4 +1,4 @@
-classdef QuadWindPlant < DrakeSystem
+classdef QuadWindPlant_numerical < DrakeSystem
   
   % Modified from D. Mellinger, N. Michael, and V. Kumar,
   % "Trajectory generation and control for precise aggressive maneuvers with quadrotors",
@@ -7,7 +7,7 @@ classdef QuadWindPlant < DrakeSystem
   % Adapted by Pete Florence, 2015 to handle simple vortex rings
   
   methods
-    function obj = QuadWindPlant()
+    function obj = QuadWindPlant_numerical()
       
       obj = obj@DrakeSystem(13,0,4,13,false,1);
       
@@ -33,8 +33,24 @@ classdef QuadWindPlant < DrakeSystem
     function g = getGravity(obj)
       g = r.gravity;
     end
-      
+    
+    
+    
     function [xdot,df] = dynamics(obj,t,x,u)
+      
+      options = struct();
+      options.grad_method = 'numerical';
+      
+      tempfunc = @(t, x, u) obj.dynamics_no_grad(t, x, u);
+      
+      [xdot, df] = geval(tempfunc, t, x, u, options);
+      
+       
+    end
+    
+    
+    
+    function xdot = dynamics_no_grad(obj,t,x,u)
       % States
       % x
       % y
@@ -50,9 +66,6 @@ classdef QuadWindPlant < DrakeSystem
       % psidot
       % time
       
-      if (nargout>1)
-        [df]= dynamicsGradientsEllipsicalHypertan_5_closer(obj,t,x,u,nargout-1);
-      end
       
       % Parameters
       m = obj.m;

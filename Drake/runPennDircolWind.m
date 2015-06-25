@@ -3,7 +3,7 @@ function [utraj,xtraj,prog,r] = runPennDircolWind
 r_temp = Quadrotor();
 %r_temp = addOcean(r_temp, [.8,.45,1.25], [.20;2.5], pi/4);
 v = WindVisualizer(r_temp);
-r = QuadWindPlant(); % Quadrotor constructor
+r = QuadWindPlant_numerical(); % Quadrotor constructor
 r.windfield = 'flyingsphere';
 r.ellipsoidcenter = [2 0 1];
 
@@ -35,28 +35,28 @@ xf = x0;                       % final conditions: translated in x
 upperxf = x0;
 lowerxf = x0;
 
-% % % Don't move
-% upperxf.x = x0.x;                 % translate x
-% upperxf.z = x0.z;                 % translate z
-% upperxf.y = 0;                 % translate x
-% upperxf.mytime = maximum_duration;
-% 
-% lowerxf.x = x0.x;                 % translate x
-% lowerxf.z = x0.z;                 % translate z
-% lowerxf.y = 0;                 % translate x
-% lowerxf.mytime = minimum_duration;
-
-
-% Actually move
-upperxf.x = 3;                 % translate x
-upperxf.z = 1;                 % translate z
+% % Don't move
+upperxf.x = x0.x;                 % translate x
+upperxf.z = x0.z;                 % translate z
 upperxf.y = 0;                 % translate x
 upperxf.mytime = maximum_duration;
 
-lowerxf.x = 3;                 % translate x
-lowerxf.z = 1;                 % translate z
+lowerxf.x = x0.x;                 % translate x
+lowerxf.z = x0.z;                 % translate z
 lowerxf.y = 0;                 % translate x
 lowerxf.mytime = minimum_duration;
+
+
+% % Actually move
+% upperxf.x = 3;                 % translate x
+% upperxf.z = 1;                 % translate z
+% upperxf.y = 0;                 % translate x
+% upperxf.mytime = maximum_duration;
+% 
+% lowerxf.x = 3;                 % translate x
+% lowerxf.z = 1;                 % translate z
+% lowerxf.y = 0;                 % translate x
+% lowerxf.mytime = minimum_duration;
 
 
 
@@ -88,6 +88,47 @@ Q = 10 * [eye(3) zeros(3,10) ; zeros(10,3) zeros(10)];
 R = eye(4);
 
 Qf = 10*eye(13);
+
+% % The following 12 x 12 S matrix was produced from the QuadPlantPenn via:
+% x0 = Point(getStateFrame(r));
+% x0.z = 1.01; % lift the quad off the ground
+% x0.x = -1.0;
+% upperxf = x0;
+% upperxf.x = 3;                 % translate x
+% upperxf.z = 1;                 % translate z
+% upperxf.y = 0;                 % translate x
+% [one, two] = tilqr(r,upperxf,double(nominalThrust(r)),10*eye(12),eye(4));
+% two.S;
+
+%    14.5445   -0.0000   -0.0000    0.0000   10.1595   -0.0000    5.5772   -0.0000   -0.0000    0.0000    0.0294   -0.0000
+%    -0.0000   14.5445    0.0000  -10.1595   -0.0000   -0.0000    0.0000    5.5772    0.0000   -0.0294   -0.0000   -0.0000
+%    -0.0000    0.0000   10.7616   -0.0000   -0.0000   -0.0000   -0.0000    0.0000    0.7906   -0.0000   -0.0000   -0.0000
+%     0.0000  -10.1595   -0.0000   55.1653    0.0000    0.0000    0.0000  -14.7471   -0.0000    0.1608    0.0000    0.0000
+%    10.1595   -0.0000   -0.0000    0.0000   55.1653   -0.0000   14.7471   -0.0000    0.0000    0.0000    0.1608   -0.0000
+%    -0.0000   -0.0000   -0.0000    0.0000   -0.0000   10.2549   -0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.2581
+%     5.5772    0.0000   -0.0000    0.0000   14.7471   -0.0000    7.0761   -0.0000    0.0000    0.0000    0.0427   -0.0000
+%    -0.0000    5.5772    0.0000  -14.7471   -0.0000   -0.0000   -0.0000    7.0761   -0.0000   -0.0427   -0.0000   -0.0000
+%    -0.0000    0.0000    0.7906   -0.0000    0.0000   -0.0000    0.0000   -0.0000    0.8508   -0.0000    0.0000    0.0000
+%     0.0000   -0.0294   -0.0000    0.1608    0.0000    0.0000    0.0000   -0.0427   -0.0000    0.0299    0.0000   -0.0000
+%     0.0294   -0.0000   -0.0000    0.0000    0.1608   -0.0000    0.0427   -0.0000    0.0000    0.0000    0.0299   -0.0000
+%    -0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.2581   -0.0000   -0.0000    0.0000   -0.0000   -0.0000    0.2647
+
+Qf = [   14.5445   -0.0000   -0.0000    0.0000   10.1595   -0.0000    5.5772   -0.0000   -0.0000    0.0000    0.0294   -0.0000;
+   -0.0000   14.5445    0.0000  -10.1595   -0.0000   -0.0000    0.0000    5.5772    0.0000   -0.0294   -0.0000   -0.0000;
+   -0.0000    0.0000   10.7616   -0.0000   -0.0000   -0.0000   -0.0000    0.0000    0.7906   -0.0000   -0.0000   -0.0000;
+    0.0000  -10.1595   -0.0000   55.1653    0.0000    0.0000    0.0000  -14.7471   -0.0000    0.1608    0.0000    0.0000;
+   10.1595   -0.0000   -0.0000    0.0000   55.1653   -0.0000   14.7471   -0.0000    0.0000    0.0000    0.1608   -0.0000;
+   -0.0000   -0.0000   -0.0000    0.0000   -0.0000   10.2549   -0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.2581;
+    5.5772    0.0000   -0.0000    0.0000   14.7471   -0.0000    7.0761   -0.0000    0.0000    0.0000    0.0427   -0.0000;
+   -0.0000    5.5772    0.0000  -14.7471   -0.0000   -0.0000   -0.0000    7.0761   -0.0000   -0.0427   -0.0000   -0.0000;
+   -0.0000    0.0000    0.7906   -0.0000    0.0000   -0.0000    0.0000   -0.0000    0.8508   -0.0000    0.0000    0.0000;
+    0.0000   -0.0294   -0.0000    0.1608    0.0000    0.0000    0.0000   -0.0427   -0.0000    0.0299    0.0000   -0.0000;
+    0.0294   -0.0000   -0.0000    0.0000    0.1608   -0.0000    0.0427   -0.0000    0.0000    0.0000    0.0299   -0.0000;
+   -0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.2581   -0.0000   -0.0000    0.0000   -0.0000   -0.0000    0.2647];
+
+Qf = [Qf zeros(12,1) ; zeros(1,13)];
+Qf(13,13) = 1e-6;
+ 
 disp('Computing stabilizing controller with TVLQR...');
 ltvsys = tvlqr(r,xtraj,utraj,Q,R,Qf);
 
