@@ -1,6 +1,4 @@
 function tvWindDraw_FlyingSphere_noLogic(t)
-  
-display(t)
 
 ellipsoidcenter = [2 0 1];
 
@@ -28,7 +26,6 @@ if strcmp(windfield, 'flyingsphere')
   ycenter = ellipsoidcenter(2);
   zcenter = ellipsoidcenter(3);
   
-  display(ellipsoidcenter)
   
   for yi = (ycenter-extSphere):step:(ycenter+extSphere)
     yidif = yi - ycenter;          % translate
