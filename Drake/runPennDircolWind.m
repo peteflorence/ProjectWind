@@ -81,13 +81,16 @@ end
 % CREATE TVLQR CONTROLLER
 
 tic;
+
+
 x0 = xtraj.eval(0);
 tf = utraj.tspan(2);
 % Q = 10*eye(13);
-Q = 10 * [eye(3) zeros(3,10) ; zeros(10,3) zeros(10)];
+Q = 10 * [eye(3) zeros(3,9) ; zeros(9,3) zeros(9)];
 R = eye(4);
+xtraj = xtraj(1:12);
 
-Qf = 10*eye(13);
+%Qf = 10*eye(13);
 
 % % The following 12 x 12 S matrix was produced from the QuadPlantPenn via:
 % x0 = Point(getStateFrame(r));
@@ -126,18 +129,24 @@ Qf = [   14.5445   -0.0000   -0.0000    0.0000   10.1595   -0.0000    5.5772   -
     0.0294   -0.0000   -0.0000    0.0000    0.1608   -0.0000    0.0427   -0.0000    0.0000    0.0000    0.0299   -0.0000;
    -0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.2581   -0.0000   -0.0000    0.0000   -0.0000   -0.0000    0.2647];
 
-Qf = [Qf zeros(12,1) ; zeros(1,13)];
-Qf(13,13) = 1e-6;
- 
+%Qf = [Qf zeros(12,1) ; zeros(1,13)];
+%Qf(13,13) = 1e-6;
+
+r = QuadWindPlant_numerical_12();
+r.windfield = 'flyingsphere';
+r.ellipsoidcenter = [2 0 1];
+xtraj = xtraj.setOutputFrame(r.getStateFrame);
+utraj = utraj.setOutputFrame(r.getInputFrame);
+
 disp('Computing stabilizing controller with TVLQR...');
 ltvsys = tvlqr(r,xtraj,utraj,Q,R,Qf);
 
 
 % Optional: CREATE SIMULATION PLANT
 
-r2 = QuadWindPlant();
-r2 = r2.setOutputFrame(r.getOutputFrame);
-r2 = r2.setInputFrame(r.getInputFrame);
+%r2 = QuadWindPlant();
+%r2 = r2.setOutputFrame(r.getOutputFrame);
+%r2 = r2.setInputFrame(r.getInputFrame);
 
 % CREATE FEEDBACK CONTROLLER
 
@@ -158,6 +167,9 @@ disp('done!');
 % Simulate the result
 tic;
 disp('Simulating the system...');
+x0 = Point(getStateFrame(r));  % initial conditions: all-zeros
+x0.z = 1.01; % lift the quad off the ground
+x0.x = -1.0;
 xtraj_sim = simulate(sys,[0 tf],x0);
 toc;
 disp('done!');
