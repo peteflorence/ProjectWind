@@ -4,7 +4,7 @@ function [df] = dynamicsGradientsEllipsicalHypertan_5_closer(a1, a2, a3, a4, ord
 % See <a href="matlab: help generateGradients">generateGradients</a>. 
 
 % Check inputs:
-typecheck(a1,'QuadWindPlant');
+%typecheck(a1,'QuadWindPlant');
 if (nargin<4) order=1; end
 if (order<1) error(' order must be >= 1'); end
 sizecheck(a1,[1  1]);
