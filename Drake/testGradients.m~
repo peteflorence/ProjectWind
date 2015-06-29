@@ -12,8 +12,7 @@ for i=1:n
     error('dynamics when computing gradients don''t match!');
   end
   max(max(abs(df1-df2)))
-  display(df1)
-  display(df2)
+  display
   if any(any(abs(df1-df2)>1e-2))
     error('gradients don''t match!');
   end
