@@ -9,10 +9,14 @@ classdef QuadWindPlant_numerical < DrakeSystem
   methods
     function obj = QuadWindPlant_numerical()
       
-      obj = obj@DrakeSystem(13,0,4,13,false,1);
+      obj = obj@DrakeSystem(13,0,7,13,false,1);
       
       obj = setStateFrame(obj,CoordinateFrame('QuadState',13,'x',{'x','y','z','roll','pitch','yaw','xdot','ydot','zdot','rolldot','pitchdot','yawdot','mytime'}));
       obj = obj.setOutputFrame(obj.getStateFrame);
+      obj.pdK = [0 obj.PITCH_KP obj.YAW_KP 0 obj.PITCH_RATE_KP obj.YAW_RATE_KP;
+                 obj.ROLL_KP 0 -obj.YAW_KP obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP;
+                 0 -obj.PITCH_KP obj.YAW_KP 0 -obj.PITCH_RATE_KP obj.YAW_RATE_KP;
+                 -obj.ROLL_KP 0 -obj.YAW_KP -obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP];
       
     end
     
@@ -36,16 +40,35 @@ classdef QuadWindPlant_numerical < DrakeSystem
     
     
     
-    function [xdot,df] = dynamics(obj,t,x,u)
+    function [xdot,dxdot] = dynamics(obj,t,x,u)
       
+      [pqr,dpqr] = rpydot2angularvel(x(4:6),x(10:12));
+      [R,dR] = rpy2rotmat(x(4:6));
+      dR = [dR,zeros(9,3)];      
+      dR = blockwiseTranspose(reshape(full(dR),3,[]),[3,3]);
+      
+      pqr = R'*pqr;
+      dpqr = -R'*reshape(dR*pqr,3,[]) + R'*dpqr;
+      dpqr = [zeros(3,4) dpqr(:,1:3) zeros(3) dpqr(:,4:6) zeros(3,7)];
+      
+      err = [x(4:6);pqr]-u(1:6);
+      derr = [zeros(3,4),eye(3),zeros(3,13);dpqr]-[zeros(6,13),eye(6),zeros(6,1)];
+      motorcommands = obj.pdK*err + sqrt(u(7))*10000.0;
+      dmotorcommands = obj.pdK*derr + [zeros(4,19),repmat(10000.0/(2*sqrt(u(7))),4,1)];
+       
+      omegasqu = ((motorcommands)/10000.0).^2;
+      domegasqu = 2*repmat(motorcommands/10000.0,1,20).*dmotorcommands/10000.0;
+ 
       options = struct();
       options.grad_method = 'numerical';
       
-      tempfunc = @(t, x, u) obj.dynamics_no_grad(t, x, u);
+      tempfunc = @(t, x, u) obj.dynamics_no_grad(t, x, omegasqu);
       
-      [xdot, df] = geval(tempfunc, t, x, u, options);
+      [xdot, dxdot] = geval(tempfunc, t, x, omegasqu, options);
       
-       
+      domegasqu = [domegasqu(:, 1:13) zeros(4,1) domegasqu(:,14:20)];
+      dxdot = [dxdot(:,1:14),zeros(13,7)] + dxdot(:,15:18)*domegasqu;
+ 
     end
     
     
@@ -462,6 +485,14 @@ classdef QuadWindPlant_numerical < DrakeSystem
     
     ellipsoidcenter = [0 0 0];
     tstep = 0.01;
+    
+    pdK;
+    ROLL_KP = 3.5*180/pi;
+    PITCH_KP = 3.5*180/pi;
+    YAW_KP = 3.5*180/pi;
+    ROLL_RATE_KP = 70*180/pi;
+    PITCH_RATE_KP = 70*180/pi; 
+    YAW_RATE_KP = 50*180/pi;
   end
   
 end

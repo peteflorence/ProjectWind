@@ -28,7 +28,7 @@ prog = prog.addStateConstraint(ConstantConstraint(double(x0)),1); % DirectTrajec
 [ground,world,Ncell] = createGroundBoundary(r,N);
 prog = prog.addStateConstraint(BoundingBoxConstraint(double(ground),double(world)),Ncell);
 
-u0 = double(nominalThrust(r));
+u0 = [0 0 0 0 0 0 16.5050]';
 prog = prog.addInputConstraint(ConstantConstraint(u0),1); % DirectTrajectoryOptimization method
 
 xf = x0;                       % final conditions: translated in x
@@ -135,6 +135,8 @@ Qf = [   14.5445   -0.0000   -0.0000    0.0000   10.1595   -0.0000    5.5772   -
 r = QuadWindPlant_numerical_12();
 r.windfield = 'flyingsphere';
 r.ellipsoidcenter = [2 0 1];
+xtraj
+utraj
 xtraj = xtraj.setOutputFrame(r.getStateFrame);
 utraj = utraj.setOutputFrame(r.getInputFrame);
 
@@ -198,7 +200,7 @@ end
 
 function [g,dg] = cost(dt,x,u)
 
-R = eye(4);
+R = eye(7);
 g = u'*R*u;
 dg = [zeros(1,1+size(x,1)),2*u'*R];
 
