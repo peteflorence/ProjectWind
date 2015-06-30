@@ -20,7 +20,7 @@ classdef CrazyflieWindModel < DrakeSystem
       obj = obj@DrakeSystem(13,0,7,13,false,1);
       options.floating = true;
       obj.manip = RigidBodyManipulator('crazyflie.urdf',options);
-      obj.nominal_thrust = .25*norm(0.5*obj.manip.gravity)/0.0245;
+      obj.nominal_thrust = .25*norm(0.5*obj.manip.gravity);
       obj.pdK = [0 obj.PITCH_KP obj.YAW_KP 0 obj.PITCH_RATE_KP obj.YAW_RATE_KP;
                  obj.ROLL_KP 0 -obj.YAW_KP obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP;
                  0 -obj.PITCH_KP obj.YAW_KP 0 -obj.PITCH_RATE_KP obj.YAW_RATE_KP;
