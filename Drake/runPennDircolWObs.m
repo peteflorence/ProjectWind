@@ -32,7 +32,7 @@ end
 
 v.draw(0,double(x0));
 prog = addPlanVisualizer(r,prog);
-u0 = double(nominalThrust(r));
+u0 = double(nominalThrust(r))
 prog = prog.addStateConstraint(ConstantConstraint(double(x0)),1); % DirectTrajectoryOptimization method
 [ground,world,Ncell] = createGroundBoundary(r,N);
 prog = prog.addStateConstraint(BoundingBoxConstraint(double(ground),double(world)),Ncell);

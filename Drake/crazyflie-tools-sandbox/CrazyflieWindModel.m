@@ -20,7 +20,7 @@ classdef CrazyflieWindModel < DrakeSystem
       obj = obj@DrakeSystem(13,0,7,13,false,1);
       options.floating = true;
       obj.manip = RigidBodyManipulator('crazyflie.urdf',options);
-      obj.nominal_thrust = .25*norm(getMass(obj.manip)*obj.manip.gravity)/obj.manip.force{1}.scale_factor_thrust;
+      obj.nominal_thrust = .25*norm(0.5*obj.manip.gravity)/0.0245;
       obj.pdK = [0 obj.PITCH_KP obj.YAW_KP 0 obj.PITCH_RATE_KP obj.YAW_RATE_KP;
                  obj.ROLL_KP 0 -obj.YAW_KP obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP;
                  0 -obj.PITCH_KP obj.YAW_KP 0 -obj.PITCH_RATE_KP obj.YAW_RATE_KP;
@@ -92,11 +92,11 @@ classdef CrazyflieWindModel < DrakeSystem
       
       
       % Parameters
-      m = getMass(obj.manip);
-      I = obj.manip.body(2).inertia;
-      invI = inv(I);
+      m = .5;        
+      I = diag([0.0023,0.0023,0.004]);
+      invI = diag(1./[0.0023,0.0023,0.004]);
       g = 9.81;
-      L = 0.046; % this is hard coded to match crazyflie.urdf model
+      L = 0.1750;
       
       % states
       phi = x(4);
@@ -114,15 +114,15 @@ classdef CrazyflieWindModel < DrakeSystem
       
       % Rotation matrix from body to world frames
       R = rpy2rotmat([phi;theta;psi]);
-      
-      kf = obj.manip.force{1}.scale_factor_thrust;
+          
+      kf = 1; % 6.11*10^-8;
       
       F1 = kf*w1;
       F2 = kf*w2;
       F3 = kf*w3;
       F4 = kf*w4;
       
-      km = -obj.manip.force{1}.scale_factor_moment;
+      km = 0.0245;
       
       M1 = km*w1;
       M2 = km*w2;

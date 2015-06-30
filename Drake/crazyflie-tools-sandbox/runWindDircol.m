@@ -35,11 +35,11 @@ upperxf = x0;
 lowerxf = x0;
 
 % % Don't move
-upperxf.x = x0.x;                 
+upperxf.x = x0.x + 1;                 
 upperxf.z = x0.z;            
 upperxf.mytime = maximum_duration;
 
-lowerxf.x = x0.x;                 
+lowerxf.x = x0.x + 1;                 
 lowerxf.z = x0.z;           
 lowerxf.mytime = minimum_duration;
 
