@@ -49,7 +49,7 @@ classdef CrazyflieModel < DrakeSystem
        
       omegasqu = ((motorcommands)/10000.0).^2;
       domegasqu = 2*repmat(motorcommands/10000.0,1,20).*dmotorcommands/10000.0;
-      [xdot,dxdot] = obj.manip.dynamics(t,x,omegasqu); % JUST CALL MY DYNAMICS HERE?
+      [xdot,dxdot] = obj.manip.dynamics(t,x,omegasqu);
       dxdot = [dxdot(:,1:13),zeros(12,7)] + dxdot(:,14:17)*domegasqu;
     end
     

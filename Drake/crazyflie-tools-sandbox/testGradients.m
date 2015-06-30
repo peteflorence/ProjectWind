@@ -1,9 +1,9 @@
 
 n = 10;
 
-model = QuadWindPlant();
+model = CrazyflieWindModel();
 xs = rand(13,n);
-us = rand(4,n);
+us = rand(7,n);
 
 for i=1:n
   [f1,df1]=geval(1,@(t,x,u)dynamics(model,t,x,u),0,xs(:,i),us(:,i),struct('grad_method','user'));
