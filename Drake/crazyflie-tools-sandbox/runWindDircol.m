@@ -27,7 +27,7 @@ prog = prog.addStateConstraint(ConstantConstraint(double(x0)),1); % DirectTrajec
 [ground,world,Ncell] = createGroundBoundary(r,N);
 prog = prog.addStateConstraint(BoundingBoxConstraint(double(ground),double(world)),Ncell);
 
-u0 = [0 0 0 0 0 0 r.nominal_thrust]';
+u0 = [0 0 0 0 0 0 r.nominal_thrust/20]';
 prog = prog.addInputConstraint(ConstantConstraint(u0),1); % DirectTrajectoryOptimization method
 
 xf = x0;                       % final conditions: translated in x
@@ -58,7 +58,7 @@ lowerxf.mytime = minimum_duration;
 
 
 prog = prog.addStateConstraint(BoundingBoxConstraint(double(lowerxf),double(upperxf)),N);
-prog = prog.addInputConstraint(ConstantConstraint(u0),N);
+%prog = prog.addInputConstraint(ConstantConstraint(u0),N);
 prog = prog.addRunningCost(@cost);
 prog = prog.addFinalCost(@finalCost);
 
@@ -75,8 +75,8 @@ while (info~=1)
 end
 
 if (nargout<1)
-  v = constructVisualizer(cf.manip);
-  xtraj = xtraj.setOutputFrame(cf.manip.getStateFrame);      
+  xtraj = xtraj(1:12)
+  xtraj = xtraj.setOutputFrame(r.manip.getStateFrame);      
   v.playback(xtraj,struct('slider',true));
 end
 
