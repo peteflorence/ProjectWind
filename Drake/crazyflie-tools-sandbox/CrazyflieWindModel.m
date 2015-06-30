@@ -94,9 +94,9 @@ classdef CrazyflieWindModel < DrakeSystem
       % Parameters
       m = getMass(obj.manip);
       I = obj.manip.body(2).inertia;
-      invI = diag(1./[0.0023,0.0023,0.004]);
+      invI = inv(I);
       g = 9.81;
-      L = 0.1750;
+      L = 0.046; % this is hard coded to match crazyflie.urdf model
       
       % states
       phi = x(4);
@@ -115,25 +115,21 @@ classdef CrazyflieWindModel < DrakeSystem
       % Rotation matrix from body to world frames
       R = rpy2rotmat([phi;theta;psi]);
       
-      kf = 1; % 6.11*10^-8;
+      kf = obj.manip.force{1}.scale_factor_thrust;
       
       F1 = kf*w1;
       F2 = kf*w2;
       F3 = kf*w3;
       F4 = kf*w4;
       
-      km = 0.0245;
+      km = -obj.manip.force{1}.scale_factor_moment;
       
       M1 = km*w1;
       M2 = km*w2;
       M3 = km*w3;
       M4 = km*w4;
       
-      xquad = x(1);
-      yquad = x(2);
-      zquad = x(3);
-      quadpos = [xquad;yquad;zquad];
-      
+      quadpos = [x(1);x(2);x(3)];
       
       windout = obj.quadwind(quadpos,x(13),1); % pass mytime to quadwind. % last arument is plot option
       
@@ -201,6 +197,9 @@ classdef CrazyflieWindModel < DrakeSystem
         xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2;
       end     
       wind = [xwind;ywind;zwind];
+      
+      wind = [0;0;0];
+      
     end
     
     function traj_opt = addPlanVisualizer(obj,traj_opt)
