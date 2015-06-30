@@ -1,4 +1,4 @@
-classdef QuadWindPlant_numerical < DrakeSystem
+classdef QuadWindPlant_numerical_12 < DrakeSystem
   
   % Modified from D. Mellinger, N. Michael, and V. Kumar,
   % "Trajectory generation and control for precise aggressive maneuvers with quadrotors",
@@ -7,16 +7,12 @@ classdef QuadWindPlant_numerical < DrakeSystem
   % Adapted by Pete Florence, 2015 to handle simple vortex rings
   
   methods
-    function obj = QuadWindPlant_numerical()
+    function obj = QuadWindPlant_numerical_12()
       
-      obj = obj@DrakeSystem(13,0,7,13,false,1);
+      obj = obj@DrakeSystem(12,0,7,12,false,1);
       
-      obj = setStateFrame(obj,CoordinateFrame('QuadState',13,'x',{'x','y','z','roll','pitch','yaw','xdot','ydot','zdot','rolldot','pitchdot','yawdot','mytime'}));
+      obj = setStateFrame(obj,CoordinateFrame('QuadState',12,'x',{'x','y','z','roll','pitch','yaw','xdot','ydot','zdot','rolldot','pitchdot','yawdot'}));
       obj = obj.setOutputFrame(obj.getStateFrame);
-      obj.pdK = [0 obj.PITCH_KP obj.YAW_KP 0 obj.PITCH_RATE_KP obj.YAW_RATE_KP;
-                 obj.ROLL_KP 0 -obj.YAW_KP obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP;
-                 0 -obj.PITCH_KP obj.YAW_KP 0 -obj.PITCH_RATE_KP obj.YAW_RATE_KP;
-                 -obj.ROLL_KP 0 -obj.YAW_KP -obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP];
       
     end
     
@@ -42,6 +38,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
     
     function [xdot,dxdot] = dynamics(obj,t,x,u)
       
+  
       [pqr,dpqr] = rpydot2angularvel(x(4:6),x(10:12));
       [R,dR] = rpy2rotmat(x(4:6));
       dR = [dR,zeros(9,3)];      
@@ -57,7 +54,6 @@ classdef QuadWindPlant_numerical < DrakeSystem
       dmotorcommands = obj.pdK*derr + [zeros(4,19),repmat(10000.0/(2*sqrt(u(7))),4,1)];
        
       omegasqu = ((motorcommands)/10000.0).^2;
-      size(omegasqu)
       domegasqu = 2*repmat(motorcommands/10000.0,1,20).*dmotorcommands/10000.0;
  
       options = struct();
@@ -66,9 +62,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
       tempfunc = @(t, x, u) obj.dynamics_no_grad(t, x, omegasqu);
       
       [xdot, dxdot] = geval(tempfunc, t, x, omegasqu, options);
-      
-      domegasqu = [domegasqu(:, 1:13) zeros(4,1) domegasqu(:,14:20)];
-      dxdot = [dxdot(:,1:14),zeros(13,7)] + dxdot(:,15:18)*domegasqu;
+      dxdot = [dxdot(:,1:13),zeros(12,7)] + dxdot(:,14:17)*domegasqu;
       
        
     end
@@ -144,7 +138,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
       
       
       
-      windout = obj.quadwind(quadpos,x(13),1); % pass mytime to quadwind. % last arument is plot option
+      windout = obj.quadwind(quadpos,t,1); % pass mytime to quadwind. % last arument is plot option
       
       
       
@@ -184,11 +178,11 @@ classdef QuadWindPlant_numerical < DrakeSystem
       
       qdd = [xyz_ddot;rpy_ddot];
       qd = x(7:12);
-      xdot = [qd;qdd;1]; % the 1 at the end is for mytime
+      xdot = [qd;qdd]; % the 1 at the end is for mytime
       
     end
     
-    function wind = quadwind(obj,quadpos,mytime,plotme)
+    function wind = quadwind(obj,quadpos,t,plotme)
       
       xquad = quadpos(1);
       yquad = quadpos(2);
@@ -214,7 +208,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
       if strcmp(windfield, 'flyingellipsoid')
         V_0 = 3.5; % m/s guess
         c = 0.1; % guess
-        V = V_0 / (1 + V_0 * c * mytime);
+        V = V_0 / (1 + V_0 * c * t);
         
         obj.ellipsoidcenter = obj.ellipsoidcenter - [V*obj.tstep 0 0];
         xcenter = obj.ellipsoidcenter(1);
@@ -236,10 +230,10 @@ classdef QuadWindPlant_numerical < DrakeSystem
       if strcmp(windfield, 'flyingspherelogic')
         V_0 = 3.5; % m/s guess
         c = 0.1; % guess
-        V = V_0 / (1 + V_0 * c * mytime);
+        V = V_0 / (1 + V_0 * c * t);
         
         obj.ellipsoidcenter = [3 0 1];
-        obj.ellipsoidcenter = obj.ellipsoidcenter - [V*mytime 0 0];
+        obj.ellipsoidcenter = obj.ellipsoidcenter - [V*t 0 0];
         xcenter = obj.ellipsoidcenter(1);
         ycenter = obj.ellipsoidcenter(2);
         zcenter = obj.ellipsoidcenter(3);
@@ -287,10 +281,10 @@ classdef QuadWindPlant_numerical < DrakeSystem
       if strcmp(windfield, 'flyingsphere')
         V_0 = 3.5; % m/s guess
         c = 0.1; % guess
-        V = V_0 / (1 + V_0 * c * mytime);
+        V = V_0 / (1 + V_0 * c * t);
         
         obj.ellipsoidcenter = [2 0 1];
-        obj.ellipsoidcenter = obj.ellipsoidcenter - [V*mytime 0 0];
+        obj.ellipsoidcenter = obj.ellipsoidcenter - [V*t 0 0];
         xcenter = obj.ellipsoidcenter(1);
         ycenter = obj.ellipsoidcenter(2);
         zcenter = obj.ellipsoidcenter(3);
@@ -341,9 +335,9 @@ classdef QuadWindPlant_numerical < DrakeSystem
       elseif strcmp(windfield, 'difftailhead')
         ywind = 0;
       elseif strcmp(windfield, 'tvsin')
-        ywind = -10*sin(10*mytime);
+        ywind = -10*sin(10*t);
       elseif strcmp(windfield, 'tlinear')
-        ywind = -5 - mytime;
+        ywind = -5 - t;
       else
         %disp('Please specify which kind of wind field!')
       end
@@ -353,7 +347,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
       wind = [xwind;ywind;zwind];
       
       
-      dquadinwind = sparse(13,18);
+      dquadinwind = sparse(12,17);
       
       %       if strcmp(windfield, 'zero')
       %         ;
@@ -374,7 +368,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
       %       elseif strcmp(windfield, 'difftailhead')
       %         dquadinwind(7,3) = 10*cos(yquad)/obj.m;
       %       elseif strcmp(windfield, 'tvsin')
-      %         dquadinwind(8,1) = -10*cos(10*mytime)/obj.m;
+      %         dquadinwind(8,1) = -10*cos(10*t)/obj.m;
       %       elseif strcmp(windfield, 'tlinear')
       %         dquadinwind(8,1) = -1/obj.m;
       %         %else
@@ -435,7 +429,39 @@ classdef QuadWindPlant_numerical < DrakeSystem
     end
     
     function x = getInitialState(obj)
-      x = zeros(13,1);
+      x = zeros(12,1);
+    end
+    
+    function obj = addTrees(obj,number_of_obstacles)
+      % Adds a random forest of trees
+      if nargin<2, number_of_obstacles = 5*(randi(5)+2); end
+      for i=1:number_of_obstacles
+        % Populates an area of the forest
+        xy = [20,0;0,12]*(rand(2,1) - [0.5;0]);
+        % Creates a clear path through the middle of the forest
+        while(norm(xy)<1 || (xy(1,1)<=1.5 && xy(1,1)>=-1.5)), xy = randn(2,1); end
+        height = 1+rand;
+        width_param = rand(1,2);
+        yaw = randn;
+        obj = obj.addTree([width_param height],xy,yaw);
+      end
+      obj = compile(obj);
+    end
+    
+    function obj = addTree(obj, lwh, xy, yaw)
+      % Adds a single tree with specified length width height, xy
+      % location, and yaw orientation.
+      height = lwh(1,3);
+      width_param = lwh(1,1:2);
+      treeTrunk = RigidBodyBox([.2+.8*width_param height],...
+        [xy;height/2],[0;0;yaw]);
+      treeTrunk.c = [83,53,10]/255;  % brown
+      obj = addGeometryToBody(obj,'world',treeTrunk);
+      treeLeaves = RigidBodyBox(1.5*[.2+.8*width_param height/4],...
+        [xy;height + height/8],[0;0;yaw]);
+      treeLeaves.c = [0,0.7,0];  % green
+      obj = addGeometryToBody(obj,'world',treeLeaves);
+      obj = compile(obj);
     end
     
     function traj_opt = addPlanVisualizer(obj,traj_opt)
@@ -467,7 +493,9 @@ classdef QuadWindPlant_numerical < DrakeSystem
 
         
       end
-
+      
+      
+      
     end
 
   end
@@ -487,14 +515,6 @@ classdef QuadWindPlant_numerical < DrakeSystem
     
     ellipsoidcenter = [0 0 0];
     tstep = 0.01;
-    
-    pdK;
-    ROLL_KP = 3.5*180/pi;
-    PITCH_KP = 3.5*180/pi;
-    YAW_KP = 3.5*180/pi;
-    ROLL_RATE_KP = 70*180/pi;
-    PITCH_RATE_KP = 70*180/pi; 
-    YAW_RATE_KP = 50*180/pi;
   end
   
 end
