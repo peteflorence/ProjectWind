@@ -9,14 +9,10 @@ classdef QuadWindPlant_numerical < DrakeSystem
   methods
     function obj = QuadWindPlant_numerical()
       
-      obj = obj@DrakeSystem(13,0,7,13,false,1);
+      obj = obj@DrakeSystem(13,0,4,13,false,1);
       
       obj = setStateFrame(obj,CoordinateFrame('QuadState',13,'x',{'x','y','z','roll','pitch','yaw','xdot','ydot','zdot','rolldot','pitchdot','yawdot','mytime'}));
       obj = obj.setOutputFrame(obj.getStateFrame);
-      obj.pdK = [0 obj.PITCH_KP obj.YAW_KP 0 obj.PITCH_RATE_KP obj.YAW_RATE_KP;
-                 obj.ROLL_KP 0 -obj.YAW_KP obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP;
-                 0 -obj.PITCH_KP obj.YAW_KP 0 -obj.PITCH_RATE_KP obj.YAW_RATE_KP;
-                 -obj.ROLL_KP 0 -obj.YAW_KP -obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP];
       
     end
     
@@ -40,35 +36,16 @@ classdef QuadWindPlant_numerical < DrakeSystem
     
     
     
-    function [xdot,dxdot] = dynamics(obj,t,x,u)
+    function [xdot,df] = dynamics(obj,t,x,u)
       
-      [pqr,dpqr] = rpydot2angularvel(x(4:6),x(10:12));
-      [R,dR] = rpy2rotmat(x(4:6));
-      dR = [dR,zeros(9,3)];      
-      dR = blockwiseTranspose(reshape(full(dR),3,[]),[3,3]);
-      
-      pqr = R'*pqr;
-      dpqr = -R'*reshape(dR*pqr,3,[]) + R'*dpqr;
-      dpqr = [zeros(3,4) dpqr(:,1:3) zeros(3) dpqr(:,4:6) zeros(3,7)];
-      
-      err = [x(4:6);pqr]-u(1:6);
-      derr = [zeros(3,4),eye(3),zeros(3,13);dpqr]-[zeros(6,13),eye(6),zeros(6,1)];
-      motorcommands = obj.pdK*err + sqrt(u(7))*10000.0;
-      dmotorcommands = obj.pdK*derr + [zeros(4,19),repmat(10000.0/(2*sqrt(u(7))),4,1)];
-       
-      omegasqu = ((motorcommands)/10000.0).^2;
-      domegasqu = 2*repmat(motorcommands/10000.0,1,20).*dmotorcommands/10000.0;
- 
       options = struct();
       options.grad_method = 'numerical';
       
-      tempfunc = @(t, x, u) obj.dynamics_no_grad(t, x, omegasqu);
+      tempfunc = @(t, x, u) obj.dynamics_no_grad(t, x, u);
       
-      [xdot, dxdot] = geval(tempfunc, t, x, omegasqu, options);
+      [xdot, df] = geval(tempfunc, t, x, u, options);
       
-      domegasqu = [domegasqu(:, 1:13) zeros(4,1) domegasqu(:,14:20)];
-      dxdot = [dxdot(:,1:14),zeros(13,7)] + dxdot(:,15:18)*domegasqu;
- 
+       
     end
     
     
@@ -436,6 +413,38 @@ classdef QuadWindPlant_numerical < DrakeSystem
       x = zeros(13,1);
     end
     
+    function obj = addTrees(obj,number_of_obstacles)
+      % Adds a random forest of trees
+      if nargin<2, number_of_obstacles = 5*(randi(5)+2); end
+      for i=1:number_of_obstacles
+        % Populates an area of the forest
+        xy = [20,0;0,12]*(rand(2,1) - [0.5;0]);
+        % Creates a clear path through the middle of the forest
+        while(norm(xy)<1 || (xy(1,1)<=1.5 && xy(1,1)>=-1.5)), xy = randn(2,1); end
+        height = 1+rand;
+        width_param = rand(1,2);
+        yaw = randn;
+        obj = obj.addTree([width_param height],xy,yaw);
+      end
+      obj = compile(obj);
+    end
+    
+    function obj = addTree(obj, lwh, xy, yaw)
+      % Adds a single tree with specified length width height, xy
+      % location, and yaw orientation.
+      height = lwh(1,3);
+      width_param = lwh(1,1:2);
+      treeTrunk = RigidBodyBox([.2+.8*width_param height],...
+        [xy;height/2],[0;0;yaw]);
+      treeTrunk.c = [83,53,10]/255;  % brown
+      obj = addGeometryToBody(obj,'world',treeTrunk);
+      treeLeaves = RigidBodyBox(1.5*[.2+.8*width_param height/4],...
+        [xy;height + height/8],[0;0;yaw]);
+      treeLeaves.c = [0,0.7,0];  % green
+      obj = addGeometryToBody(obj,'world',treeLeaves);
+      obj = compile(obj);
+    end
+    
     function traj_opt = addPlanVisualizer(obj,traj_opt)
       % spew out an lcmgl visualization of the trajectory.  intended to be
       % used as a callback (fake objective) in the direct trajectory
@@ -465,7 +474,9 @@ classdef QuadWindPlant_numerical < DrakeSystem
 
         
       end
-
+      
+      
+      
     end
 
   end
@@ -485,17 +496,6 @@ classdef QuadWindPlant_numerical < DrakeSystem
     
     ellipsoidcenter = [0 0 0];
     tstep = 0.01;
-    
-    pdK;
-    ROLL_KP = 3.5*180/pi;
-    PITCH_KP = 3.5*180/pi;
-    YAW_KP = 3.5*180/pi;
-    ROLL_RATE_KP = 70*180/pi;
-    PITCH_RATE_KP = 70*180/pi; 
-    YAW_RATE_KP = 50*180/pi;
   end
   
 end
-
-
-

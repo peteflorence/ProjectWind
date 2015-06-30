@@ -53,6 +53,11 @@ classdef CrazyflieModel < DrakeSystem
       dxdot = [dxdot(:,1:13),zeros(12,7)] + dxdot(:,14:17)*domegasqu;
     end
     
+    
+    
+    
+    
+    
     function y = output(obj,t,x,u)
       y = x;
     end
