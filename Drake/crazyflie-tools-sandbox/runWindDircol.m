@@ -75,7 +75,7 @@ while (info~=1)
 end
 
 if (nargout<1)
-  xtraj = xtraj(1:12)
+  xtraj = xtraj(1:12);
   xtraj = xtraj.setOutputFrame(r.manip.getStateFrame);      
   v.playback(xtraj,struct('slider',true));
 end
