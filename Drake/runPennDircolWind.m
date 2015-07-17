@@ -3,7 +3,7 @@ function [utraj,xtraj,prog,r] = runPennDircolWind
 r_temp = Quadrotor();
 %r_temp = addOcean(r_temp, [.8,.45,1.25], [.20;2.5], pi/4);
 v = WindVisualizer(r_temp);
-r = QuadWindPlant_numerical(); % Quadrotor constructor
+r = QuadWindPlant(); % Quadrotor constructor
 r.windfield = 'flyingsphere';
 r.ellipsoidcenter = [2 0 1];
 
@@ -12,14 +12,14 @@ r.ellipsoidcenter = [2 0 1];
 disp('using quad plant in wind based on penn plant!')
 
 N = 21;
-minimum_duration = 3;
-maximum_duration = 6;
+minimum_duration = 2;
+maximum_duration = 3;
 prog = DircolTrajectoryOptimization(r,N,[minimum_duration maximum_duration]);
 x0 = Point(getStateFrame(r));  % initial conditions: all-zeros
 
-x0.z = 1.01; % lift the quad off the ground
-x0.x = -1.0;
-%!echo "0" > abort.txt
+x0.z = 1.0; % lift the quad off the ground
+
+!echo "0" > abort.txt
 prog = addPlanVisualizer(r,prog);
 
 v.draw(0,double(x0));
@@ -48,12 +48,12 @@ lowerxf.mytime = minimum_duration;
 
 
 % % Actually move
-% upperxf.x = 3;                 % translate x
+% upperxf.x = 5;                 % translate x
 % upperxf.z = 1;                 % translate z
 % upperxf.y = 0;                 % translate x
 % upperxf.mytime = maximum_duration;
 % 
-% lowerxf.x = 3;                 % translate x
+% lowerxf.x = 5;                 % translate x
 % lowerxf.z = 1;                 % translate z
 % lowerxf.y = 0;                 % translate x
 % lowerxf.mytime = minimum_duration;
@@ -81,74 +81,20 @@ end
 % CREATE TVLQR CONTROLLER
 
 tic;
-
-
 x0 = xtraj.eval(0);
 tf = utraj.tspan(2);
 % Q = 10*eye(13);
-Q = 10 * [eye(3) zeros(3,9) ; zeros(9,3) zeros(9)];
+Q = 10 * [eye(3) zeros(3,10) ; zeros(10,3) zeros(10)];
 R = eye(4);
-xtraj = xtraj(1:12);
-
-%Qf = 10*eye(13);
-
-% % The following 12 x 12 S matrix was produced from the QuadPlantPenn via:
-% x0 = Point(getStateFrame(r));
-% x0.z = 1.01; % lift the quad off the ground
-% x0.x = -1.0;
-% upperxf = x0;
-% upperxf.x = 3;                 % translate x
-% upperxf.z = 1;                 % translate z
-% upperxf.y = 0;                 % translate x
-% [one, two] = tilqr(r,upperxf,double(nominalThrust(r)),10*eye(12),eye(4));
-% two.S;
-
-%    14.5445   -0.0000   -0.0000    0.0000   10.1595   -0.0000    5.5772   -0.0000   -0.0000    0.0000    0.0294   -0.0000
-%    -0.0000   14.5445    0.0000  -10.1595   -0.0000   -0.0000    0.0000    5.5772    0.0000   -0.0294   -0.0000   -0.0000
-%    -0.0000    0.0000   10.7616   -0.0000   -0.0000   -0.0000   -0.0000    0.0000    0.7906   -0.0000   -0.0000   -0.0000
-%     0.0000  -10.1595   -0.0000   55.1653    0.0000    0.0000    0.0000  -14.7471   -0.0000    0.1608    0.0000    0.0000
-%    10.1595   -0.0000   -0.0000    0.0000   55.1653   -0.0000   14.7471   -0.0000    0.0000    0.0000    0.1608   -0.0000
-%    -0.0000   -0.0000   -0.0000    0.0000   -0.0000   10.2549   -0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.2581
-%     5.5772    0.0000   -0.0000    0.0000   14.7471   -0.0000    7.0761   -0.0000    0.0000    0.0000    0.0427   -0.0000
-%    -0.0000    5.5772    0.0000  -14.7471   -0.0000   -0.0000   -0.0000    7.0761   -0.0000   -0.0427   -0.0000   -0.0000
-%    -0.0000    0.0000    0.7906   -0.0000    0.0000   -0.0000    0.0000   -0.0000    0.8508   -0.0000    0.0000    0.0000
-%     0.0000   -0.0294   -0.0000    0.1608    0.0000    0.0000    0.0000   -0.0427   -0.0000    0.0299    0.0000   -0.0000
-%     0.0294   -0.0000   -0.0000    0.0000    0.1608   -0.0000    0.0427   -0.0000    0.0000    0.0000    0.0299   -0.0000
-%    -0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.2581   -0.0000   -0.0000    0.0000   -0.0000   -0.0000    0.2647
-
-Qf = [   14.5445   -0.0000   -0.0000    0.0000   10.1595   -0.0000    5.5772   -0.0000   -0.0000    0.0000    0.0294   -0.0000;
-   -0.0000   14.5445    0.0000  -10.1595   -0.0000   -0.0000    0.0000    5.5772    0.0000   -0.0294   -0.0000   -0.0000;
-   -0.0000    0.0000   10.7616   -0.0000   -0.0000   -0.0000   -0.0000    0.0000    0.7906   -0.0000   -0.0000   -0.0000;
-    0.0000  -10.1595   -0.0000   55.1653    0.0000    0.0000    0.0000  -14.7471   -0.0000    0.1608    0.0000    0.0000;
-   10.1595   -0.0000   -0.0000    0.0000   55.1653   -0.0000   14.7471   -0.0000    0.0000    0.0000    0.1608   -0.0000;
-   -0.0000   -0.0000   -0.0000    0.0000   -0.0000   10.2549   -0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.2581;
-    5.5772    0.0000   -0.0000    0.0000   14.7471   -0.0000    7.0761   -0.0000    0.0000    0.0000    0.0427   -0.0000;
-   -0.0000    5.5772    0.0000  -14.7471   -0.0000   -0.0000   -0.0000    7.0761   -0.0000   -0.0427   -0.0000   -0.0000;
-   -0.0000    0.0000    0.7906   -0.0000    0.0000   -0.0000    0.0000   -0.0000    0.8508   -0.0000    0.0000    0.0000;
-    0.0000   -0.0294   -0.0000    0.1608    0.0000    0.0000    0.0000   -0.0427   -0.0000    0.0299    0.0000   -0.0000;
-    0.0294   -0.0000   -0.0000    0.0000    0.1608   -0.0000    0.0427   -0.0000    0.0000    0.0000    0.0299   -0.0000;
-   -0.0000   -0.0000   -0.0000    0.0000   -0.0000    0.2581   -0.0000   -0.0000    0.0000   -0.0000   -0.0000    0.2647];
-
-%Qf = [Qf zeros(12,1) ; zeros(1,13)];
-%Qf(13,13) = 1e-6;
-
-r = QuadWindPlant_numerical_12();
-r.windfield = 'flyingsphere';
-r.ellipsoidcenter = [2 0 1];
-xtraj
-utraj
-xtraj = xtraj.setOutputFrame(r.getStateFrame);
-utraj = utraj.setOutputFrame(r.getInputFrame);
-
+Qf = 10*eye(13);
 disp('Computing stabilizing controller with TVLQR...');
 ltvsys = tvlqr(r,xtraj,utraj,Q,R,Qf);
 
-
 % Optional: CREATE SIMULATION PLANT
 
-%r2 = QuadWindPlant();
-%r2 = r2.setOutputFrame(r.getOutputFrame);
-%r2 = r2.setInputFrame(r.getInputFrame);
+r2 = QuadWindPlant();
+r2 = r2.setOutputFrame(r.getOutputFrame);
+r2 = r2.setInputFrame(r.getInputFrame);
 
 % CREATE FEEDBACK CONTROLLER
 
@@ -169,9 +115,6 @@ disp('done!');
 % Simulate the result
 tic;
 disp('Simulating the system...');
-x0 = Point(getStateFrame(r));  % initial conditions: all-zeros
-x0.z = 1.01; % lift the quad off the ground
-x0.x = -1.0;
 xtraj_sim = simulate(sys,[0 tf],x0);
 toc;
 disp('done!');
@@ -212,6 +155,7 @@ function [h,dh] = finalCost(t,x)
 
 h = t;
 dh = [1,zeros(1,size(x,1))]; % original
+%dh = [1,zeros(1,size(x,1)-1),1]; % is this right?
 
 end
 
@@ -253,6 +197,3 @@ for i = 1:N
 end
 
 end
-
-
-
