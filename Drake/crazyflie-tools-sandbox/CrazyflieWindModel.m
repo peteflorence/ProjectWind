@@ -21,7 +21,7 @@ classdef CrazyflieWindModel < DrakeSystem
       options.floating = true;
       obj.manip = RigidBodyManipulator('crazyflie.urdf',options);
       %obj.nominal_thrust = .25*norm(0.5*obj.manip.gravity);
-      obj.nominal_thrust = .25*norm(getMass(obj.manip)*obj.manip.gravity)/obj.manip.force{1}.scale_factor_thrust;
+      obj.nominal_thrust = .25*norm(getMass(obj.manip)*obj.manip.gravity);%/obj.manip.force{1}.scale_factor_thrust;
       obj.pdK = [0 obj.PITCH_KP obj.YAW_KP 0 obj.PITCH_RATE_KP obj.YAW_RATE_KP;
                  obj.ROLL_KP 0 -obj.YAW_KP obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP;
                  0 -obj.PITCH_KP obj.YAW_KP 0 -obj.PITCH_RATE_KP obj.YAW_RATE_KP;
@@ -97,7 +97,7 @@ classdef CrazyflieWindModel < DrakeSystem
       % I = diag([0.0023,0.0023,0.004]);
       % invI = diag(1./[0.0023,0.0023,0.004]);
       
-      m = getMass(obj.manip);
+      m = getMass(obj.manip) * 10;
       I = obj.manip.body(2).inertia;
       invI = inv(I);
       

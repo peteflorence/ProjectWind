@@ -15,3 +15,18 @@ successfully loaded model
 loading new robot with 2 links
 GLM: Warning: illum material ignored: illum 1
 successfully loaded model
+loading new robot with 2 links
+GLM: Warning: illum material ignored: illum 1
+successfully loaded model
+loading new robot with 2 links
+GLM: Warning: illum material ignored: illum 1
+successfully loaded model
+loading new robot with 2 links
+GLM: Warning: illum material ignored: illum 1
+successfully loaded model
+loading new robot with 2 links
+GLM: Warning: illum material ignored: illum 1
+successfully loaded model
+drake_viewer: Fatal IO error 35 (Resource temporarily unavailable) on X server /private/tmp/com.apple.launchd.EIIfIiMC85/org.macosforge.xquartz:0.
+XIO:  fatal IO error 35 (Resource temporarily unavailable) on X server "/private/tmp/com.apple.launchd.EIIfIiMC85/org.macosforge.xquartz:0"
+      after 19 requests (19 known processed) with 0 events remaining.

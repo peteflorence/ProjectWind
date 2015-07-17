@@ -28,7 +28,7 @@ prog = prog.addStateConstraint(ConstantConstraint(double(x0)),1); % DirectTrajec
 [ground,world,Ncell] = createGroundBoundary(r,N);
 prog = prog.addStateConstraint(BoundingBoxConstraint(double(ground),double(world)),Ncell);
 
-u0 = [0 0 0 0 0 0 16.5050]';
+u0 = double(nominalThrust(r));
 prog = prog.addInputConstraint(ConstantConstraint(u0),1); % DirectTrajectoryOptimization method
 
 xf = x0;                       % final conditions: translated in x
@@ -200,9 +200,11 @@ end
 
 function [g,dg] = cost(dt,x,u)
 
-R = eye(7);
+R = eye(4);
 g = u'*R*u;
+%g = sum((R*u).*u,1);
 dg = [zeros(1,1+size(x,1)),2*u'*R];
+%dg = zeros(1, 1 + size(x,1) + size(u,1));
 
 end
 
