@@ -1,4 +1,4 @@
-function tvWindDraw_FlyingSphere_noLogic(t)
+function tvWindDraw_FlyingSphere_noLogic(t, lcmgl)
 
 ellipsoidcenter = [2 0 1];
 
@@ -15,8 +15,8 @@ sphereRadius = 0.3;
 boundary = 0.1;
 extSphere = sphereRadius + boundary;
 
-lcmgl = drake.util.BotLCMGLClient(lcm.lcm.LCM.getSingleton(), 'Windy');
-lcmgl.glColor3f(0,1,0);
+
+
 
 step = 0.10;
 nomwind = -3.0;
@@ -57,6 +57,7 @@ if strcmp(windfield, 'flyingsphere')
         if abs(xwind) > 0.1
           pos = [xi, yi, zi];
           force = [xwind, ywind, zwind];
+          lcmgl.glColor3f(0,1,0);
           lcmgl.drawVector3d(pos,force/20);
         end
       end

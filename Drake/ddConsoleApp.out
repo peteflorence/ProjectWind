@@ -1,0 +1,1 @@
+2015-07-22 16:35:46.007 ddConsoleApp[10372:836336] *** WARNING: Method userSpaceScaleFactor in class NSView is deprecated on 10.7 and later. It should not be used in new applications. Use convertRectToBacking: instead. 
