@@ -36,33 +36,16 @@ VectorXd quadDynamics(const mxArray* pobj, const MatrixBase<DerivedA> &t)
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
-
-
   const mxArray* pobj = prhs[0];
 
   if (mxIsDouble(prhs[1]) && mxIsDouble(prhs[2]) && mxIsDouble(prhs[3]) ) {
 
     auto t = matlabToEigenMap<1,1>(prhs[1]);
-
-
-
     auto x = matlabToEigenMap<13,1>(prhs[2]);
     auto u = matlabToEigenMap<4,1>(prhs[3]);
 
     VectorXd xdot = quadDynamics(pobj, t);
     plhs[0] = eigenToMatlab(xdot);
-
-
-//    auto qd = matlabToEigenMap<2,1>(prhs[2]);
-//
-//    plhs[0] = mxCreateDoubleMatrix(2,2,mxREAL);
-//    Map<Matrix2d> H(mxGetPr(plhs[0]));
-//    plhs[1] = mxCreateDoubleMatrix(2,1,mxREAL);
-//    Map<Vector2d> C(mxGetPr(plhs[1]),2);
-//    plhs[2] = mxCreateDoubleMatrix(2,1,mxREAL);
-//    Map<Vector2d> B(mxGetPr(plhs[2]),2);
-//
-//    manipulatorDynamics(pobj,q,qd,H,C,B);
   }
 
     return;
