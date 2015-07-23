@@ -22,12 +22,25 @@ using namespace Eigen;
 using namespace std;
 
 
-template <typename DerivedA>
-VectorXd quadDynamics(const mxArray* pobj, const double &t, const MatrixBase<DerivedA> &x, const MatrixBase<DerivedA> &u)
+template <typename DerivedX, typename DerivedU>
+VectorXd quadDynamics(const mxArray* pobj, const double &t, const MatrixBase<DerivedX> &x, const MatrixBase<DerivedU> &u)
 {
   VectorXd xdot(13);
-  xdot << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13;
+  double m  = mxGetScalar(mxGetProperty(pobj,0,"m"));
+  auto I = matlabToEigenMap<3,3>(mxGetProperty(pobj,0,"I"));
+  double g = 9.81;
+  double L = 0.1750;
+
+  double phi = x(3);      // 0-indexing in C
+  double theta = x(4);
+  double psi = x(5);
+
+  xdot << m, I(1,1), I(2,2), phi*10, g, 6, 7, 8, 9, 10, 11, 12, 13;
+
+
   return xdot;
+
+ 
 }
 
 
