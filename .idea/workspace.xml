@@ -17,6 +17,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.mexmaci64" afterPath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.mexmaci64" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simple-image-annotation" afterPath="$PROJECT_DIR$/simple-image-annotation" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp" afterPath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ProjectWind.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,10 +61,11 @@
       <file leaf-file-name="dynamics_no_grad.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.804769">
-              <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
+            <state vertical-scroll-proportion="1.1719198">
+              <caret line="71" column="3" selection-start-line="71" selection-start-column="3" selection-end-line="71" selection-end-column="3" />
               <folding>
-                <element signature="e#644#682#0" expanded="true" />
+                <element signature="e#503#519#0" expanded="true" />
+                <element signature="e#642#680#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -407,12 +409,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///Applications/MATLAB_R2014b.app/extern/include/matrix.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="8.939828">
+          <caret line="575" column="44" selection-start-line="575" selection-start-column="44" selection-end-line="575" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.804769">
-          <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
+        <state vertical-scroll-proportion="1.1719198">
+          <caret line="71" column="3" selection-start-line="71" selection-start-column="3" selection-end-line="71" selection-end-column="3" />
           <folding>
-            <element signature="e#644#682#0" expanded="true" />
+            <element signature="e#503#519#0" expanded="true" />
+            <element signature="e#642#680#0" expanded="true" />
           </folding>
         </state>
       </provider>

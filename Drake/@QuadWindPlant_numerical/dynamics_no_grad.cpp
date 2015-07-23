@@ -3,7 +3,7 @@
  *
  * This file shows the basics of setting up a mex file to work with
  * Matlab.  This example shows how to use 2D matricies.  This may
- * 
+ *
  * Keep in mind:
  * <> Use 0-based indexing as always in C or C++
  * <> Indexing is column-based as in Matlab (not row-based as in C)
@@ -14,16 +14,16 @@
 #include "mex.h"
 #include <Eigen/Dense>
 #include <cmath>
-#include "drakeMexUtil.h" 
+#include "drakeMexUtil.h"
 
 using namespace Eigen;
 using namespace std;
 
 
 template <typename DerivedA, typename DerivedC>
-void manipulatorDynamics(const mxArray* pobj, const MatrixBase<DerivedA> &t, MatrixBase<DerivedC> &c_t)
+void quadDynamics(const mxArray* pobj, const MatrixBase<DerivedA> &t, MatrixBase<DerivedC> &XDOT)
 {
-  c_t << 27.0;
+  XDOT << 27.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0;
 
 }
 
@@ -34,17 +34,30 @@ void manipulatorDynamics(const mxArray* pobj, const MatrixBase<DerivedA> &t, Mat
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
 
+
   const mxArray* pobj = prhs[0];
 
+
+
   if (mxIsDouble(prhs[1]) && mxIsDouble(prhs[2]) && mxIsDouble(prhs[3]) ) {
-    //mexPrintf("Does that check right? = ");
+
     auto t = matlabToEigenMap<1,1>(prhs[1]);
-    mexPrintf("Can we get here?");
 
-    plhs[0] = mxCreateDoubleMatrix(1,1,mxREAL);
-    Map<Vector2d> c_t(mxGetPr(plhs[0]));
 
-    manipulatorDynamics(pobj, t, c_t);
+
+    auto x = matlabToEigenMap<13,1>(prhs[2]);
+    auto u = matlabToEigenMap<4,1>(prhs[3]);
+
+
+
+    plhs[0] = mxCreateDoubleMatrix(13,1,mxREAL);
+    mexPrintf("This is pre crash?");
+    Map<Vector2d> XDOT(mxGetPr(plhs[0]),13);
+    mexPrintf("This is after crash?");
+
+
+
+    quadDynamics(pobj, t, XDOT);
 
 //    auto qd = matlabToEigenMap<2,1>(prhs[2]);
 //
