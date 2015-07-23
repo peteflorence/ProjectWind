@@ -23,7 +23,7 @@ using namespace std;
 
 
 template <typename DerivedA>
-VectorXd quadDynamics(const mxArray* pobj, const MatrixBase<DerivedA> &t)
+VectorXd quadDynamics(const mxArray* pobj, const double &t, const MatrixBase<DerivedA> &x, const MatrixBase<DerivedA> &u)
 {
   VectorXd xdot(13);
   xdot << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13;
@@ -40,11 +40,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 
   if (mxIsDouble(prhs[1]) && mxIsDouble(prhs[2]) && mxIsDouble(prhs[3]) ) {
 
-    auto t = matlabToEigenMap<1,1>(prhs[1]);
+    double t =  mxGetScalar(prhs[1]);
     auto x = matlabToEigenMap<13,1>(prhs[2]);
     auto u = matlabToEigenMap<4,1>(prhs[3]);
 
-    VectorXd xdot = quadDynamics(pobj, t);
+    VectorXd xdot = quadDynamics(pobj, t, x, u);
     plhs[0] = eigenToMatlab(xdot);
   }
 

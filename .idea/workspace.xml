@@ -14,8 +14,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="436f1ed7-aa19-4ea7-8d34-3b6d7818ce88" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.mexmaci64" afterPath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.mexmaci64" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simple-image-annotation" afterPath="$PROJECT_DIR$/simple-image-annotation" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp" afterPath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ProjectWind.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -59,8 +61,8 @@
       <file leaf-file-name="dynamics_no_grad.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.44126076">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.4627507">
+              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
               <folding>
                 <element signature="e#503#519#0" expanded="true" />
                 <element signature="e#682#701#0" expanded="true" />
@@ -417,8 +419,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44126076">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.4627507">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding>
             <element signature="e#503#519#0" expanded="true" />
             <element signature="e#682#701#0" expanded="true" />
