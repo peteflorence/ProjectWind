@@ -70,7 +70,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
 %       % Parameters
 %       m = obj.m;
 %       I = obj.I;
-%       invI = diag(1./[0.0023,0.0023,0.004]);
+%       invI = obj.invI;
 %       g = 9.81;
 %       L = 0.1750;
 %       
@@ -262,6 +262,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
   properties
     m = .5;
     I = diag([0.0023,0.0023,0.004]);
+    invI = diag(1./[0.0023,0.0023,0.004]);
     
     % defining gravity here (too simple?)
     gravity = [0; 0; -9.8100]
