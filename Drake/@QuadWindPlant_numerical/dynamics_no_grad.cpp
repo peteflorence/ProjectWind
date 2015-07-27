@@ -120,11 +120,6 @@ VectorXd quadDynamics(const mxArray* pobj, const double &t, const MatrixBase<Der
   rpy << phi, theta, psi;
   auto R = rpy2rotmat(rpy);
 
-
-  double result = tanh (1.0);
-
-
-
   double kf = 1; // 6.11*10^-8;
 
   double F1 = kf*w1;
@@ -142,7 +137,33 @@ VectorXd quadDynamics(const mxArray* pobj, const double &t, const MatrixBase<Der
   Vector3d quadpos;
   quadpos << x(0), x(1), x(2);
 
-  Vector3d windout = quadWind(pobj, quadpos, t);
+  Vector3d windout = quadWind(pobj, quadpos, t); // query wind vector
+
+  // Van I do this in one line?
+  // Vector3d xyz_ddot = (1/m)*([0;0;-m*g] + R*[0;0;F1+F2+F3+F4] + windout); // call to wind field in dynamics
+
+  Vector3d gvec;
+  gvec << 0, 0, -m*g;
+  Vector3d forcevec;
+  forcevec << 0, 0, F1 + F2 + F3 + F4;
+  Vector3d xyz_ddot = (1/m) * (gvec + R*forcevec + windout );
+
+  Vector3d rpydot;
+  rpydot << phidot, thetadot, psidot;
+
+
+  Vector3d pqr;
+  rpydot2angularvel(rpy, rpydot, pqr);
+  pqr = R.adjoint() * pqr;
+
+  Vector3d pqr_dot_term1;
+  pqr_dot_term1 << L*(F2-F4),L*(F3-F1),(M1-M2+M3-M4);
+  Vector3d pqr_dot = invI*( pqr_dot_term1 - pqr.cross(I*pqr));
+
+  Matrix<double, 3, 3> Phi;
+  //This needs to be some sort of gradient object?  Matrix<double, 9, 3> dPhi;
+
+  //angularvel2rpydotMatrix(rpy,Phi);
 
 
 
