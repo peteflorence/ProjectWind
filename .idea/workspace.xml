@@ -19,9 +19,8 @@
     <list default="true" id="436f1ed7-aa19-4ea7-8d34-3b6d7818ce88" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.mexmaci64" afterPath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.mexmaci64" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simple-image-annotation" afterPath="$PROJECT_DIR$/simple-image-annotation" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/CMakeLists.txt" afterPath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/QuadWindPlant_numerical.m" afterPath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/QuadWindPlant_numerical.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drakeGeometryUtil.cpp" afterPath="$PROJECT_DIR$/drakeGeometryUtil.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/drakeGeometryUtil.h" afterPath="$PROJECT_DIR$/drakeGeometryUtil.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp" afterPath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp" />
     </list>
     <ignored path="ProjectWind.iws" />
@@ -57,7 +56,7 @@
         <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="1" column="70" selection-start-line="1" selection-start-column="70" selection-end-line="1" selection-end-column="70" />
+              <caret line="1" column="69" selection-start-line="1" selection-start-column="52" selection-end-line="1" selection-end-column="69" />
               <folding />
             </state>
           </provider>
@@ -66,22 +65,32 @@
       <file leaf-file-name="dynamics_no_grad.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3478261">
-              <caret line="63" column="33" selection-start-line="63" selection-start-column="33" selection-end-line="63" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.69713074">
+              <caret line="165" column="4" selection-start-line="165" selection-start-column="4" selection-end-line="165" selection-end-column="4" />
               <folding>
                 <element signature="e#503#519#0" expanded="true" />
                 <element signature="e#1930#1968#0" expanded="true" />
-                <marker date="1438028669000" expanded="true" signature="949:1036" placeholder="..." />
+                <marker date="1438037946000" expanded="true" signature="949:1036" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="drakeGeometryUtil.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.cpp">
+      <file leaf-file-name="drakeGradientUtil.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drakeGradientUtil.h">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="554" column="27" selection-start-line="554" selection-start-column="27" selection-end-line="554" selection-end-column="27" />
+              <caret line="56" column="29" selection-start-line="56" selection-start-column="18" selection-end-line="56" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="drakeGradientUtil.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drakeGradientUtil.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -107,26 +116,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DenseCoeffsBase.h" pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/Core/DenseCoeffsBase.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="172" column="0" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="scratch" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="55" selection-start-line="0" selection-start-column="55" selection-end-line="0" selection-end-column="55" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="drakeMexUtil.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drakeMexUtil.cpp">
           <provider selected="true" editor-type-id="text-editor">
@@ -139,12 +128,39 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="drakeGeometryUtil.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.6296296">
+              <caret line="810" column="19" selection-start-line="810" selection-start-column="5" selection-end-line="810" selection-end-column="19" />
+              <folding>
+                <element signature="e#12568#12585#0" expanded="true" />
+                <element signature="e#15028#15046#0" expanded="true" />
+                <element signature="e#15189#15207#0" expanded="true" />
+                <element signature="e#15741#15759#0" expanded="true" />
+                <element signature="e#16737#16755#0" expanded="true" />
+                <element signature="e#27902#27989#0" expanded="true" />
+                <element signature="e#29670#29688#0" expanded="true" />
+                <element signature="e#30973#31013#0" expanded="true" />
+                <element signature="e#31853#31921#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="drakeGeometryUtil.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="127" column="104" selection-start-line="127" selection-start-column="101" selection-end-line="127" selection-end-column="104" />
-              <folding />
+            <state vertical-scroll-proportion="-15.814815">
+              <caret line="200" column="0" selection-start-line="200" selection-start-column="0" selection-end-line="200" selection-end-column="0" />
+              <folding>
+                <element signature="e#4747#4764#0" expanded="true" />
+                <element signature="e#5410#5428#0" expanded="true" />
+                <element signature="e#5723#5741#0" expanded="true" />
+                <element signature="e#5868#5906#0" expanded="true" />
+                <element signature="e#8140#8180#0" expanded="true" />
+                <element signature="e#8370#8438#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -160,6 +176,8 @@
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/drakeGeometryUtil.h" />
+        <option value="$PROJECT_DIR$/drakeGeometryUtil.cpp" />
         <option value="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp" />
       </list>
     </option>
@@ -274,7 +292,7 @@
     <property name="last_opened_file_path" value="/Applications/MATLAB_R2014b.app" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="com.intellij.ide.scratch.NewScratchFileAction" value="TEXT" />
-    <property name="SearchEverywhereHistoryKey" value="drakegeometry&#9;FILE&#9;file:///Users/pflomacpro/ProjectWind/drakeGeometryUtil.h&#10;drakeme&#9;FILE&#9;file:///Users/pflomacpro/ProjectWind/drakeMexUtil.cpp&#10;scrat&#9;FILE&#9;file:///Users/pflomacpro/Library/Preferences/clion11/scratches/scratch" />
+    <property name="SearchEverywhereHistoryKey" value="gradientvar&#9;FILE&#9;file:///Users/pflomacpro/ProjectWind/GradientVar.h&#10;rpydot2&#9;null&#9;null&#10;drakegeometry&#9;FILE&#9;file:///Users/pflomacpro/ProjectWind/drakeGeometryUtil.h&#10;drakeme&#9;FILE&#9;file:///Users/pflomacpro/ProjectWind/drakeMexUtil.cpp&#10;scrat&#9;FILE&#9;file:///Users/pflomacpro/Library/Preferences/clion11/scratches/scratch" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -362,14 +380,14 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2859412" sideWeight="0.4925816" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32937685" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3335849" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2483019" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2671698" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32981133" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.49557522" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32981133" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1875" sideWeight="0.5074184" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16226415" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -421,7 +439,7 @@
           <folding>
             <element signature="e#503#519#0" expanded="true" />
             <element signature="e#1930#1968#0" expanded="true" />
-            <marker date="1438028669000" expanded="true" signature="949:1036" placeholder="..." />
+            <marker date="1438037946000" expanded="true" signature="949:1036" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -548,6 +566,69 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="58" selection-start-line="17" selection-start-column="58" selection-end-line="17" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GradientVar.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2616279">
+          <caret line="19" column="14" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/Core/Matrix.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36744186">
+          <caret line="371" column="31" selection-start-line="371" selection-start-column="27" selection-end-line="371" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="69" selection-start-line="1" selection-start-column="52" selection-end-line="1" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drakeGradientUtil.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="29" selection-start-line="56" selection-start-column="18" selection-end-line="56" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.814815">
+          <caret line="200" column="0" selection-start-line="200" selection-start-column="0" selection-end-line="200" selection-end-column="0" />
+          <folding>
+            <element signature="e#4747#4764#0" expanded="true" />
+            <element signature="e#5410#5428#0" expanded="true" />
+            <element signature="e#5723#5741#0" expanded="true" />
+            <element signature="e#5868#5906#0" expanded="true" />
+            <element signature="e#8140#8180#0" expanded="true" />
+            <element signature="e#8370#8438#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drakeGradientUtil.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/drakeMexUtil.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -558,46 +639,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="127" column="104" selection-start-line="127" selection-start-column="101" selection-end-line="127" selection-end-column="104" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="58" selection-start-line="17" selection-start-column="58" selection-end-line="17" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1" column="70" selection-start-line="1" selection-start-column="70" selection-end-line="1" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="554" column="27" selection-start-line="554" selection-start-column="27" selection-end-line="554" selection-end-column="27" />
-          <folding />
+        <state vertical-scroll-proportion="-5.6296296">
+          <caret line="810" column="19" selection-start-line="810" selection-start-column="5" selection-end-line="810" selection-end-column="19" />
+          <folding>
+            <element signature="e#12568#12585#0" expanded="true" />
+            <element signature="e#15028#15046#0" expanded="true" />
+            <element signature="e#15189#15207#0" expanded="true" />
+            <element signature="e#15741#15759#0" expanded="true" />
+            <element signature="e#16737#16755#0" expanded="true" />
+            <element signature="e#27902#27989#0" expanded="true" />
+            <element signature="e#29670#29688#0" expanded="true" />
+            <element signature="e#30973#31013#0" expanded="true" />
+            <element signature="e#31853#31921#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/dynamics_no_grad.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3478261">
-          <caret line="63" column="33" selection-start-line="63" selection-start-column="33" selection-end-line="63" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.69713074">
+          <caret line="165" column="4" selection-start-line="165" selection-start-column="4" selection-end-line="165" selection-end-column="4" />
           <folding>
             <element signature="e#503#519#0" expanded="true" />
             <element signature="e#1930#1968#0" expanded="true" />
-            <marker date="1438028669000" expanded="true" signature="949:1036" placeholder="..." />
+            <marker date="1438037946000" expanded="true" signature="949:1036" placeholder="..." />
           </folding>
         </state>
       </provider>
