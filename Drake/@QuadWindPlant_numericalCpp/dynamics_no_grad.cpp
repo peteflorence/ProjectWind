@@ -33,36 +33,26 @@ using namespace std;
 Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
     Vector3d wind;
 
-    double xquad = quadpos(0);
-    double yquad = quadpos(1);
-    double zquad = quadpos(2);
-
     double V_0 = 3.5;
     double c = 0.1;
     double V = V_0 / (1.0 + V_0 * c * time);
 
-
-    auto ellipsoidcenter = matlabToEigenMap<3, 1>(mxGetProperty(pobj, 0, "ellipsoidcenter")).eval();
+    //auto ellipsoidcenter = matlabToEigenMap<3, 1>(mxGetProperty(pobj, 0, "ellipsoidcenter")).eval();
+    Vector3d ellipsoidcenter;
+    ellipsoidcenter << 2.0, 0.0, 1.0;
 
     Vector3d timevec;
     timevec << V * time, 0, 0;
 
     ellipsoidcenter = ellipsoidcenter - timevec;
 
-    double xcenter = ellipsoidcenter(0);
-    double ycenter = ellipsoidcenter(1);
-    double zcenter = ellipsoidcenter(2);
-
     double sphereRadius = 0.30;
     double nomwind = -5.0;
 
-    double xidif = xquad - xcenter;
-    double yidif = yquad - ycenter;
-    double zidif = zquad - zcenter;
-
     double scale = nomwind;
     double reversed = -1.0;
-    double a = sqrt(pow(xidif, 2.0) + pow(yidif, 2.0) + pow(zidif, 2.0));
+    //double a = sqrt(pow(xidif, 2.0) + pow(yidif, 2.0) + pow(zidif, 2.0));
+    double a = (quadpos - ellipsoidcenter).norm();
     double slope = 10.0;
 
     double xwind = scale * (tanh(reversed * (a - sphereRadius) * slope) + 1.0) / 2.0;
@@ -70,7 +60,6 @@ Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
     double zwind = 0.0;
 
     wind << xwind, ywind, zwind;
-    wind.setZero();
 
     return wind;
 

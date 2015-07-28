@@ -177,7 +177,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
         xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2;
       end
       wind = [xwind;ywind;zwind];
-      wind = zeros(3,1);
+      wind = [0;0;0];
     end
     
     
