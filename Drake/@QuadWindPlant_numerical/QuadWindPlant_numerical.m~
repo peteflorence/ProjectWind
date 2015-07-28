@@ -66,7 +66,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
       % psidot
       % time
       
-      x(13)
+      x13 = x(13)
       
       % Parameters
       m = obj.m;
@@ -179,7 +179,6 @@ classdef QuadWindPlant_numerical < DrakeSystem
         xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2
       end
       wind = [xwind;ywind;zwind];
-      wind = [0;0;0];
     end
     
     
@@ -269,7 +268,6 @@ classdef QuadWindPlant_numerical < DrakeSystem
     
     % defining gravity here (too simple?)
     gravity = [0; 0; -9.8100]
-    
     
     windfield = 'zero'; % zero windfield by default
     

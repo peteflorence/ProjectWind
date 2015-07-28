@@ -66,8 +66,6 @@ classdef QuadWindPlant_numerical < DrakeSystem
       % psidot
       % time
       
-      x13 = x(13)
-      
       % Parameters
       m = obj.m;
       I = obj.I;
@@ -90,14 +88,14 @@ classdef QuadWindPlant_numerical < DrakeSystem
       w4 = u(4);
       
       % Rotation matrix from body to world frames
-      R = rpy2rotmat([phi;theta;psi])
+      R = rpy2rotmat([phi;theta;psi]);
       
       kf = 1; % 6.11*10^-8;
       
-      F1 = kf*w1
-      F2 = kf*w2
-      F3 = kf*w3
-      F4 = kf*w4
+      F1 = kf*w1;
+      F2 = kf*w2;
+      F3 = kf*w3;
+      F4 = kf*w4;
       
       km = 0.0245;
       
@@ -152,14 +150,13 @@ classdef QuadWindPlant_numerical < DrakeSystem
       if strcmp(windfield, 'flyingsphere')
         V_0 = 3.5; % m/s guess
         c = 0.1; % guess
-        mytime
-        V = V_0 / (1 + V_0 * c * mytime)
+        V = V_0 / (1 + V_0 * c * mytime);
         
         obj.ellipsoidcenter = [2 0 1];
         obj.ellipsoidcenter = obj.ellipsoidcenter - [V*mytime 0 0];
-        xcenter = obj.ellipsoidcenter(1)
-        ycenter = obj.ellipsoidcenter(2)
-        zcenter = obj.ellipsoidcenter(3)
+        xcenter = obj.ellipsoidcenter(1);
+        ycenter = obj.ellipsoidcenter(2);
+        zcenter = obj.ellipsoidcenter(3);
         
         sphereRadius = 0.30;
         nomwind = -5.0;
@@ -174,9 +171,9 @@ classdef QuadWindPlant_numerical < DrakeSystem
         
         scale = nomwind;
         reversed = -1;
-        a = sqrt(xidif^2 + yidif^2 + zidif^2)
+        a = sqrt(xidif^2 + yidif^2 + zidif^2);
         slope = 10;
-        xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2
+        xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2;
       end
       wind = [xwind;ywind;zwind];
     end
@@ -266,7 +263,8 @@ classdef QuadWindPlant_numerical < DrakeSystem
     I = diag([0.0023,0.0023,0.004]);
     invI = diag(1./[0.0023,0.0023,0.004]);
     
-    
+    % defining gravity here (too simple?)
+    gravity = [0; 0; -9.8100]
     
     windfield = 'zero'; % zero windfield by default
     
