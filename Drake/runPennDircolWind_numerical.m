@@ -7,7 +7,7 @@ r_temp = Quadrotor();
 lcmgl = LCMGLClient('Windy');
 lcmgl.glColor3f(0,1,0);
 v = WindVisualizer(r_temp, lcmgl);
-r = QuadWindPlant_numerical(); % Quadrotor constructor
+r = QuadWindPlant_numericalCpp(); % Quadrotor constructor
 r.windfield = 'flyingsphere';
 r.ellipsoidcenter = [2 0 1];
 
@@ -39,28 +39,28 @@ xf = x0;                       % final conditions: translated in x
 upperxf = x0;
 lowerxf = x0;
 
-% % Don't move
-upperxf.x = x0.x;                 % translate x
-upperxf.z = x0.z;                 % translate z
-upperxf.y = 0;                 % translate x
-upperxf.mytime = maximum_duration;
-
-lowerxf.x = x0.x;                 % translate x
-lowerxf.z = x0.z;                 % translate z
-lowerxf.y = 0;                 % translate x
-lowerxf.mytime = minimum_duration;
-
-
-% % Actually move
-% upperxf.x = 3;                 % translate x
-% upperxf.z = 1;                 % translate z
+% % % Don't move
+% upperxf.x = x0.x;                 % translate x
+% upperxf.z = x0.z;                 % translate z
 % upperxf.y = 0;                 % translate x
 % upperxf.mytime = maximum_duration;
 % 
-% lowerxf.x = 3;                 % translate x
-% lowerxf.z = 1;                 % translate z
+% lowerxf.x = x0.x;                 % translate x
+% lowerxf.z = x0.z;                 % translate z
 % lowerxf.y = 0;                 % translate x
 % lowerxf.mytime = minimum_duration;
+
+
+% Actually move
+upperxf.x = 3;                 % translate x
+upperxf.z = 1;                 % translate z
+upperxf.y = 0;                 % translate x
+upperxf.mytime = maximum_duration;
+
+lowerxf.x = 3;                 % translate x
+lowerxf.z = 1;                 % translate z
+lowerxf.y = 0;                 % translate x
+lowerxf.mytime = minimum_duration;
 
 
 

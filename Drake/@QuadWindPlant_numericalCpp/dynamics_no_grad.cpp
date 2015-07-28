@@ -39,7 +39,7 @@ Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
 
     double V_0 = 3.5;
     double c = 0.1;
-    double V = V_0 / (1 + V_0 * c * time);
+    double V = V_0 / (1.0 + V_0 * c * time);
 
 
     auto ellipsoidcenter = matlabToEigenMap<3, 1>(mxGetProperty(pobj, 0, "ellipsoidcenter")).eval();
@@ -56,22 +56,21 @@ Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
     double sphereRadius = 0.30;
     double nomwind = -5.0;
 
-    double xwind = 0.0;
-    double ywind = 0.0;
-    double zwind = 0.0;
-
     double xidif = xquad - xcenter;
     double yidif = yquad - ycenter;
     double zidif = zquad - zcenter;
 
     double scale = nomwind;
     double reversed = -1.0;
-    double a = sqrt(pow(xidif, 2) + pow(yidif, 2) + pow(zidif, 2));
+    double a = sqrt(pow(xidif, 2.0) + pow(yidif, 2.0) + pow(zidif, 2.0));
     double slope = 10.0;
 
-    xwind = scale * (tanh(reversed * (a - sphereRadius) * slope) + 1) / 2;
+    double xwind = scale * (tanh(reversed * (a - sphereRadius) * slope) + 1.0) / 2.0;
+    double ywind = 0.0;
+    double zwind = 0.0;
 
     wind << xwind, ywind, zwind;
+    wind.setZero();
 
     return wind;
 
@@ -145,7 +144,7 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
     gvec << 0, 0, -m * g;
     Vector3d forcevec;
     forcevec << 0, 0, F1 + F2 + F3 + F4;
-    Vector3d xyz_ddot = (1 / m) * (gvec + R * forcevec + windout);
+    Vector3d xyz_ddot = (1.0 / m) * (gvec + R * forcevec + windout);
 
     Vector3d rpydot;
     rpydot << phidot, thetadot, psidot;

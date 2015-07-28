@@ -177,6 +177,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
         xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2;
       end
       wind = [xwind;ywind;zwind];
+      wind = zeros(3,1);
     end
     
     
@@ -270,7 +271,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
     
     windfield = 'zero'; % zero windfield by default
     
-    ellipsoidcenter = [2; 0; 1];
+    ellipsoidcenter = [2.0; 0.0; 1.0];
     tstep = 0.01;
   end
   
