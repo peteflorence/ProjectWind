@@ -33,30 +33,22 @@ using namespace std;
 Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
     Vector3d wind;
 
-    double timeecho = time;
-
     double V_0 = 3.5;
     double c = 0.1;
     double V = V_0 / (1.0 + V_0 * c * time);
 
-    //auto ellipsoidcenter = matlabToEigenMap<3, 1>(mxGetProperty(pobj, 0, "ellipsoidcenter")).eval();
-    Vector3d ellipsoidcenter;
-    ellipsoidcenter << 2.0, 0.0, 1.0;
+    auto ellipsoidcenter = matlabToEigenMap<3, 1>(mxGetProperty(pobj, 0, "ellipsoidcenter")).eval();
 
     Vector3d timevec;
     timevec << V * time, 0, 0;
 
     ellipsoidcenter = ellipsoidcenter - timevec;
-    double i = ellipsoidcenter(0);
-    double j = ellipsoidcenter(1);
-    double k = ellipsoidcenter(2);
 
     double sphereRadius = 0.30;
     double nomwind = -5.0;
 
     double scale = nomwind;
     double reversed = -1.0;
-    //double a = sqrt(pow(xidif, 2.0) + pow(yidif, 2.0) + pow(zidif, 2.0));
     double a = (quadpos - ellipsoidcenter).norm();
     double slope = 10.0;
 
@@ -65,8 +57,6 @@ Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
     double zwind = 0.0;
 
     wind << xwind, ywind, zwind;
-    //cout << xwind << endl;
-
     return wind;
 
 }
@@ -97,25 +87,10 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
     double w3 = u(2);
     double w4 = u(3);
 
-
-// My own rpy2rotmat implementation
-//  double cos_r = cos(phi);
-//  double sin_r = sin(phi);
-//  double cos_p = cos(theta);
-//  double sin_p = sin(theta);
-//  double cos_y = cos(psi);
-//  double sin_y = sin(psi);
-//  Matrix3d rotMat;
-//  rotMat << cos_y*cos_p, cos_y*sin_p*sin_r-sin_y*cos_r, cos_y*sin_p*cos_r+sin_y*sin_r,
-//  sin_y*cos_p, sin_y*sin_p*sin_r+cos_y*cos_r, sin_y*sin_p*cos_r-cos_y*sin_r,
-//  -sin_p, cos_p*sin_r, cos_p*cos_r;
-//
-
     Vector3d rpy;
     rpy << phi, theta, psi;
     auto R = rpy2rotmat(rpy);
     std::cout << "R:\n " << R << std::endl;
-
 
     double kf = 1; // 6.11*10^-8;
 
@@ -136,20 +111,14 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
 
     Vector3d windout = quadWind(pobj, quadpos, x(12)); // query wind vector
 
-    // Van I do this in one line?
-    // Vector3d xyz_ddot = (1/m)*([0;0;-m*g] + R*[0;0;F1+F2+F3+F4] + windout); // call to wind field in dynamics
-
     Vector3d gvec;
     gvec << 0, 0, -m * g;
     Vector3d forcevec;
     forcevec << 0, 0, F1 + F2 + F3 + F4;
-    std::cout << "Windout:\n " << windout << std::endl;
     Vector3d xyz_ddot = (1.0 / m) * (gvec + R * forcevec + windout);
-    std::cout << "xyz_ddot(0): " << xyz_ddot(0) << std::endl;
 
     Vector3d rpydot;
     rpydot << phidot, thetadot, psidot;
-
 
     Vector3d pqr;
     rpydot2angularvel(rpy, rpydot, pqr);
@@ -170,7 +139,6 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
     Rdot_vec = drpy2drotmat * rpydot;
     auto Rdot = Map<MatrixXd>(Rdot_vec.data(), 3, 3);
 
-
     VectorXd dPhi_x_rpydot_vec(9);
     dPhi_x_rpydot_vec = dPhi * rpydot;
     auto dPhi_x_rpydot = Map<MatrixXd>(dPhi_x_rpydot_vec.data(), 3, 3);
@@ -184,7 +152,6 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
     xdot << qd, qdd, 1.0;
 
     return xdot;
-
 
 }
 
