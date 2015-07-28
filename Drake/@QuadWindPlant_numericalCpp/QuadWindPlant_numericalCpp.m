@@ -1,4 +1,4 @@
-classdef QuadWindPlant_numerical < DrakeSystem
+classdef QuadWindPlant_numericalCpp < DrakeSystem
   
   % Modified from D. Mellinger, N. Michael, and V. Kumar,
   % "Trajectory generation and control for precise aggressive maneuvers with quadrotors",
@@ -7,7 +7,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
   % Adapted by Pete Florence, 2015 to handle simple vortex rings
   
   methods
-    function obj = QuadWindPlant_numerical()
+    function obj = QuadWindPlant_numericalCpp()
       
       obj = obj@DrakeSystem(13,0,4,13,false,1);
       
