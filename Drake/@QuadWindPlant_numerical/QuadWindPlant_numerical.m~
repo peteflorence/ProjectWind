@@ -66,7 +66,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
       % psidot
       % time
       
-      x13 = x(13)
+      x(13)
       
       % Parameters
       m = obj.m;
@@ -90,14 +90,14 @@ classdef QuadWindPlant_numerical < DrakeSystem
       w4 = u(4);
       
       % Rotation matrix from body to world frames
-      R = rpy2rotmat([phi;theta;psi])
+      R = rpy2rotmat([phi;theta;psi]);
       
       kf = 1; % 6.11*10^-8;
       
-      F1 = kf*w1
-      F2 = kf*w2
-      F3 = kf*w3
-      F4 = kf*w4
+      F1 = kf*w1;
+      F2 = kf*w2;
+      F3 = kf*w3;
+      F4 = kf*w4;
       
       km = 0.0245;
       
@@ -179,6 +179,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
         xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2
       end
       wind = [xwind;ywind;zwind];
+      wind = [0;0;0];
     end
     
     
@@ -266,6 +267,8 @@ classdef QuadWindPlant_numerical < DrakeSystem
     I = diag([0.0023,0.0023,0.004]);
     invI = diag(1./[0.0023,0.0023,0.004]);
     
+    % defining gravity here (too simple?)
+    gravity = [0; 0; -9.8100]
     
     
     windfield = 'zero'; % zero windfield by default
