@@ -162,14 +162,29 @@ VectorXd quadDynamics(const mxArray* pobj, const double &t, const MatrixBase<Der
 
   Matrix<double, 3, 3> Phi;
   //This needs to be some sort of gradient object?  Matrix<double, 9, 3> dPhi;
-
   //angularvel2rpydotMatrix(rpy,Phi);
 
+  // This replaces the implementation of Rdot (make a 9x1 vector, reshape it into a 3 x 3)
+  Matrix<double, 9, 3> drpy2drotmat = drpy2rotmat(rpy);
+  VectorXd Rdot_vec(9);
+  Rdot_vec = drpy2drotmat * rpydot;
+  auto Rdot = Map<MatrixXd>(Rdot_vec.data(),3,3);
+  Rdot = Rdot.transpose().eval();
+
+
+  VectorXd dPhi_x_rpydot_vec(9);
+  dPhi_x_rpydot_vec = dPhi * rpydot;
+  auto dPhi_x_rpydot = Map<MatrixXd>(dPhi_x_rpydot_vec.data(),3,3);
+  dPhi_x_rpydot = dPhi_x_rpydot.transpose().eval();
+  Vector3d rpy_ddot = Phi * R * pqr_dot + dPhi_x_rpydot * R * pqr + Phi * Rdot * pqr;
+
+  VectorXd qdd(6);
+  qdd << xyz_ddot, rpy_ddot;
+  VectorXd qd(6);
 
 
 
-
-  xdot << m, invI(1,1), invI(2,2), phi*10, g, 6, 7, 8, 9, 10, 11, 12, 13;
+  xdot << qd, qdd, 1.0;
 
   return xdot;
 
