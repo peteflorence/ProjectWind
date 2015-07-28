@@ -4,9 +4,9 @@
     <generated>
       <config projectName="ProjectWind" targetName="dynamics_no_grad" />
       <config projectName="ProjectWind" targetName="ProjectWind" />
-      <config projectName="ProjectWind" targetName="drakeGr" />
-      <config projectName="ProjectWind" targetName="drakeGeometryUtil" />
       <config projectName="ProjectWind" targetName="drakeGradientUtil" />
+      <config projectName="ProjectWind" targetName="drakeGeometryUtil" />
+      <config projectName="ProjectWind" targetName="drakeGr" />
       <config projectName="ProjectWind" targetName="drakeMexUtil" />
     </generated>
   </component>
@@ -22,7 +22,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/QuadWindPlant_numerical.m" afterPath="$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/QuadWindPlant_numerical.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/UnitTests_QuadWindPlant_numericalCpp.m" afterPath="$PROJECT_DIR$/Drake/UnitTests_QuadWindPlant_numericalCpp.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/@QuadWindPlant_numericalCpp/dynamics_no_grad.cpp" afterPath="$PROJECT_DIR$/Drake/@QuadWindPlant_numericalCpp/dynamics_no_grad.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Drake/runPennDircolWind_numerical.m" afterPath="$PROJECT_DIR$/Drake/runPennDircolWind_numerical.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ProjectWind.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,11 +66,31 @@
       <file leaf-file-name="dynamics_no_grad.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numericalCpp/dynamics_no_grad.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6122449">
-              <caret line="63" column="15" selection-start-line="63" selection-start-column="15" selection-end-line="63" selection-end-column="15" />
+            <state vertical-scroll-proportion="0.5342205">
+              <caret line="142" column="25" selection-start-line="142" selection-start-column="25" selection-end-line="142" selection-end-column="25" />
               <folding>
                 <element signature="e#503#519#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DenseCoeffsBase.h" pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/Core/DenseCoeffsBase.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="172" column="0" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Matrix.h" pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/Core/Matrix.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="288" column="0" selection-start-line="288" selection-start-column="0" selection-end-line="288" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -88,7 +108,7 @@
       <file leaf-file-name="drakeGeometryUtil.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.814816">
+            <state vertical-scroll-proportion="0.0">
               <caret line="1770" column="61" selection-start-line="1770" selection-start-column="61" selection-end-line="1770" selection-end-column="61" />
               <folding>
                 <element signature="e#12568#12585#0" expanded="true" />
@@ -108,7 +128,7 @@
       <file leaf-file-name="drakeGeometryUtil.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.037037">
+            <state vertical-scroll-proportion="0.0">
               <caret line="184" column="61" selection-start-line="184" selection-start-column="54" selection-end-line="184" selection-end-column="61" />
               <folding>
                 <element signature="e#4747#4764#0" expanded="true" />
@@ -142,28 +162,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DenseBase.h" pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/Core/DenseBase.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="359" column="60" selection-start-line="359" selection-start-column="60" selection-end-line="359" selection-end-column="60" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="drakeMexUtil.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/drakeMexUtil.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="Git.Settings">
@@ -189,11 +187,12 @@
   <component name="NamedScopeManager">
     <order />
   </component>
+  <component name="OCFindUsagesOptions" text="false" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-1280" />
-    <option name="y" value="-217" />
+    <option name="y" value="-215" />
     <option name="width" value="1280" />
-    <option name="height" value="1417" />
+    <option name="height" value="1413" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -332,11 +331,11 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="Build All" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" CONFIG_NAME="Release" RUN_PATH="/Applications/MATLAB_R2014b.app" EXPLICIT_BUILD_TARGET_NAME="all">
+    <configuration default="false" name="Build All" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS="FALSE" CONFIG_NAME="Debug" RUN_PATH="/Applications/MATLAB_R2014b.app" EXPLICIT_BUILD_TARGET_NAME="all">
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="ProjectWind" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="ProjectWind" TARGET_NAME="ProjectWind" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ProjectWind" RUN_TARGET_NAME="ProjectWind">
+    <configuration default="false" name="ProjectWind" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="ProjectWind" TARGET_NAME="ProjectWind" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ProjectWind" RUN_TARGET_NAME="ProjectWind">
       <envs />
       <method />
     </configuration>
@@ -393,21 +392,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1280" y="-217" width="1280" height="1417" extended-state="0" />
-    <editor active="true" />
+    <frame x="-1280" y="-215" width="1280" height="1413" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21366164" sideWeight="0.4925816" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32937685" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20226415" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2664151" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2021196" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2657078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32981133" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329296" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.49557522" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32981133" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329296" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1875" sideWeight="0.5074184" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16226415" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16199848" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -429,11 +428,112 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="21" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numerical/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1" column="40" selection-start-line="1" selection-start-column="40" selection-end-line="1" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numericalCpp/dynamics_no_grad.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#503#519#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/include/math.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="442" column="14" selection-start-line="442" selection-start-column="14" selection-end-line="442" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1770" column="61" selection-start-line="1770" selection-start-column="61" selection-end-line="1770" selection-end-column="61" />
+          <folding>
+            <element signature="e#12568#12585#0" expanded="true" />
+            <element signature="e#15028#15046#0" expanded="true" />
+            <element signature="e#15189#15207#0" expanded="true" />
+            <element signature="e#15741#15759#0" expanded="true" />
+            <element signature="e#16737#16755#0" expanded="true" />
+            <element signature="e#27902#27989#0" expanded="true" />
+            <element signature="e#29670#29688#0" expanded="true" />
+            <element signature="e#30973#31013#0" expanded="true" />
+            <element signature="e#31853#31921#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="184" column="61" selection-start-line="184" selection-start-column="54" selection-end-line="184" selection-end-column="61" />
+          <folding>
+            <element signature="e#4747#4764#0" expanded="true" />
+            <element signature="e#5410#5428#0" expanded="true" />
+            <element signature="e#5723#5741#0" expanded="true" />
+            <element signature="e#5868#5906#0" expanded="true" />
+            <element signature="e#8140#8180#0" expanded="true" />
+            <element signature="e#8370#8438#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drakeGradientUtil.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="43" column="7" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drakeGradientUtil.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/Core/DenseBase.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="359" column="60" selection-start-line="359" selection-start-column="60" selection-end-line="359" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/drakeMexUtil.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -478,7 +578,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="315" column="3" selection-start-line="315" selection-start-column="3" selection-end-line="315" selection-end-column="3" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -618,19 +717,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/Core/DenseCoeffsBase.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="172" column="0" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/LU/Inverse.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="315" column="3" selection-start-line="315" selection-start-column="3" selection-end-line="315" selection-end-column="3" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -649,14 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/Core/Matrix.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36744186">
-          <caret line="371" column="31" selection-start-line="371" selection-start-column="27" selection-end-line="371" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/drakeMexUtil.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -669,7 +751,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.037037">
+        <state vertical-scroll-proportion="0.0">
           <caret line="184" column="61" selection-start-line="184" selection-start-column="54" selection-end-line="184" selection-end-column="61" />
           <folding>
             <element signature="e#4747#4764#0" expanded="true" />
@@ -692,7 +774,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/drakeGeometryUtil.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.814816">
+        <state vertical-scroll-proportion="0.0">
           <caret line="1770" column="61" selection-start-line="1770" selection-start-column="61" selection-end-line="1770" selection-end-column="61" />
           <folding>
             <element signature="e#12568#12585#0" expanded="true" />
@@ -740,10 +822,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/Core/Matrix.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="288" column="0" selection-start-line="288" selection-start-column="0" selection-end-line="288" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Cellar/eigen/3.2.4/include/eigen3/Eigen/src/Core/DenseCoeffsBase.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="172" column="0" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Drake/@QuadWindPlant_numericalCpp/dynamics_no_grad.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6122449">
-          <caret line="63" column="15" selection-start-line="63" selection-start-column="15" selection-end-line="63" selection-end-column="15" />
+        <state vertical-scroll-proportion="0.5342205">
+          <caret line="142" column="25" selection-start-line="142" selection-start-column="25" selection-end-line="142" selection-end-column="25" />
           <folding>
             <element signature="e#503#519#0" expanded="true" />
           </folding>

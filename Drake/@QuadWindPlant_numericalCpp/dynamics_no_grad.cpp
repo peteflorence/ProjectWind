@@ -33,6 +33,8 @@ using namespace std;
 Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
     Vector3d wind;
 
+    double timeecho = time;
+
     double V_0 = 3.5;
     double c = 0.1;
     double V = V_0 / (1.0 + V_0 * c * time);
@@ -45,6 +47,9 @@ Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
     timevec << V * time, 0, 0;
 
     ellipsoidcenter = ellipsoidcenter - timevec;
+    double i = ellipsoidcenter(0);
+    double j = ellipsoidcenter(1);
+    double k = ellipsoidcenter(2);
 
     double sphereRadius = 0.30;
     double nomwind = -5.0;
@@ -60,6 +65,7 @@ Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
     double zwind = 0.0;
 
     wind << xwind, ywind, zwind;
+    //cout << xwind << endl;
 
     return wind;
 
@@ -84,6 +90,8 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
     double thetadot = x(10);
     double psidot = x(11);
 
+    double x12 = x(12);
+
     double w1 = u(0);
     double w2 = u(1);
     double w3 = u(2);
@@ -106,6 +114,8 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
     Vector3d rpy;
     rpy << phi, theta, psi;
     auto R = rpy2rotmat(rpy);
+    std::cout << "R:\n " << R << std::endl;
+
 
     double kf = 1; // 6.11*10^-8;
 
@@ -124,7 +134,7 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
     Vector3d quadpos;
     quadpos << x(0), x(1), x(2);
 
-    Vector3d windout = quadWind(pobj, quadpos, t); // query wind vector
+    Vector3d windout = quadWind(pobj, quadpos, x(12)); // query wind vector
 
     // Van I do this in one line?
     // Vector3d xyz_ddot = (1/m)*([0;0;-m*g] + R*[0;0;F1+F2+F3+F4] + windout); // call to wind field in dynamics
@@ -133,7 +143,9 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
     gvec << 0, 0, -m * g;
     Vector3d forcevec;
     forcevec << 0, 0, F1 + F2 + F3 + F4;
+    std::cout << "Windout:\n " << windout << std::endl;
     Vector3d xyz_ddot = (1.0 / m) * (gvec + R * forcevec + windout);
+    std::cout << "xyz_ddot(0): " << xyz_ddot(0) << std::endl;
 
     Vector3d rpydot;
     rpydot << phidot, thetadot, psidot;
