@@ -45,7 +45,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
       
       [xdot, df] = geval(tempfunc, t, x, u, options);
       
-       
+      
     end
     
     
@@ -141,43 +141,43 @@ classdef QuadWindPlant_numerical < DrakeSystem
 %       xdot = [qd;qdd;1]; % the 1 at the end is for mytime
 %       
 %     end
-    
-    function wind = quadwind(obj,quadpos,mytime,plotme)  
-      xquad = quadpos(1);
-      yquad = quadpos(2);
-      zquad = quadpos(3);   
-      windfield = 'flyingsphere';    
-      
-      if strcmp(windfield, 'flyingsphere')
-        V_0 = 3.5; % m/s guess
-        c = 0.1; % guess
-        V = V_0 / (1 + V_0 * c * mytime);
-        
-        obj.ellipsoidcenter = [2 0 1];
-        obj.ellipsoidcenter = obj.ellipsoidcenter - [V*mytime 0 0];
-        xcenter = obj.ellipsoidcenter(1);
-        ycenter = obj.ellipsoidcenter(2);
-        zcenter = obj.ellipsoidcenter(3);
-        
-        sphereRadius = 0.30;
-        nomwind = -5.0;
-        
-        xwind = 0;
-        ywind = 0;
-        zwind = 0;
-        
-        xidif = xquad - xcenter;
-        yidif = yquad - ycenter;
-        zidif = zquad - zcenter; 
-        
-        scale = nomwind;
-        reversed = -1;
-        a = sqrt(xidif^2 + yidif^2 + zidif^2);
-        slope = 10;
-        xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2;
-      end     
-      wind = [xwind;ywind;zwind];
-    end
+%     
+%     function wind = quadwind(obj,quadpos,mytime,plotme)
+%       xquad = quadpos(1);
+%       yquad = quadpos(2);
+%       zquad = quadpos(3);
+%       windfield = 'flyingsphere';
+%       
+%       if strcmp(windfield, 'flyingsphere')
+%         V_0 = 3.5; % m/s guess
+%         c = 0.1; % guess
+%         V = V_0 / (1 + V_0 * c * mytime);
+%         
+%         obj.ellipsoidcenter = [2 0 1];
+%         obj.ellipsoidcenter = obj.ellipsoidcenter - [V*mytime 0 0];
+%         xcenter = obj.ellipsoidcenter(1);
+%         ycenter = obj.ellipsoidcenter(2);
+%         zcenter = obj.ellipsoidcenter(3);
+%         
+%         sphereRadius = 0.30;
+%         nomwind = -5.0;
+%         
+%         xwind = 0;
+%         ywind = 0;
+%         zwind = 0;
+%         
+%         xidif = xquad - xcenter;
+%         yidif = yquad - ycenter;
+%         zidif = zquad - zcenter;
+%         
+%         scale = nomwind;
+%         reversed = -1;
+%         a = sqrt(xidif^2 + yidif^2 + zidif^2);
+%         slope = 10;
+%         xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2;
+%       end
+%       wind = [xwind;ywind;zwind];
+%     end
     
     
     function y = output(obj,t,x,u)
@@ -233,7 +233,7 @@ classdef QuadWindPlant_numerical < DrakeSystem
       
       typecheck(traj_opt,'DirectTrajectoryOptimization');
       
-
+      
       traj_opt = traj_opt.addDisplayFunction(@(x)visualizePlan(x,lcmgl),traj_opt.x_inds(1:3,:));
       %traj_opt = traj_opt.addDisplayFunction(@(x)assert(fscanf(fopen('abort.txt', 'r'), '%d') == 0, 'Abort from file.'));
       %fclose('all');
@@ -246,14 +246,14 @@ classdef QuadWindPlant_numerical < DrakeSystem
         lcmgl.glColor3f(1, .5, 0);
         lcmgl.plot3(x(1,:),x(2,:),x(3,:));
         lcmgl.switchBuffers;
-
+        
         
       end
       
       
       
     end
-
+    
   end
   
   
