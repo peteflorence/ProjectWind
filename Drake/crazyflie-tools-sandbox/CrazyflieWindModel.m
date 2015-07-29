@@ -149,8 +149,6 @@ classdef CrazyflieWindModel < DrakeSystem
       
       %%% Something is amiss in here
       
-      
-      
       pqr = rpydot2angularvel(rpy,rpydot);
       pqr = R'*pqr;
       
