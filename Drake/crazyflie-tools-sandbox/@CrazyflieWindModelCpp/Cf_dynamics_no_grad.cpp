@@ -44,7 +44,6 @@ Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
     double zwind = 0.0;
 
     wind << xwind, ywind, zwind;
-    wind.setZero();
     return wind;
 
 }
