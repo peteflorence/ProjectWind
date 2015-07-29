@@ -1,6 +1,6 @@
 function [xtraj,utraj,prog] = runDircol_simpleWind()
 
-cfW = CrazyflieWindModelCpp();
+cfW = CrazyflieWindModel();
 
 lcmgl = LCMGLClient('Windy');
 lcmgl.glColor3f(0,1,0);
