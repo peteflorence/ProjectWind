@@ -35,7 +35,7 @@ prog = prog.addRunningCost(@cost);
 prog = prog.addFinalCost(@finalCost);
 
 tf0 = 2;
-traj_init.x = PPTrajectory(foh([0,tf0],[double(x0),double(xf)]));
+traj_init.x = PPTrajectory(foh([0,tf0],[double(x0),double(upperxf)]));
 traj_init.u = ConstantTrajectory(u0);
 
 info=0;
