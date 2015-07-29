@@ -9,7 +9,7 @@ classdef CrazyflieWindModel < DrakeSystem
     PITCH_KP = 3.5*180/pi;
     YAW_KP = 3.5*180/pi;
     ROLL_RATE_KP = 70*180/pi;
-    PITCH_RATE_KP = 70*180/pi; 
+    PITCH_RATE_KP = 70*180/pi;
     YAW_RATE_KP = 50*180/pi;
     
     ellipsoidcenter = [0 0 0];
@@ -23,12 +23,12 @@ classdef CrazyflieWindModel < DrakeSystem
       %obj.nominal_thrust = .25*norm(0.5*obj.manip.gravity);
       obj.nominal_thrust = .25*norm(getMass(obj.manip)*obj.manip.gravity);%/obj.manip.force{1}.scale_factor_thrust;
       obj.pdK = [0 obj.PITCH_KP obj.YAW_KP 0 obj.PITCH_RATE_KP obj.YAW_RATE_KP;
-                 obj.ROLL_KP 0 -obj.YAW_KP obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP;
-                 0 -obj.PITCH_KP obj.YAW_KP 0 -obj.PITCH_RATE_KP obj.YAW_RATE_KP;
-                 -obj.ROLL_KP 0 -obj.YAW_KP -obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP];
-               
+        obj.ROLL_KP 0 -obj.YAW_KP obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP;
+        0 -obj.PITCH_KP obj.YAW_KP 0 -obj.PITCH_RATE_KP obj.YAW_RATE_KP;
+        -obj.ROLL_KP 0 -obj.YAW_KP -obj.ROLL_RATE_KP 0 -obj.YAW_RATE_KP];
+      
       obj = setStateFrame(obj,CoordinateFrame('CrazyFlie13State',13,'x',{'x','y','z','roll','pitch','yaw','xdot','ydot','zdot','rolldot','pitchdot','yawdot','mytime'}));
-      obj = obj.setOutputFrame(obj.getStateFrame);      
+      obj = obj.setOutputFrame(obj.getStateFrame);
       
     end
     
@@ -42,9 +42,9 @@ classdef CrazyflieWindModel < DrakeSystem
       
       [pqr,dpqr] = rpydot2angularvel(x(4:6),x(10:12));
       [R,dR] = rpy2rotmat(x(4:6));
-      dR = [dR,zeros(9,3)];      
+      dR = [dR,zeros(9,3)];
       dR = blockwiseTranspose(reshape(full(dR),3,[]),[3,3]);
-
+      
       pqr = R'*pqr;
       dpqr = -R'*reshape(dR*pqr,3,[]) + R'*dpqr;
       dpqr = [zeros(3,4) dpqr(:,1:3) zeros(3) dpqr(:,4:6) zeros(3,7)];
@@ -53,11 +53,11 @@ classdef CrazyflieWindModel < DrakeSystem
       derr = [zeros(3,4),eye(3),zeros(3,13);dpqr]-[zeros(6,13),eye(6),zeros(6,1)];
       motorcommands = obj.pdK*err + sqrt(u(7))*10000.0;
       dmotorcommands = obj.pdK*derr + [zeros(4,19),repmat(10000.0/(2*sqrt(u(7))),4,1)];
-       
+      
       omegasqu = ((motorcommands)/10000.0).^2;
       domegasqu = 2*repmat(motorcommands/10000.0,1,20).*dmotorcommands/10000.0;
       
-      [xdot,dxdot] = obj.dynamics_helper(t,x,omegasqu);    
+      [xdot,dxdot] = obj.dynamics_helper(t,x,omegasqu);
       
       domegasqu = [domegasqu(:, 1:13) zeros(4,1) domegasqu(:,14:20)];
       dxdot = [dxdot(:,1:14),zeros(13,7)] + dxdot(:,15:18)*domegasqu;
@@ -72,7 +72,7 @@ classdef CrazyflieWindModel < DrakeSystem
       
       [xdot, dxdot] = geval(tempfunc, t, x, u, options);
       
-       
+      
     end
     
     function xdot = dynamics_no_grad(obj,t,x,u)
@@ -93,7 +93,7 @@ classdef CrazyflieWindModel < DrakeSystem
       
       
       % Parameters
-      % m = .5;        
+      % m = .5;
       % I = diag([0.0023,0.0023,0.004]);
       % invI = diag(1./[0.0023,0.0023,0.004]);
       
@@ -124,7 +124,7 @@ classdef CrazyflieWindModel < DrakeSystem
       
       % Rotation matrix from body to world frames
       R = rpy2rotmat(rpy);
-          
+      
       %kf = 1; % 6.11*10^-8;
       kf = obj.manip.force{1}.scale_factor_thrust;
       
@@ -152,7 +152,7 @@ classdef CrazyflieWindModel < DrakeSystem
       pqr = rpydot2angularvel(rpy,rpydot);
       pqr = R'*pqr;
       
-      pqr_dot = invI*([L*(F2-F4);L*(F3-F1);(-M1+M2-M3+M4)] - cross(pqr,I*pqr));
+      pqr_dot = invI*([L*(F4-F2);L*(F3-F1);(-M1+M2-M3+M4)] - cross(pqr,I*pqr));
       
       %Now, convert pqr_dot to rpy_ddot
       [Phi, dPhi] = angularvel2rpydotMatrix(rpy);
@@ -172,11 +172,11 @@ classdef CrazyflieWindModel < DrakeSystem
       
     end
     
-    function wind = quadwind(obj,quadpos,mytime,plotme)  
+    function wind = quadwind(obj,quadpos,mytime,plotme)
       xquad = quadpos(1);
       yquad = quadpos(2);
-      zquad = quadpos(3);   
-      windfield = 'flyingsphere';    
+      zquad = quadpos(3);
+      windfield = 'flyingsphere';
       
       if strcmp(windfield, 'flyingsphere')
         V_0 = 3.5; % m/s guess
@@ -198,14 +198,14 @@ classdef CrazyflieWindModel < DrakeSystem
         
         xidif = xquad - xcenter;
         yidif = yquad - ycenter;
-        zidif = zquad - zcenter; 
+        zidif = zquad - zcenter;
         
         scale = nomwind;
         reversed = -1;
         a = sqrt(xidif^2 + yidif^2 + zidif^2);
         slope = 10;
         xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2;
-      end     
+      end
       wind = [xwind;ywind;zwind];
       
       wind = [0;0;0];
@@ -225,7 +225,7 @@ classdef CrazyflieWindModel < DrakeSystem
       
       typecheck(traj_opt,'DirectTrajectoryOptimization');
       
-
+      
       traj_opt = traj_opt.addDisplayFunction(@(x)visualizePlan(x,lcmgl),traj_opt.x_inds(1:3,:));
       %traj_opt = traj_opt.addDisplayFunction(@(x)assert(fscanf(fopen('abort.txt', 'r'), '%d') == 0, 'Abort from file.'));
       %fclose('all');
@@ -238,7 +238,7 @@ classdef CrazyflieWindModel < DrakeSystem
         lcmgl.glColor3f(1, .5, 0);
         lcmgl.plot3(x(1,:),x(2,:),x(3,:));
         lcmgl.switchBuffers;
-
+        
         
       end
       
