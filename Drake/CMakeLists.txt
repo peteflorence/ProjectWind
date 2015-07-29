@@ -1,0 +1,2 @@
+add_subdirectory(@QuadWindPlant_numericalCpp)
+add_subdirectory(crazyflie-tools-sandbox)

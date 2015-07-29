@@ -1,6 +1,6 @@
 function [xtraj,utraj,prog] = runDircol_simpleWind()
 
-cfW = CrazyflieWindModel();
+cfW = CrazyflieWindModelCpp();
 
 N = 11;
 minimum_duration = .1;
@@ -21,6 +21,7 @@ v.draw(0,double(x0));
 
 xf = x0;
 xf.x = 1;
+xf.z = 3;
 
 % Make mytime allowed to be anywhere within time duration
 upperxf = xf;
