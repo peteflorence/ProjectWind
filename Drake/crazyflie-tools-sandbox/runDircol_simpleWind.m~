@@ -4,7 +4,7 @@ cfW = CrazyflieWindModelCpp();
 
 lcmgl = LCMGLClient('Windy');
 lcmgl.glColor3f(0,1,0);
-v = Cf_WindVisualizer(cfW.manip, lcmgl);
+v = WindVisualizer(cfW, lcmgl);
 
 N = 11;
 minimum_duration = .1;
@@ -12,19 +12,20 @@ maximum_duration = 4;
 prog = DircolTrajectoryOptimization(cfW,N,[minimum_duration maximum_duration]);  
 
 x0 = Point(getStateFrame(cfW));
-x0.z = 1.01; % lift the quad off the ground
-x0.x = -1.0;
+x0.x = 0;
+x0.z = .4;
 u0 = [0 0 0 0 0 0 cfW.nominal_thrust]';
 
 prog = prog.addStateConstraint(ConstantConstraint(double(x0)),1);
 prog = prog.addInputConstraint(ConstantConstraint(u0),1);
 
 prog = addPlanVisualizer(cfW,prog);
+v = constructVisualizer(cfW.manip);
 v.draw(0,double(x0));
 
 xf = x0;
-%xf.x = 1;
-%xf.z = 3;
+xf.x = 1;
+xf.z = 3;
 
 % Make mytime allowed to be anywhere within time duration
 upperxf = xf;
