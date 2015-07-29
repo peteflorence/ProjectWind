@@ -156,12 +156,23 @@ classdef CrazyflieWindModel < DrakeSystem
       
       pqr_dot = invI*([L*(F2-F4);L*(F3-F1);(-M1+M2-M3+M4)] - cross(pqr,I*pqr));
       
-      %Now, convert pqr_dot to rpy_ddot
-      [Phi, dPhi] = angularvel2rpydotMatrix(rpy);
+      % Now, convert pqr_dot to rpy_ddot
+%       [Phi, dPhi] = angularvel2rpydotMatrix(rpy);
+%       
+%             Rdot =  [ 0, sin(phi)*sin(psi) + cos(phi)*cos(psi)*sin(theta),   cos(phi)*sin(psi) - cos(psi)*sin(phi)*sin(theta); ...
+%               0, cos(phi)*sin(psi)*sin(theta) - cos(psi)*sin(phi), - cos(phi)*cos(psi) - sin(phi)*sin(psi)*sin(theta); ...
+%               0,                              cos(phi)*cos(theta),                               -cos(theta)*sin(phi)]*phidot + ...
+%               [ -cos(psi)*sin(theta), cos(psi)*cos(theta)*sin(phi), cos(phi)*cos(psi)*cos(theta); ...
+%               -sin(psi)*sin(theta), cos(theta)*sin(phi)*sin(psi), cos(phi)*cos(theta)*sin(psi); ...
+%               -cos(theta),         -sin(phi)*sin(theta),         -cos(phi)*sin(theta)]*thetadot + ...
+%               [ -cos(theta)*sin(psi), - cos(phi)*cos(psi) - sin(phi)*sin(psi)*sin(theta), cos(psi)*sin(phi) - cos(phi)*sin(psi)*sin(theta); ...
+%               cos(psi)*cos(theta),   cos(psi)*sin(phi)*sin(theta) - cos(phi)*sin(psi), sin(phi)*sin(psi) + cos(phi)*cos(psi)*sin(theta); ...
+%               0,                                                  0,                                                0]*psidot;
       
-      [~, drpy2rotmat] = rpy2rotmat(rpy);
-      Rdotvec = drpy2rotmat * rpydot;
-      Rdot = reshape(Rdotvec,3,3);
+       rpyrdrpy2rotmat = rpy2rotmat
+       Rdotvec = drpy2rotmat(rpy) * rpydot;
+       Rdot = reshape(Rdotvec,3,3);
+      
       
       rpy_ddot = Phi*R*pqr_dot + reshape((dPhi*rpydot),3,3)*R*pqr + Phi*Rdot*pqr;
       
