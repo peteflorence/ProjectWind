@@ -43,7 +43,7 @@ end
 end
 
 function [g,dg] = cost(dt,x,u)
-  R = eye(7);
+  R = [eye(4) zeros(4,3); zeros(3,7)];
   g = u'*R*u;
   dg = [0,zeros(1,size(x,1)),2*u'*R];
 end
