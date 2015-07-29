@@ -97,7 +97,7 @@ classdef CrazyflieWindModel < DrakeSystem
       % I = diag([0.0023,0.0023,0.004]);
       % invI = diag(1./[0.0023,0.0023,0.004]);
       
-      m = getMass(obj.manip) * 10;
+      m = getMass(obj.manip);
       I = obj.manip.body(2).inertia;
       invI = inv(I);
       
