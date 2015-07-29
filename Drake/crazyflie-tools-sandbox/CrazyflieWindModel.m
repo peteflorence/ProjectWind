@@ -12,7 +12,7 @@ classdef CrazyflieWindModel < DrakeSystem
     PITCH_RATE_KP = 70*180/pi;
     YAW_RATE_KP = 50*180/pi;
     
-    ellipsoidcenter = [0 0 0];
+    ellipsoidcenter = [2 0 1];
     
     m;
     I;
@@ -199,7 +199,6 @@ classdef CrazyflieWindModel < DrakeSystem
         c = 0.1; % guess
         V = V_0 / (1 + V_0 * c * mytime);
         
-        obj.ellipsoidcenter = [2 0 1];
         obj.ellipsoidcenter = obj.ellipsoidcenter - [V*mytime 0 0];
         xcenter = obj.ellipsoidcenter(1);
         ycenter = obj.ellipsoidcenter(2);
@@ -223,8 +222,6 @@ classdef CrazyflieWindModel < DrakeSystem
         xwind = scale * (tanh(reversed * ( a - sphereRadius) * slope ) +1) / 2;
       end
       wind = [xwind;ywind;zwind];
-      
-      wind = [0;0;0];
       
     end
     
