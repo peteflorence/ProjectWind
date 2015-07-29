@@ -3,7 +3,7 @@ function UnitTests_CrazyFlieWindDynamics
 cd /Users/pflomacpro/ProjectWind/Drake/crazyflie-tools-sandbox;
 
 s = rng(123512, 'twister');
-for i = 1:10
+for i = 1:20
   
 
   t = rand(1)*1;
@@ -24,20 +24,18 @@ for i = 1:10
   display(diff);
   
   if diff > 1e-12
-    display('These inputs are causing trouble');
-    display('t: '); display(t);
-    display('x13: '); display(x13);
-    display('u: '); display(u);
+    %display('These inputs are causing trouble');
+    %display('t: '); display(t);
+    %display('x13: '); display(x13);
+    %display('u: '); display(u);
      
     display('Ben gives'); display(Benans);
-    display('Pete gives'); display(Peteans);
+    display('Pete gives'); display(Peteans12);
     
     xdotlabel = linspace(1,12,12);
     figure;
     plot(xdotlabel, diffvec, 'rX')
   end
-  
-  
   
  
 end

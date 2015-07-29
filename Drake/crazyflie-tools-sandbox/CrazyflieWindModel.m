@@ -131,7 +131,7 @@ classdef CrazyflieWindModel < DrakeSystem
       F4 = kf*w4;
       
       %km = 0.0245;
-      km = -obj.manip.force{1}.scale_factor_moment;
+      km = obj.manip.force{1}.scale_factor_moment;
       
       M1 = km*w1;
       M2 = km*w2;
@@ -143,6 +143,8 @@ classdef CrazyflieWindModel < DrakeSystem
       windout = obj.quadwind(quadpos,x(13),1); % pass mytime to quadwind. % last arument is plot option
       
       xyz_ddot = (1/m)*([0;0;-m*g] + R*[0;0;F1+F2+F3+F4] + windout); % call to wind field in dynamics
+      
+      %%% Something is amiss in here
       
       pqr = rpydot2angularvel([phi;theta;psi],[phidot;thetadot;psidot]);
       pqr = R'*pqr;
@@ -164,6 +166,9 @@ classdef CrazyflieWindModel < DrakeSystem
       
       rpy_ddot = Phi*R*pqr_dot + reshape((dPhi*[phidot;thetadot;psidot]),3,3)*R*pqr + ...
         Phi*Rdot*pqr;
+      
+      
+      %%% Something is amiss in here
       
       qdd = [xyz_ddot;rpy_ddot];
       qd = x(7:12);
