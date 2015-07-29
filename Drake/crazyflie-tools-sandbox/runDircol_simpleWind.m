@@ -15,13 +15,20 @@ u0 = [0 0 0 0 0 0 cfW.nominal_thrust]';
 prog = prog.addStateConstraint(ConstantConstraint(double(x0)),1);
 prog = prog.addInputConstraint(ConstantConstraint(u0),1);
 
-xf = x0;
-xf.x = 1;
 prog = addPlanVisualizer(cfW,prog);
 v = constructVisualizer(cfW.manip);
 v.draw(0,double(x0));
 
-prog = prog.addStateConstraint(ConstantConstraint(double(xf)),N);
+xf = x0;
+xf.x = 1;
+
+% Make mytime allowed to be anywhere within time duration
+upperxf = xf;
+lowerxf = xf;
+upperxf.mytime = maximum_duration;
+lowerxf.mytime = minimum_duration;
+prog = prog.addStateConstraint(BoundingBoxConstraint(double(lowerxf),double(upperxf)),N);
+
 prog = prog.addInputConstraint(ConstantConstraint(u0),N);
 
 prog = prog.addRunningCost(@cost);
@@ -39,7 +46,6 @@ while (info~=1)
 end
 
 if (nargout<1)
-  
   xtraj=xtraj(1:12);
   xtraj = xtraj.setOutputFrame(cfW.manip.getStateFrame);      
   v.playback(xtraj,struct('slider',true));

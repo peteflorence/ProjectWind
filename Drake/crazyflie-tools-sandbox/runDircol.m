@@ -17,6 +17,9 @@ prog = prog.addInputConstraint(ConstantConstraint(u0),1);
 
 xf = x0;
 xf.base_x = 1;
+prog = addPlanVisualizer(cf,prog);
+v = constructVisualizer(cf.manip);
+v.draw(0,double(x0));
 prog = prog.addStateConstraint(ConstantConstraint(double(xf)),N);
 prog = prog.addInputConstraint(ConstantConstraint(u0),N);
 
@@ -35,7 +38,6 @@ while (info~=1)
 end
 
 if (nargout<1)
-  v = constructVisualizer(cf.manip);
   xtraj = xtraj.setOutputFrame(cf.manip.getStateFrame);      
   v.playback(xtraj,struct('slider',true));
 end
@@ -43,7 +45,7 @@ end
 end
 
 function [g,dg] = cost(dt,x,u)
-  R = [eye(4) zeros(4,3); zeros(3,7)];
+  R = eye(7);%[eye(4) zeros(4,3); zeros(3,4) 1e-9*ones(3,3)];
   g = u'*R*u;
   dg = [0,zeros(1,size(x,1)),2*u'*R];
 end

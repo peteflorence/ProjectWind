@@ -53,6 +53,39 @@ classdef CrazyflieModel < DrakeSystem
       dxdot = [dxdot(:,1:13),zeros(12,7)] + dxdot(:,14:17)*domegasqu;
     end
     
+    function traj_opt = addPlanVisualizer(obj,traj_opt)
+      % spew out an lcmgl visualization of the trajectory.  intended to be
+      % used as a callback (fake objective) in the direct trajectory
+      % optimization classes
+      
+      if ~checkDependency('lcmgl')
+        warning('lcmgl dependency is missing.  skipping visualization');
+        return;
+      end
+      lcmgl = drake.util.BotLCMGLClient(lcm.lcm.LCM.getSingleton(), 'QuadrotorPlan');
+      
+      typecheck(traj_opt,'DirectTrajectoryOptimization');
+      
+      
+      traj_opt = traj_opt.addDisplayFunction(@(x)visualizePlan(x,lcmgl),traj_opt.x_inds(1:3,:));
+      %traj_opt = traj_opt.addDisplayFunction(@(x)assert(fscanf(fopen('abort.txt', 'r'), '%d') == 0, 'Abort from file.'));
+      %fclose('all');
+      
+      
+      function visualizePlan(x,lcmgl)
+        lcmgl.glColor3f(1, 0, 0);
+        lcmgl.glPointSize(3);
+        lcmgl.points(x(1,:),x(2,:),x(3,:));
+        lcmgl.glColor3f(1, .5, 0);
+        lcmgl.plot3(x(1,:),x(2,:),x(3,:));
+        lcmgl.switchBuffers;
+        
+        
+      end
+      
+      
+      
+    end
     
     
     
