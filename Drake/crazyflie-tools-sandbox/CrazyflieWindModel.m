@@ -13,6 +13,12 @@ classdef CrazyflieWindModel < DrakeSystem
     YAW_RATE_KP = 50*180/pi;
     
     ellipsoidcenter = [0 0 0];
+    
+    m;
+    I;
+    kf;
+    km;
+    
   end
   
   methods
@@ -29,6 +35,16 @@ classdef CrazyflieWindModel < DrakeSystem
       
       obj = setStateFrame(obj,CoordinateFrame('CrazyFlie13State',13,'x',{'x','y','z','roll','pitch','yaw','xdot','ydot','zdot','rolldot','pitchdot','yawdot','mytime'}));
       obj = obj.setOutputFrame(obj.getStateFrame);
+      
+      setMass()
+      
+      function setMass()
+        obj.m = getMass(obj.manip);
+        obj.I = obj.manip.body(2).inertia;
+        obj.kf = obj.manip.force{1}.scale_factor_thrust;
+        obj.km = -obj.manip.force{1}.scale_factor_moment;
+      end
+      
       
     end
     
@@ -97,8 +113,8 @@ classdef CrazyflieWindModel < DrakeSystem
       % I = diag([0.0023,0.0023,0.004]);
       % invI = diag(1./[0.0023,0.0023,0.004]);
       
-      m = getMass(obj.manip);
-      I = obj.manip.body(2).inertia;
+      m = obj.m;
+      I = obj.I;
       invI = inv(I);
       
       g = 9.81;
@@ -126,7 +142,7 @@ classdef CrazyflieWindModel < DrakeSystem
       R = rpy2rotmat(rpy);
       
       %kf = 1; % 6.11*10^-8;
-      kf = obj.manip.force{1}.scale_factor_thrust;
+      kf = obj.kf;
       
       F1 = kf*w1;
       F2 = kf*w2;

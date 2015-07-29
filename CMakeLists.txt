@@ -17,6 +17,7 @@ add_library(drakeGradientUtil SHARED drakeGradientUtil.cpp)
 add_library(drakeGeometryUtil SHARED drakeGeometryUtil.cpp expmap2quat.cpp)
 target_link_libraries(drakeGeometryUtil drakeGradientUtil)
 
-add_subdirectory(Drake/@QuadWindPlant_numericalCpp)
+add_subdirectory(Drake)
+
 
 
