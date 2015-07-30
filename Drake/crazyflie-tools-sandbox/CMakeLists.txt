@@ -1,1 +1,2 @@
 add_subdirectory(@CrazyflieWindModelCpp)
+add_subdirectory(@CrazyflieWindModelCpp12)
