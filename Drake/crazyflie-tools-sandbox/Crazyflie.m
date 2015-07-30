@@ -355,8 +355,10 @@ classdef Crazyflie
       v = obj.manip.constructVisualizer();
       v.playback(xtraj_sim, struct('slider', true));
       
+      lcmgl = LCMGLClient('Windy');
+      lcmgl.glColor3f(0,1,0);
+      v = Cf_WindVisualizer(obj.manip, lcmgl);
       
-      v = obj.manip.constructVisualizer();
       v.playback(xtraj_sim,struct('slider',true));
     end
     
