@@ -317,12 +317,10 @@ classdef Crazyflie
     end
     
     function xtraj = simulateTvlqr(obj, xtraj, utraj)
-      utraj = utraj(1:4);
+      %utraj = utraj(1:4);
       options.angle_flag = [0 0 0 1 1 1 0 0 0 0 0 0]';
-
-      xtraj = xtraj.setOutputFrame(obj.manip.getStateFrame);     
-      utraj = utraj.setOutputFrame(obj.manip.getInputFrame);
-      
+      utraj = xtraj.setInputFrame(obj.manip.getStateFrame);
+      xtraj = xtraj.setOutputFrame(obj.manip.getStateFrame);
       controller = tvlqr(obj.manip,xtraj,utraj,obj.tvQ,obj.tvR,obj.tvQf,options);
             
       sys = feedback(obj.manip,controller);
