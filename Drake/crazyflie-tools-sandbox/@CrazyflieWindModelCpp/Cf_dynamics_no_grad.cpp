@@ -91,8 +91,8 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
     Vector3d quadpos;
     quadpos << x(0), x(1), x(2);
 
-    Vector3d windout = quadWind(pobj, quadpos, t); // query wind vector
-    double dragCoef = 0.05;
+    Vector3d windout = quadWind(pobj, quadpos, x(12)); // query wind vector
+    double dragCoef = 0.3;
     windout = windout * dragCoef;
 
     Vector3d gvec;
