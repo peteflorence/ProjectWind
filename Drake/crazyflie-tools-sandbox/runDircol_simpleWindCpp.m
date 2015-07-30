@@ -12,7 +12,7 @@ maximum_duration = 4;
 prog = DircolTrajectoryOptimization(cfW,N,[minimum_duration maximum_duration]);  
 
 x0 = Point(getStateFrame(cfW));
-x0.z = 1.01; % lift the quad off the ground
+x0.z = 1.20; % lift the quad off the ground
 x0.x = -1.0;
 u0 = [0 0 0 0 0 0 cfW.nominal_thrust]';
 
@@ -23,7 +23,7 @@ prog = addPlanVisualizer(cfW,prog);
 v.draw(0,double(x0));
 
 xf = x0;
-%xf.x = 1;
+xf.x = 1;
 %xf.z = 3;
 
 % Make mytime allowed to be anywhere within time duration
