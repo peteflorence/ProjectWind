@@ -49,11 +49,11 @@ while (info~=1)
   toc
 end
 
-%if (nargout<1)
+if (nargout<1)
   xtraj=xtraj(1:12);
   xtraj = xtraj.setOutputFrame(cfW.manip.getStateFrame);      
   v.playback(xtraj,struct('slider',true));
-%end
+end
 
 end
 
