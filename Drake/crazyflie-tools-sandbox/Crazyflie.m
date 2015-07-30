@@ -37,6 +37,8 @@ classdef Crazyflie
     tvQ = diag([80 80 60 .001 .001 600 .001 .001 .001 .001 .001 .001]);
     tvQf = diag([80 80 60 .001 .001 600 .001 .001 .001 .001 .001 .001]);
     
+    
+    
     tvR = eye(4);
   end
   
@@ -331,6 +333,33 @@ classdef Crazyflie
       v = obj.manip.constructVisualizer();
       v.playback(systraj,struct('slider',true));
     end
+    
+    function xtraj = simulateTvlqr7in(obj, xtraj, utraj)
+      options.angle_flag = [0 0 0 1 1 1 0 0 0 0 0 0]';
+      
+      model = CrazyflieWindModelCpp();
+      
+      xtraj = xtraj.setOutputFrame(model.getStateFrame);
+      utraj = utraj.setOutputFrame(model.getInputFrame);
+      
+      tvQ13 = diag([80 80 60 .001 .001 600 .001 .001 .001 .001 .001 .001 .001]);
+      tvQf13 = diag([80 80 60 .001 .001 600 .001 .001 .001 .001 .001 .001 .001]);
+      R = eye(7);
+      controller = tvlqr(model,xtraj,utraj,tvQ13,R,tvQf13,options);
+      
+      sys = feedback(model,controller);
+      xtraj_sim = sys.simulate([0 5],xtraj.eval(0));
+      
+      xtraj_sim = xtraj_sim(1:12);
+      xtraj_sim = xtraj_sim.setOutputFrame(obj.manip.getStateFrame());
+      v = obj.manip.constructVisualizer();
+      v.playback(xtraj_sim, struct('slider', true));
+      
+      
+      v = obj.manip.constructVisualizer();
+      v.playback(xtraj_sim,struct('slider',true));
+    end
+    
     
     function visualizeStateEstimates(obj)
 
