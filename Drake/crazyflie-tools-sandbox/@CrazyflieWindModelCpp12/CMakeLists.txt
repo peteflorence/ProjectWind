@@ -1,0 +1,2 @@
+add_mex(Cf_dynamics_no_grad12 Cf_dynamics_no_grad12.cpp)
+target_link_libraries(Cf_dynamics_no_grad12 drakeMexUtil drakeGeometryUtil)

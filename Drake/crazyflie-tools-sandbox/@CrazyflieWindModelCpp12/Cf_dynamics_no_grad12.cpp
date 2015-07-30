@@ -51,7 +51,7 @@ Vector3d quadWind(const mxArray *pobj, Vector3d quadpos, double time) {
 template<typename DerivedX, typename DerivedU>
 VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<DerivedX> &x,
                       const MatrixBase<DerivedU> &u) {
-    VectorXd xdot(13);
+    VectorXd xdot(12);
     double m = mxGetScalar(mxGetProperty(pobj, 0, "m"));
     auto I = matlabToEigenMap<3, 3>(mxGetProperty(pobj, 0, "I"));
 
@@ -133,7 +133,7 @@ VectorXd quadDynamics(const mxArray *pobj, const double &t, const MatrixBase<Der
     VectorXd qd(6);
     qd = x.template segment<6>(6);
 
-    xdot << qd, qdd, 1.0;
+    xdot << qd, qdd;
 
     return xdot;
 
@@ -151,7 +151,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
     if (mxIsDouble(prhs[1]) && mxIsDouble(prhs[2]) && mxIsDouble(prhs[3])) {
 
         double t = mxGetScalar(prhs[1]);
-        auto x = matlabToEigenMap<13, 1>(prhs[2]);
+        auto x = matlabToEigenMap<12, 1>(prhs[2]);
         auto u = matlabToEigenMap<4, 1>(prhs[3]);
 
         VectorXd xdot = quadDynamics(pobj, t, x, u);

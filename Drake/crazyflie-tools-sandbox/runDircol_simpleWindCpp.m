@@ -7,7 +7,7 @@ lcmgl.glColor3f(0,1,0);
 v = Cf_WindVisualizer(cfW.manip, lcmgl);
 
 N = 11;
-minimum_duration = .1;
+minimum_duration = 3;
 maximum_duration = 4;
 prog = DircolTrajectoryOptimization(cfW,N,[minimum_duration maximum_duration]);  
 
@@ -23,7 +23,7 @@ prog = addPlanVisualizer(cfW,prog);
 v.draw(0,double(x0));
 
 xf = x0;
-xf.x = 1;
+%xf.x = 1;
 %xf.z = 3;
 
 % Make mytime allowed to be anywhere within time duration
