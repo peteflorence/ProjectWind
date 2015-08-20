@@ -12,7 +12,7 @@ classdef CrazyflieWindModelCpp < DrakeSystem
     PITCH_RATE_KP = 70*180/pi;
     YAW_RATE_KP = 50*180/pi;
     
-    ellipsoidcenter = [2 0 1];
+    ellipsoidcenter = [2 0 1]';
     
     m;
     I;

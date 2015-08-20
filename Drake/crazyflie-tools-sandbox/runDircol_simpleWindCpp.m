@@ -12,7 +12,7 @@ maximum_duration = 4;
 prog = DircolTrajectoryOptimization(cfW,N,[minimum_duration maximum_duration]);  
 
 x0 = Point(getStateFrame(cfW));
-x0.z = 1.01; % lift the quad off the ground
+x0.z = 1; % lift the quad off the ground
 x0.x = -1.0;
 u0 = [0 0 0 0 0 0 cfW.nominal_thrust]';
 
