@@ -1,0 +1,5 @@
+.00 - Fly around not stabilizing well for ~20 seconds, then hit a fixed point.  Then press play and it floats off.
+
+Changed offset to 16
+
+.05 - after restart, not very stable
