@@ -2,9 +2,9 @@ function [xtraj,utraj,prog] = runDircolBox()
 
 cf = CrazyflieModel();
 
-N = 40; 
+N = 60; 
 minimum_duration = 2;
-maximum_duration = 8;
+maximum_duration = 20;
 prog = DircolTrajectoryOptimization(cf,N,[minimum_duration maximum_duration]);  
 
 x0 = Point(getStateFrame(cf.manip));
@@ -41,7 +41,7 @@ prog = addPlanVisualizer(cf,prog);
 prog = prog.addRunningCost(@cost);
 prog = prog.addFinalCost(@finalCost);
 
-tf0 = 2;
+tf0 = maximum_duration;
 traj_init.x = PPTrajectory(foh([0,tf0],[double(x0),double(xf)]));
 traj_init.u = ConstantTrajectory(u0);
 
