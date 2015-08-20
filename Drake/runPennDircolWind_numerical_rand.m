@@ -1,4 +1,4 @@
-function [utraj,xtraj,prog,r] = runPennDircolWind_numerical
+function [utraj,xtraj,prog,r] = runPennDircolWind_numerical_rand
 
 %r_temp = Quadrotor();
 %v = constructVisualizer(r_temp);
@@ -6,7 +6,7 @@ function [utraj,xtraj,prog,r] = runPennDircolWind_numerical
 r_temp = Quadrotor();
 lcmgl = LCMGLClient('Windy');
 lcmgl.glColor3f(0,1,0);
-v = WindVisualizer(r_temp, lcmgl);
+v = WindVisualizer_rand(r_temp, lcmgl);
 r = QuadWindPlant_numericalCpp(); % Quadrotor constructor
 r.windfield = 'flyingsphere';
 r.ellipsoidcenter = [2 0 1]';

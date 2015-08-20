@@ -270,7 +270,8 @@ classdef QuadWindPlant_numericalCpp < DrakeSystem
     
     windfield = 'zero'; % zero windfield by default
     
-    ellipsoidcenter = [2.0; 0.0; 1.0];
+
+    ellipsoidcenter = [2.0 0.0 1.0]';
     tstep = 0.01;
   end
   
