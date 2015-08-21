@@ -1,0 +1,9 @@
+2015-07-28 11:59:26.081 ddConsoleApp[3604:71339] *** WARNING: Method userSpaceScaleFactor in class NSView is deprecated on 10.7 and later. It should not be used in new applications. Use convertRectToBacking: instead. 
+Traceback (most recent call last):
+  File "/Users/pflomacpro/drake-distro/build/lib/python2.7/dist-packages/ddapp/lcmUtils.py", line 116, in handleMessage
+    callback(msg)
+  File "/Users/pflomacpro/drake-distro/build/lib/python2.7/dist-packages/ddapp/drakevisualizer.py", line 301, in onViewerDraw
+    link = self.getLink(robotNum, linkName)
+  File "/Users/pflomacpro/drake-distro/build/lib/python2.7/dist-packages/ddapp/drakevisualizer.py", line 279, in getLink
+    return self.robots[robotNum][linkName]
+KeyError: 0
