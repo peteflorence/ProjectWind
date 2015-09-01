@@ -1,7 +1,7 @@
 %start = 1;
 %last = 1317;
 
-load('cameraParams2.mat');
+load('HercameraParams2.mat');
 
 %for i = start:last
 i = 0;

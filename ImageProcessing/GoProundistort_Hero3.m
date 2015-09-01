@@ -1,7 +1,7 @@
 %start = 1;
 %last = 1317;
 
-load('cameraParams2.mat');
+load Hero3Calibration/cameraParamsHero3_720_120fps.mat
 
 %for i = start:last
 i = 0;
@@ -23,7 +23,7 @@ for folder = 5:5
     imnamein = strcat(inpath,'videoframe',num2str(i),'.bmp');
     im = imread(imnamein);
     
-    im_undistorted = undistortImage(im, cameraParams2);
+    im_undistorted = undistortImage(im, cameraParamsHero3_720_120fps);
     
     %outpath = strcat('/Users/pflomacpro/ProjectWind/ImageProcessing/0423vortex/',num2str(folder),'/out_imagefolder/');
     outpath = strcat('/Users/pflomacpro/RLG/Data/15-09-01/Strength4/out_imagefolder/');
