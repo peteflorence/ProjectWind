@@ -1,9 +1,12 @@
-load data.mat
+load 001/data.mat
 
 
-LIGHT_ON_FRAME = 60;
-if ~(isempty(LIGHT_ON_FRAME))
-  data(:,1) = data(:,1) - LIGHT_ON_FRAME;
+FIRST_LIGHT_ON_FRAME = 33;
+if ~(isempty(FIRST_LIGHT_ON_FRAME))
+  if ~exist('ALREADY_SHIFTED')
+  data(:,1) = data(:,1) - FIRST_LIGHT_ON_FRAME;
+  ALREADY_SHIFTED = 1;
+  end
 end
 
  
@@ -80,7 +83,7 @@ ylabel('velocity (meters / second)') % y-axis label
 
 
 
-save data.mat
+save 001/data.mat
 
 
 
