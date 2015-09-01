@@ -14,9 +14,15 @@ import u3
 if __name__=="__main__":
 
     d = u3.U3() # Opens first found U3 over USB
-    d.configIO(FIOAnalog = 0x0F)
+    LEDnum = 7
+    d.getFeedback(u3.BitDirWrite(LEDnum, 1)) 
+    d.getFeedback(u3.BitStateWrite(LEDnum, 0))
+    
+    d.configIO(FIOAnalog = 15)
     d.configIO(NumberOfTimersEnabled = 2)
     d.configTimerClock(TimerClockBase = 6, TimerClockDivisor = 15)
+    
+
     # This combination selects the 48 MHz timebase.
     # The PWM frequency will be 48 MHz/(15*2^16) which works out to 48.82 Hz, close to 
     # the 50 Hz standard for analog servos.
@@ -31,8 +37,18 @@ if __name__=="__main__":
     print("Entering 32768 will cause the PWM output to be high 50% of the time.")
     print("Entering 65535 will cause the PWM output to be high almost 0% of the time.")
     print("Entering -1 will stop the program")
+
+
+
+
     i=0
     while (i>-1):
-         i = int(raw_input('Choose a number: '))
-         d.getFeedback(u3.Timer0Config(TimerMode = 0, Value = i))
-         d.getFeedback(u3.Timer1Config(TimerMode = 0, Value = i))
+        i = int(raw_input('Choose a number: '))
+        if (i == 62500):
+            print 'priming'
+            d.getFeedback(u3.BitStateWrite(LEDnum, 0))
+        if (i == 61000):
+            d.getFeedback(u3.BitStateWrite(LEDnum, 1))
+            print 'fire!'
+        d.getFeedback(u3.Timer0Config(TimerMode = 0, Value = i))
+        d.getFeedback(u3.Timer1Config(TimerMode = 0, Value = i))

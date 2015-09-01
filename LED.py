@@ -14,12 +14,13 @@ import u3
 if __name__=="__main__":
 
     d = u3.U3() # Opens first found U3 over USB
-    d.getFeedback(u3.BitDirWrite(5, 1)) 
-    d.getFeedback(u3.BitStateWrite(5, 0))
+    FIOnum = 7
+    d.getFeedback(u3.BitDirWrite(FIOnum, 1)) 
+    d.getFeedback(u3.BitStateWrite(FIOnum, 0))
 
     d.configIO(FIOAnalog = 15)
     i = 0
 
     while (i>-1):
         i = int(raw_input('Choose a number: '))
-        d.getFeedback(u3.BitStateWrite(5, i))
+        d.getFeedback(u3.BitStateWrite(FIOnum, i))
