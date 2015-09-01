@@ -42,13 +42,16 @@ if __name__=="__main__":
 
 
     i=0
+    servo = 62500
     while (i>-1):
         i = int(raw_input('Choose a number: '))
-        if (i == 62500):
+        if (i == 0):
             print 'priming'
-            d.getFeedback(u3.BitStateWrite(LEDnum, 0))
-        if (i == 61000):
-            d.getFeedback(u3.BitStateWrite(LEDnum, 1))
+            d.getFeedback(u3.BitStateWrite(LEDnum, i))
+            servo = 62500
+        if (i == 1):
             print 'fire!'
-        d.getFeedback(u3.Timer0Config(TimerMode = 0, Value = i))
-        d.getFeedback(u3.Timer1Config(TimerMode = 0, Value = i))
+            d.getFeedback(u3.BitStateWrite(LEDnum, i))
+            servo = 60000
+        d.getFeedback(u3.Timer0Config(TimerMode = 0, Value = servo))
+        d.getFeedback(u3.Timer1Config(TimerMode = 0, Value = servo))
