@@ -12,8 +12,9 @@
 import u3
 
 if __name__=="__main__":
-  
+
     d = u3.U3() # Opens first found U3 over USB
+    d.configIO(FIOAnalog = 0x0F)
     d.configIO(NumberOfTimersEnabled = 2)
     d.configTimerClock(TimerClockBase = 6, TimerClockDivisor = 15)
     # This combination selects the 48 MHz timebase.
